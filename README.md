@@ -1,1 +1,1 @@
-## 🥭TEAM MangoSiru: GoToxic-Diary🥭
+## 🥭TEAM MangoSiru: nonToxic-Diary🥭
