@@ -38,3 +38,7 @@ npm i
 npm run dev
 
 ```
+
+## 폴더구조
+
+![alt text](image-1.png)
