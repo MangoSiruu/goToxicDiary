@@ -1,4 +1,4 @@
-//반응형 디자인을 위한 breakpoints
+// 반응형 디자인을 위한 breakpoints
 export const breakpoints = {
   initial: '0',
   xs: '520px',
@@ -15,7 +15,7 @@ export const colors = {
   lightGray: 'BDBDBD',
   backgroundColor: '#FBF4EE',
   white: '#FFF',
-  //카테고리 색깔들
+  // 카테고리 색깔들
   point_orange: '#FC9F66',
   point_pink: '#E05D5D',
   point_navy: '#053F5C',
