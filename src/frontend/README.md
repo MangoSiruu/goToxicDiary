@@ -6,6 +6,8 @@
 
 ```
 git clone --branch FE/dev https://github.com/MangoSiruu/nonToxicDiary.git
+또는
+git clone -b FE/dev https://github.com/MangoSiruu/nonToxicDiary.git
 ```
 
 올바른 경로로 이동
