@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const Icon = ({ src, width, height }) => (
+export const IconContainer = ({ src, width, height }) => (
   <Wrapper width={width} height={height}>
     <Icon src={src} alt="category-icon" />
   </Wrapper>
