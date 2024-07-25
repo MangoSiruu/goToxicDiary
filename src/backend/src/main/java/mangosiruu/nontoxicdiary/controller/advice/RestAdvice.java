@@ -1,4 +1,4 @@
-package mangosiruu.nontoxicdiary.advice;
+package mangosiruu.nontoxicdiary.controller.advice;
 
 import java.time.LocalDateTime;
 import java.util.List;
