@@ -1,6 +1,7 @@
 package mangosiruu.nontoxicdiary.controller;
 
 import jakarta.validation.Valid;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import mangosiruu.nontoxicdiary.dto.CalendarInputDto;
 import mangosiruu.nontoxicdiary.dto.CalendarOutputDto;
@@ -22,5 +23,11 @@ public class CalendarController {
 
         CalendarOutputDto outputDto = calendarService.saveToxicFoods(inputDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(outputDto);
+    }
+
+    @GetMapping("/{date}")
+    public ResponseEntity<CalendarOutputDto> getToxicFoods(@PathVariable LocalDate date) {
+        CalendarOutputDto outputDto = calendarService.getToxicFoods(date);
+        return ResponseEntity.status(HttpStatus.OK).body(outputDto);
     }
 }

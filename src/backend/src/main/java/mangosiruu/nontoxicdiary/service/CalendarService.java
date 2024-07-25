@@ -1,5 +1,6 @@
 package mangosiruu.nontoxicdiary.service;
 
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import mangosiruu.nontoxicdiary.dto.*;
 import mangosiruu.nontoxicdiary.entity.FoodCategory;
@@ -47,4 +48,18 @@ public class CalendarService {
 
         return new CalendarOutputDto("섭취 기록 등록 성공", dailyRecordDto);
     }
+
+    @Transactional(readOnly = true)
+    public CalendarOutputDto getToxicFoods(LocalDate date) {
+        List<ToxicFood> toxicFoods = toxicFoodRepository.findByDate(date);
+
+        List<ToxicFoodDto> toxicFoodDtos = toxicFoods.stream().map(tf -> new ToxicFoodDto(
+            tf.getCategory().getFood(), tf.getCount()
+        )).collect(Collectors.toList());
+
+        DailyRecordDto dailyRecordDto = new DailyRecordDto(date, toxicFoodDtos);
+
+        return new CalendarOutputDto("섭취 기록 조회 성공", dailyRecordDto);
+    }
+
 }
