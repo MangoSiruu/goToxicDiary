@@ -12,6 +12,7 @@ import mangosiruu.nontoxicdiary.entity.ToxicFood;
 import mangosiruu.nontoxicdiary.repository.ChallengeRepository;
 import mangosiruu.nontoxicdiary.repository.FoodCategoryRepository;
 import mangosiruu.nontoxicdiary.repository.ToxicFoodRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class CalendarService {
     private final FoodCategoryRepository foodCategoryRepository;
     private final ToxicFoodRepository toxicFoodRepository;
     private final ChallengeRepository challengeRepository;
+    private final ModelMapper modelMapper;
 
     @Transactional
     public CalendarOutputDto saveToxicFoods(CalendarInputDto inputDto) {
@@ -46,22 +48,28 @@ public class CalendarService {
 
         toxicFoodRepository.saveAll(toxicFoods);
 
-        List<ToxicFoodDto> toxicFoodDtos = toxicFoods.stream().map(tf -> new ToxicFoodDto(
-            tf.getCategory().getFood(), tf.getCount()
-        )).collect(Collectors.toList());
+        List<ToxicFoodDto> toxicFoodDtos = toxicFoods.stream()
+            .map(tf -> modelMapper.map(tf, ToxicFoodDto.class))
+            .collect(Collectors.toList());
 
-        return new CalendarOutputDto(inputDto.getDate(), toxicFoodDtos);
+        return CalendarOutputDto.builder()
+            .date(inputDto.getDate())
+            .toxicFoods(toxicFoodDtos)
+            .build();
     }
 
     @Transactional(readOnly = true)
     public CalendarOutputDto getToxicFoods(LocalDate date) {
         List<ToxicFood> toxicFoods = toxicFoodRepository.findByDate(date);
 
-        List<ToxicFoodDto> toxicFoodDtos = toxicFoods.stream().map(tf -> new ToxicFoodDto(
-            tf.getCategory().getFood(), tf.getCount()
-        )).collect(Collectors.toList());
+        List<ToxicFoodDto> toxicFoodDtos = toxicFoods.stream()
+            .map(tf -> modelMapper.map(tf, ToxicFoodDto.class))
+            .collect(Collectors.toList());
 
-        return new CalendarOutputDto(date, toxicFoodDtos);
+        return CalendarOutputDto.builder()
+            .date(date)
+            .toxicFoods(toxicFoodDtos)
+            .build();
     }
 
     @Transactional(readOnly = true)
@@ -84,17 +92,24 @@ public class CalendarService {
 
         List<CalendarListOutputDto> calendarListOutputDtos = datesInRange.stream()
             .map(date -> {
-                List<ToxicFoodDto> toxicFoodDtos = groupedToxicFoods.getOrDefault(date,
-                        new ArrayList<>()).stream()
-                    .map(tf -> new ToxicFoodDto(tf.getCategory().getFood(), tf.getCount()))
+                List<ToxicFoodDto> toxicFoodDtos = groupedToxicFoods
+                    .getOrDefault(date, new ArrayList<>()).stream()
+                    .map(tf -> ToxicFoodDto.builder()
+                        .name(tf.getCategory().getFood())
+                        .count(tf.getCount())
+                        .build())
                     .collect(Collectors.toList());
 
                 boolean isChallengeSuccessful = determineChallengeSuccess(date, today,
                     groupedToxicFoods);
 
-                return new CalendarListOutputDto(date, toxicFoodDtos, isChallengeSuccessful);
+                return CalendarListOutputDto.builder()
+                    .date(date)
+                    .toxicFoods(toxicFoodDtos)
+                    .challengeSuccess(isChallengeSuccessful)
+                    .build();
             })
-            .toList();
+            .collect(Collectors.toList());
 
         return calendarListOutputDtos;
     }
