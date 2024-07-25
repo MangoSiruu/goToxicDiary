@@ -3,7 +3,6 @@ export const endpoint = {
   USER: '/user',
   CALENDAR: '/calendar',
   REPORT: '/report',
-  CALENDAR_BY_DATE: '/calendar/date',
 };
 
 export const getDynamicPoint = {
