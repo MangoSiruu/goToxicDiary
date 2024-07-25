@@ -1,0 +1,21 @@
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 20px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 1.2em;
+}
+
+.activeTab {
+    font-weight: bold;
+    border-bottom: 2px solid orange;
+}
