@@ -37,6 +37,6 @@ export const FoodName = styled.h4`
 export const Count = styled.h3`
   font-size: 16px;
   font-family: 'GmarketSansMedium';
-  color: ${colors.darkGray};
+  color: ${colors.mainGray};
   font-weight: 700;
 `;
