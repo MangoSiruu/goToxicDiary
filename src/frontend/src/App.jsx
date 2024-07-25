@@ -1,5 +1,7 @@
+import { TodayFoodSection } from './components/features/TodayFood';
+
 function App() {
-  return <div>h1</div>;
+  return <TodayFoodSection />;
 }
 
 export default App;

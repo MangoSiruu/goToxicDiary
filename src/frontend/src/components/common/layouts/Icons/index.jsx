@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 
-export const IconContainer = ({ src, width, height }) => (
-  <Wrapper width={width} height={height}>
-    <Icon src={src} alt="category-icon" />
-  </Wrapper>
-);
+export function IconContainer({ src, width, height }) {
+  return (
+    <Wrapper width={width} height={height}>
+      <Icon src={src} alt="category-icon" />
+    </Wrapper>
+  );
+}
 
 const Wrapper = styled.div`
   display: inline-flex;

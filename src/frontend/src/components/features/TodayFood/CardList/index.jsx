@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Card } from '../../../common/layouts/Card';
+import { Card } from '../../../common/Card/Foods';
 
-export const CardList = ({ toxicFoods }) => {
+export function CardList({ toxicFoods }) {
   const [todayToxicFoods, setTodayToxicFoods] = useState([]);
 
   useEffect(() => {
     setTodayToxicFoods(toxicFoods);
-    console.log(toxicFoods);
   }, [toxicFoods]);
 
   return (
     <Wrapper>
-      {todayToxicFoods.map((food, index) => {
-        <Card key={index} toxicFood={food} />;
-      })}
+      {todayToxicFoods.map((toxicFood) => (
+        <Card toxicFood={toxicFood} />
+      ))}
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
   display: flex;

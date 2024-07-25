@@ -1,7 +1,12 @@
 module.exports = {
   root: true,
   env: { browser: true, es2020: true, node: true },
-  extends: ['airbnb/hooks', 'airbnb', 'plugin:prettier/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'airbnb/hooks',
+    'airbnb',
+    'plugin:prettier/recommended',
+    'plugin:storybook/recommended',
+  ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: {
     ecmaVersion: 2021,
@@ -36,7 +41,9 @@ module.exports = {
     ],
     'import/extensions': ['off'],
     'import/no-extraneous-dependencies': ['off'],
+    'react/prop-types': 'off',
     'import/no-named-as-default': 0,
+    'import/prefer-default-export': ['off'],
     '@typescript-eslint/no-use-before-define': ['off'],
     'prettier/prettier': [
       'error',

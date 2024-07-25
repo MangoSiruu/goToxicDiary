@@ -6,8 +6,9 @@ const iconPaths = {
   야식: 'src/assets/icons/png/pizza.png',
   기타: 'src/assets/icons/png/spoon.png',
   매운음식: 'src/assets/icons/png/pepper.png',
+  로고: 'src/assets/icons/png/mango_logo.png',
 };
 
 export const getIconPath = (name) => {
-  return iconPaths[name];
+  return iconPaths[name] || 'src/assets/icons/png/default.png';
 };

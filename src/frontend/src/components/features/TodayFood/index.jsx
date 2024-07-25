@@ -1,11 +1,13 @@
 import { CardList } from './CardList';
-import { CALENDAR_RESPONSE_DATA } from '../../../../api/mocks/calendar.mock';
+import { Header } from './Header';
+import { CALENDAR_RESPONSE_DATA } from '../../../api/mocks/calendar.mock';
 
-export const TodayFoodSection = () => {
-  const toxicFoods = CALENDAR_RESPONSE_DATA.dailyRecord.toxicFoods;
+export function TodayFoodSection() {
+  const { toxicFoods } = CALENDAR_RESPONSE_DATA.dailyRecord;
   return (
-    <Wrapper>
-      <CardList toxicFoods={toxicFoods}></CardList>
-    </Wrapper>
+    <div style={{ backgroundColor: '#FBF4EE' }}>
+      <Header />
+      <CardList toxicFoods={toxicFoods} />
+    </div>
   );
-};
+}
