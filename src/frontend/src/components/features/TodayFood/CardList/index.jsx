@@ -21,7 +21,7 @@ export function CardList({ toxicFoods }) {
     return (
       <Wrapper>
         {todayToxicFoods.map((toxicFood) => (
-          <Card toxicFood={toxicFood} />
+          <Card key={toxicFood.name} toxicFood={toxicFood} />
         ))}
       </Wrapper>
     );
