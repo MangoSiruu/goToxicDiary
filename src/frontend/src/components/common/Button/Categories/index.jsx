@@ -1,11 +1,18 @@
 import styled from '@emotion/styled';
 import { colors } from '../../../../styles/variants';
 
-export function CategoryButton({ category }) {
-  return <Wrapper>{category}</Wrapper>;
+export function CategoryButton({ category, onClick, isSelected }) {
+  return (
+    <Button
+      style={{ backgroundColor: isSelected ? colors.point_orange : colors.backgroundColor }}
+      onClick={() => onClick(category)}
+    >
+      {category}
+    </Button>
+  );
 }
 
-const Wrapper = styled.button`
+const Button = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: center;
