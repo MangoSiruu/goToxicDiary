@@ -18,8 +18,15 @@ const Confirm = styled.button`
   border-radius: 5px;
   font-size: 16px;
   font-weight: 500;
-  background: ${colors.mainOrange};
+  background: ${colors.point_orange};
   color: ${colors.white};
+  transition:
+    background 0.2s,
+    color 0.2s;
+  &:hover {
+    background: ${colors.mainOrange};
+    color: ${colors.white};
+  }
 `;
 
 const Cancel = styled.button`
@@ -33,4 +40,11 @@ const Cancel = styled.button`
   font-weight: 500;
   background: ${colors.lightGray};
   color: ${colors.white};
+  transition:
+    background 0.2s,
+    color 0.2s;
+  &:hover {
+    background: ${colors.midgray};
+    color: ${colors.white};
+  }
 `;

@@ -4,7 +4,10 @@ import { colors } from '../../../../styles/variants';
 export function CategoryButton({ category, onClick, isSelected }) {
   return (
     <Button
-      style={{ backgroundColor: isSelected ? colors.point_orange : colors.backgroundColor }}
+      style={{
+        backgroundColor: isSelected ? colors.point_orange : colors.backgroundColor,
+        color: isSelected ? colors.white : colors.darkGray,
+      }}
       onClick={() => onClick(category)}
     >
       {category}

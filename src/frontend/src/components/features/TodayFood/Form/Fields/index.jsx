@@ -21,7 +21,7 @@ export function Fields({ categories, onSubmit, onCancel }) {
     const values = getValues();
     const hasEmptyFields = Object.values(values).some(({ count }) => count === '');
     if (hasEmptyFields) {
-      window.confirm('모든 필드를 입력해주세요.');
+      alert('모든 필드를 입력해주세요.');
     } else {
       onSubmit(values);
       reset();
@@ -112,6 +112,6 @@ const ButtonWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 30px;
   gap: 10px;
 `;
