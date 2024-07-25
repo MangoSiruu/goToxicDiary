@@ -50,9 +50,7 @@ public class CalendarService {
             tf.getCategory().getFood(), tf.getCount()
         )).collect(Collectors.toList());
 
-        DailyRecordDto dailyRecordDto = new DailyRecordDto(inputDto.getDate(), toxicFoodDtos);
-
-        return new CalendarOutputDto("섭취 기록 등록 성공", dailyRecordDto);
+        return new CalendarOutputDto(inputDto.getDate(), toxicFoodDtos);
     }
 
     @Transactional(readOnly = true)
@@ -63,13 +61,11 @@ public class CalendarService {
             tf.getCategory().getFood(), tf.getCount()
         )).collect(Collectors.toList());
 
-        DailyRecordDto dailyRecordDto = new DailyRecordDto(date, toxicFoodDtos);
-
-        return new CalendarOutputDto("섭취 기록 조회 성공", dailyRecordDto);
+        return new CalendarOutputDto(date, toxicFoodDtos);
     }
 
     @Transactional(readOnly = true)
-    public CalendarListOutputDto getToxicFoodsByRange(LocalDate startDate, LocalDate endDate,
+    public List<CalendarListOutputDto> getToxicFoodsByRange(LocalDate startDate, LocalDate endDate,
         String filterCategory) {
         LocalDate today = LocalDate.now();
         List<ToxicFood> toxicFoods;
@@ -86,7 +82,7 @@ public class CalendarService {
         Map<LocalDate, List<ToxicFood>> groupedToxicFoods = toxicFoods.stream()
             .collect(Collectors.groupingBy(ToxicFood::getDate));
 
-        List<DailyRecordWithChallengeDto> dailyRecordChallengeDtos = datesInRange.stream()
+        List<CalendarListOutputDto> calendarListOutputDtos = datesInRange.stream()
             .map(date -> {
                 List<ToxicFoodDto> toxicFoodDtos = groupedToxicFoods.getOrDefault(date,
                         new ArrayList<>()).stream()
@@ -96,11 +92,11 @@ public class CalendarService {
                 boolean isChallengeSuccessful = determineChallengeSuccess(date, today,
                     groupedToxicFoods);
 
-                return new DailyRecordWithChallengeDto(date, toxicFoodDtos, isChallengeSuccessful);
+                return new CalendarListOutputDto(date, toxicFoodDtos, isChallengeSuccessful);
             })
-            .collect(Collectors.toList());
+            .toList();
 
-        return new CalendarListOutputDto("섭취 기록 리스트 조회 성공", dailyRecordChallengeDtos);
+        return calendarListOutputDtos;
     }
 
     private boolean determineChallengeSuccess(LocalDate date, LocalDate today,

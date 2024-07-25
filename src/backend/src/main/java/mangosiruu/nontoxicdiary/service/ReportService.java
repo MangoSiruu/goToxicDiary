@@ -2,7 +2,6 @@ package mangosiruu.nontoxicdiary.service;
 
 import lombok.RequiredArgsConstructor;
 import mangosiruu.nontoxicdiary.dto.ReportOutputDto;
-import mangosiruu.nontoxicdiary.dto.ReportRecordDto;
 import mangosiruu.nontoxicdiary.dto.ToxicFoodDto;
 import mangosiruu.nontoxicdiary.entity.ToxicFood;
 import mangosiruu.nontoxicdiary.repository.ToxicFoodRepository;
@@ -37,9 +36,7 @@ public class ReportService {
             .sorted((dto1, dto2) -> Long.compare(dto2.getCount(), dto1.getCount()))
             .collect(Collectors.toList());
 
-        ReportRecordDto reportRecordDto = new ReportRecordDto(year, month, toxicFoodDtos);
-
-        return new ReportOutputDto("리포트 조회 성공", reportRecordDto);
+        return new ReportOutputDto(year, month, toxicFoodDtos);
     }
 
 }
