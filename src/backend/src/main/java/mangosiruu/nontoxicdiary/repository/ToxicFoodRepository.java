@@ -13,4 +13,9 @@ public interface ToxicFoodRepository extends JpaRepository<ToxicFood, Long> {
     void deleteByDate(LocalDate date);
 
     List<ToxicFood> findByDate(LocalDate date);
+
+    List<ToxicFood> findByDateBetween(LocalDate startDate, LocalDate endDate);
+
+    List<ToxicFood> findByDateBetweenAndCategoryFood(LocalDate startDate, LocalDate endDate,
+        String filterCategory);
 }
