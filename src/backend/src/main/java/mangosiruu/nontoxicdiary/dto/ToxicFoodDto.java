@@ -20,7 +20,4 @@ public class ToxicFoodDto {
     @NotNull
     @Min(value = 0, message = "0 이상의 값을 입력하셔야합니다.")
     private Long count;
-
-    @NotBlank
-    private String unit;
 }
