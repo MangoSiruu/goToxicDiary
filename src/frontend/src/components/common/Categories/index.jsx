@@ -52,12 +52,12 @@ const categoryStyles = {
   `;
   
   // CategoryBox 컴포넌트 정의
-  const CategoryBox = (props) => {
-    const { icon, backgroundColor } = categoryStyles[props.type];
+  const CategoryBox = ({ type, count }) => {
+    const { icon, backgroundColor } = categoryStyles[type];
   
     return (
       <Box bgColor={backgroundColor}>
-          {icon} x {props.count}
+          {icon} x {count}
       </Box>
     );
   };
