@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface CalendarService {
 
-    CalendarOutputDto saveToxicFoods(CalendarInputDto inputDto);
+    CalendarOutputDto saveToxicFoods(CalendarInputDto inputDto, Long userId);
 
-    CalendarOutputDto getToxicFoods(LocalDate date);
+    CalendarOutputDto getToxicFoods(LocalDate date, Long userId);
 
     List<CalendarListOutputDto> getToxicFoodsByRange(LocalDate startDate, LocalDate endDate,
-        String filterCategory);
+        String filterCategory, Long userId);
 }

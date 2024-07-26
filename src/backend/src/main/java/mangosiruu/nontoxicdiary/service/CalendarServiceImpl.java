@@ -9,9 +9,11 @@ import mangosiruu.nontoxicdiary.dto.*;
 import mangosiruu.nontoxicdiary.entity.Challenge;
 import mangosiruu.nontoxicdiary.entity.FoodCategory;
 import mangosiruu.nontoxicdiary.entity.ToxicFood;
+import mangosiruu.nontoxicdiary.entity.UserInfo;
 import mangosiruu.nontoxicdiary.repository.ChallengeRepository;
 import mangosiruu.nontoxicdiary.repository.FoodCategoryRepository;
 import mangosiruu.nontoxicdiary.repository.ToxicFoodRepository;
+import mangosiruu.nontoxicdiary.repository.UserInfoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,25 +28,29 @@ public class CalendarServiceImpl implements CalendarService {
     private final FoodCategoryRepository foodCategoryRepository;
     private final ToxicFoodRepository toxicFoodRepository;
     private final ChallengeRepository challengeRepository;
+    private final UserInfoRepository userInfoRepository;
     private final ModelMapper modelMapper;
 
     @Override
     @Transactional
-    public CalendarOutputDto saveToxicFoods(CalendarInputDto inputDto) {
-        toxicFoodRepository.deleteByDate(inputDto.getDate());
+    public CalendarOutputDto saveToxicFoods(CalendarInputDto inputDto, Long userId) {
+        UserInfo userInfo = userInfoRepository.findById(userId)
+            .orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 사용자입니다. (id = " + userId + ")"));
+
+        toxicFoodRepository.deleteByDate(inputDto.getDate(), userInfo);
 
         List<ToxicFood> toxicFoods = inputDto.getToxicFoods().stream()
             .filter(dto -> dto.getCount() > 0)
             .map(dto -> {
-                FoodCategory category = foodCategoryRepository.findByFood(dto.getName());
-                if (category == null) {
-                    throw new IllegalArgumentException(dto.getName() + " 해당 카테고리는 존재하지 않습니다.");
-                }
+                FoodCategory category = foodCategoryRepository.findByFood(dto.getName())
+                    .orElseThrow(
+                        () -> new IllegalArgumentException(dto.getName() + " 해당 카테고리는 존재하지 않습니다."));
                 return ToxicFood.builder()
                     .date(inputDto.getDate())
+                    .userInfo(userInfo)
                     .category(category)
                     .count(dto.getCount())
-                    .unit(dto.getUnit())
                     .build();
             }).collect(Collectors.toList());
 
@@ -62,8 +68,12 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     @Transactional(readOnly = true)
-    public CalendarOutputDto getToxicFoods(LocalDate date) {
-        List<ToxicFood> toxicFoods = toxicFoodRepository.findByDate(date);
+    public CalendarOutputDto getToxicFoods(LocalDate date, Long userId) {
+        UserInfo userInfo = userInfoRepository.findById(userId)
+            .orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 사용자입니다. (id = " + userId + ")"));
+
+        List<ToxicFood> toxicFoods = toxicFoodRepository.findByDate(date, userInfo);
 
         List<ToxicFoodDto> toxicFoodDtos = toxicFoods.stream()
             .map(tf -> modelMapper.map(tf, ToxicFoodDto.class))
@@ -78,15 +88,20 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     @Transactional(readOnly = true)
     public List<CalendarListOutputDto> getToxicFoodsByRange(LocalDate startDate, LocalDate endDate,
-        String filterCategory) {
+        String filterCategory, Long userId) {
+
+        UserInfo userInfo = userInfoRepository.findById(userId)
+            .orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 사용자입니다. (id = " + userId + ")"));
+
         LocalDate today = LocalDate.now();
         List<ToxicFood> toxicFoods;
 
         if (filterCategory.equals("전체")) {
-            toxicFoods = toxicFoodRepository.findByDateBetween(startDate, endDate);
+            toxicFoods = toxicFoodRepository.findByDateBetween(startDate, endDate, userInfo);
         } else {
             toxicFoods = toxicFoodRepository.findByDateBetweenAndCategoryFood(startDate, endDate,
-                filterCategory);
+                filterCategory, userInfo);
         }
 
         List<LocalDate> datesInRange = startDate.datesUntil(endDate.plusDays(1)).toList();
@@ -101,12 +116,11 @@ public class CalendarServiceImpl implements CalendarService {
                     .map(tf -> ToxicFoodDto.builder()
                         .name(tf.getCategory().getFood())
                         .count(tf.getCount())
-                        .unit(tf.getUnit())
                         .build())
                     .collect(Collectors.toList());
 
                 boolean isChallengeSuccessful = determineChallengeSuccess(date, today,
-                    groupedToxicFoods);
+                    groupedToxicFoods, userInfo);
 
                 return CalendarListOutputDto.builder()
                     .date(date)
@@ -120,12 +134,12 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     private boolean determineChallengeSuccess(LocalDate date, LocalDate today,
-        Map<LocalDate, List<ToxicFood>> groupedToxicFoods) {
+        Map<LocalDate, List<ToxicFood>> groupedToxicFoods, UserInfo userInfo) {
         if (date.isAfter(today)) {
             return false;
         }
 
-        List<Challenge> validChallenges = challengeRepository.findChallengesForDate(date);
+        List<Challenge> validChallenges = challengeRepository.findChallengesForDate(date, userInfo);
         if (validChallenges.isEmpty()) {
             return false;
         }

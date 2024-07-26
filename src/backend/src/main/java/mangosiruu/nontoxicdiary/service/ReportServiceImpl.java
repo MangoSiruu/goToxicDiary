@@ -22,8 +22,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional(readOnly = true)
-    public ReportOutputDto getReport(int year, int month) {
-        List<ToxicFood> toxicFoods = toxicFoodRepository.findByYearAndMonth(year, month);
+    public ReportOutputDto getReport(int year, int month, Long userId) {
+        List<ToxicFood> toxicFoods = toxicFoodRepository.findByYearAndMonth(year, month, userId);
 
         Map<FoodCategoryEnum, Long> sumCounts = toxicFoods.stream()
             .collect(Collectors.groupingBy(
