@@ -31,4 +31,6 @@ public class ToxicFood extends BaseEntity {
     private LocalDate date;
     @Column(nullable = false)
     private Long count;
+    @Column(nullable = false)
+    private String unit;
 }

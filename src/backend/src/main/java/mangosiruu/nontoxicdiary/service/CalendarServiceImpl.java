@@ -44,6 +44,7 @@ public class CalendarServiceImpl implements CalendarService {
                     .date(inputDto.getDate())
                     .category(category)
                     .count(dto.getCount())
+                    .unit(dto.getUnit())
                     .build();
             }).collect(Collectors.toList());
 
@@ -100,6 +101,7 @@ public class CalendarServiceImpl implements CalendarService {
                     .map(tf -> ToxicFoodDto.builder()
                         .name(tf.getCategory().getFood())
                         .count(tf.getCount())
+                        .unit(tf.getUnit())
                         .build())
                     .collect(Collectors.toList());
 
