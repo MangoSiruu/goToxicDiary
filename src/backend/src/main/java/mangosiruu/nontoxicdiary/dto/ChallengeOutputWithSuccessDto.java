@@ -21,5 +21,5 @@ public class ChallengeOutputWithSuccessDto {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate endDate;
     private Integer progress;
-    private List<ChallengeSuccessDto> successes;
+    private List<ChallengeSuccessWithDateDto> successes;
 }

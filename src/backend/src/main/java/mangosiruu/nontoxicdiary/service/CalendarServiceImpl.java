@@ -3,7 +3,6 @@ package mangosiruu.nontoxicdiary.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import mangosiruu.nontoxicdiary.dto.*;
 import mangosiruu.nontoxicdiary.entity.Challenge;
@@ -119,13 +118,13 @@ public class CalendarServiceImpl implements CalendarService {
                         .build())
                     .collect(Collectors.toList());
 
-                boolean isChallengeSuccessful = determineChallengeSuccess(date, today,
+                List<ChallengeSuccessWithCategoryDto> challengeSuccess = determineChallengeSuccess(date, today,
                     groupedToxicFoods, userInfo);
 
                 return CalendarListOutputDto.builder()
                     .date(date)
                     .toxicFoods(toxicFoodDtos)
-                    .challengeSuccess(isChallengeSuccessful)
+                    .challengeSuccess(challengeSuccess)
                     .build();
             })
             .collect(Collectors.toList());
@@ -133,23 +132,28 @@ public class CalendarServiceImpl implements CalendarService {
         return calendarListOutputDtos;
     }
 
-    private boolean determineChallengeSuccess(LocalDate date, LocalDate today,
+    private List<ChallengeSuccessWithCategoryDto> determineChallengeSuccess(LocalDate date, LocalDate today,
         Map<LocalDate, List<ToxicFood>> groupedToxicFoods, UserInfo userInfo) {
         if (date.isAfter(today)) {
-            return false;
+            return new ArrayList<>();
         }
 
         List<Challenge> validChallenges = challengeRepository.findChallengesForDateAndUserInfo(date, userInfo);
         if (validChallenges.isEmpty()) {
-            return false;
+            return new ArrayList<>();
         }
 
-        Set<Long> toxicFoodCategoryIds = groupedToxicFoods.getOrDefault(date, new ArrayList<>())
+        Map<Long, Long> toxicFoodCountByCategory = groupedToxicFoods.getOrDefault(date, new ArrayList<>())
             .stream()
-            .map(tf -> tf.getCategory().getId())
-            .collect(Collectors.toSet());
+            .collect(Collectors.groupingBy(tf -> tf.getCategory().getId(), Collectors.summingLong(ToxicFood::getCount)));
 
-        return validChallenges.stream()
-            .noneMatch(challenge -> toxicFoodCategoryIds.contains(challenge.getCategory().getId()));
+        List<ChallengeSuccessWithCategoryDto> challengeSuccessList = new ArrayList<>();
+        for (Challenge challenge : validChallenges) {
+            Long toxicFoodCount = toxicFoodCountByCategory.get(challenge.getCategory().getId());
+            boolean success = toxicFoodCount == null || toxicFoodCount <= challenge.getMaxCount();
+            challengeSuccessList.add(new ChallengeSuccessWithCategoryDto(challenge.getCategory().getFood(), success));
+        }
+
+        return challengeSuccessList;
     }
 }
