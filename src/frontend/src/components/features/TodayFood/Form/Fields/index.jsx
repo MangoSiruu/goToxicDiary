@@ -1,9 +1,8 @@
-/* eslint-disable no-alert */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useForm, Controller } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { colors } from '../../../../../styles/variants';
-import { getUnitOptions, getDefaultUnit } from '../../../../../utils/getUnitOptions';
+import { getUnitOption } from '../../../../../utils/getUnitOptions';
 import { ConfirmButton, CancelButton } from '../../../../common/Button/ButtonModal';
 
 export function Fields({ categories, onSubmit, onCancel }) {
@@ -11,7 +10,7 @@ export function Fields({ categories, onSubmit, onCancel }) {
     defaultValues: categories.reduce(
       (acc, category) => ({
         ...acc,
-        [category]: { count: '', unit: getDefaultUnit(category) },
+        [category]: { count: '', unit: getUnitOption(category) },
       }),
       {},
     ),
@@ -28,6 +27,11 @@ export function Fields({ categories, onSubmit, onCancel }) {
     }
   };
 
+  const handleCancel = () => {
+    reset();
+    onCancel();
+  };
+
   return (
     <form style={{ width: '100%' }} onSubmit={handleSubmit(onFormSubmit)}>
       {categories.map((category) => (
@@ -39,23 +43,11 @@ export function Fields({ categories, onSubmit, onCancel }) {
             rules={{ required: '숫자를 입력해주세요.' }}
             render={({ field }) => <Input type="number" placeholder="횟수" {...field} />}
           />
-          <Controller
-            name={`${category}.unit`}
-            control={control}
-            render={({ field }) => (
-              <Select {...field}>
-                {getUnitOptions(category).map((unit) => (
-                  <Option key={unit} value={unit}>
-                    {unit}
-                  </Option>
-                ))}
-              </Select>
-            )}
-          />
+          {getUnitOption(category)}
         </FieldContainer>
       ))}
       <ButtonWrapper>
-        <CancelButton type="button" onClick={onCancel}>
+        <CancelButton type="button" onClick={handleCancel}>
           취소하기
         </CancelButton>
         <ConfirmButton type="submit">저장하기</ConfirmButton>
@@ -86,25 +78,6 @@ const Input = styled.input`
   border-width: 0;
   border-bottom: 1px solid ${colors.lightGray};
   outline: none;
-`;
-
-const Select = styled.select`
-  padding: 10px;
-  font-size: 14px;
-  border-width: 0;
-  border-radius: 10px;
-  &:hover {
-    background-color: ${colors.point_orange};
-  }
-  &:focus {
-    outline: none;
-    background-color: ${colors.point_orange};
-    border-radius: 10px;
-  }
-`;
-
-const Option = styled.option`
-  font-size: 14px;
 `;
 
 const ButtonWrapper = styled.div`

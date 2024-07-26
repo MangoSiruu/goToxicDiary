@@ -59,6 +59,9 @@ ul {
   letter-spacing: -0.05em;
 }
 
+body {
+  background-color: #fbf4ee;
+}
 fieldset,
 iframe {
   border: 0;

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { ModalButton } from '../../../common/Button/ModalButton';
+import { UnderlinedButton } from '../../../common/Button/UnderlinedButton';
 
 export function Header() {
   return (
     <Wrapper>
       <Title>오늘 내가 먹은 고자극 음식은?</Title>
-      <ModalButton type="수정하기" />
+      <UnderlinedButton type="수정하기" />
     </Wrapper>
   );
 }
