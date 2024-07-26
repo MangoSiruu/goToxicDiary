@@ -11,18 +11,18 @@ import java.time.LocalDate;
 
 public interface ToxicFoodRepository extends JpaRepository<ToxicFood, Long> {
 
-    void deleteByDate(LocalDate date, UserInfo userInfo);
+    void deleteByDateAndUserInfo(LocalDate date, UserInfo userInfo);
 
-    List<ToxicFood> findByDate(LocalDate date, UserInfo userInfo);
+    List<ToxicFood> findByDateAndUserInfo (LocalDate date, UserInfo userInfo);
 
-    List<ToxicFood> findByDateBetween(LocalDate startDate, LocalDate endDate, UserInfo userInfo);
+    List<ToxicFood> findByDateBetweenAndUserInfo(LocalDate startDate, LocalDate endDate, UserInfo userInfo);
 
-    List<ToxicFood> findByDateBetweenAndCategoryFood(LocalDate startDate, LocalDate endDate,
+    List<ToxicFood> findByDateBetweenAndCategoryFoodAndUserInfo(LocalDate startDate, LocalDate endDate,
         String filterCategory, UserInfo userInfo);
 
     @Query("SELECT tf FROM ToxicFood tf WHERE YEAR(tf.date) = :year AND MONTH(tf.date) = :month")
-    List<ToxicFood> findByYearAndMonth(@Param("year") int year, @Param("month") int month,
-        Long userId);
+    List<ToxicFood> findByYearAndMonthAndUserInfo(@Param("year") int year, @Param("month") int month,
+        UserInfo userInfo);
     
     
     @Query("SELECT t.date " +

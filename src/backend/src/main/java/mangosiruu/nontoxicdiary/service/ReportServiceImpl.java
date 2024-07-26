@@ -6,7 +6,9 @@ import mangosiruu.nontoxicdiary.dto.FoodCategoryEnum;
 import mangosiruu.nontoxicdiary.dto.ReportOutputDto;
 import mangosiruu.nontoxicdiary.dto.ToxicFoodDto;
 import mangosiruu.nontoxicdiary.entity.ToxicFood;
+import mangosiruu.nontoxicdiary.entity.UserInfo;
 import mangosiruu.nontoxicdiary.repository.ToxicFoodRepository;
+import mangosiruu.nontoxicdiary.repository.UserInfoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +21,16 @@ import java.util.stream.Collectors;
 public class ReportServiceImpl implements ReportService {
 
     private final ToxicFoodRepository toxicFoodRepository;
+    private final UserInfoRepository userInfoRepository;
 
     @Override
     @Transactional(readOnly = true)
     public ReportOutputDto getReport(int year, int month, Long userId) {
-        List<ToxicFood> toxicFoods = toxicFoodRepository.findByYearAndMonth(year, month, userId);
+        UserInfo userInfo = userInfoRepository.findById(userId)
+            .orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 사용자입니다. (id = " + userId + ")"));
+
+        List<ToxicFood> toxicFoods = toxicFoodRepository.findByYearAndMonthAndUserInfo(year, month, userInfo);
 
         Map<FoodCategoryEnum, Long> sumCounts = toxicFoods.stream()
             .collect(Collectors.groupingBy(

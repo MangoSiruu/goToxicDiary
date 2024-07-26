@@ -32,5 +32,5 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
                                            Pageable pageable);
 
     @Query("SELECT c FROM Challenge c WHERE c.startDate <= :date AND c.endDate >= :date")
-    List<Challenge> findChallengesForDate(@Param("date") LocalDate date, UserInfo userInfo);
+    List<Challenge> findChallengesForDateAndUserInfo(@Param("date") LocalDate date, UserInfo userInfo);
 }

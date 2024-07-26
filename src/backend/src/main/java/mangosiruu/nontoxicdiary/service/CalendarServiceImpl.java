@@ -38,7 +38,7 @@ public class CalendarServiceImpl implements CalendarService {
             .orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 사용자입니다. (id = " + userId + ")"));
 
-        toxicFoodRepository.deleteByDate(inputDto.getDate(), userInfo);
+        toxicFoodRepository.deleteByDateAndUserInfo(inputDto.getDate(), userInfo);
 
         List<ToxicFood> toxicFoods = inputDto.getToxicFoods().stream()
             .filter(dto -> dto.getCount() > 0)
@@ -73,7 +73,7 @@ public class CalendarServiceImpl implements CalendarService {
             .orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 사용자입니다. (id = " + userId + ")"));
 
-        List<ToxicFood> toxicFoods = toxicFoodRepository.findByDate(date, userInfo);
+        List<ToxicFood> toxicFoods = toxicFoodRepository.findByDateAndUserInfo(date, userInfo);
 
         List<ToxicFoodDto> toxicFoodDtos = toxicFoods.stream()
             .map(tf -> modelMapper.map(tf, ToxicFoodDto.class))
@@ -98,9 +98,9 @@ public class CalendarServiceImpl implements CalendarService {
         List<ToxicFood> toxicFoods;
 
         if (filterCategory.equals("전체")) {
-            toxicFoods = toxicFoodRepository.findByDateBetween(startDate, endDate, userInfo);
+            toxicFoods = toxicFoodRepository.findByDateBetweenAndUserInfo(startDate, endDate, userInfo);
         } else {
-            toxicFoods = toxicFoodRepository.findByDateBetweenAndCategoryFood(startDate, endDate,
+            toxicFoods = toxicFoodRepository.findByDateBetweenAndCategoryFoodAndUserInfo(startDate, endDate,
                 filterCategory, userInfo);
         }
 
@@ -139,7 +139,7 @@ public class CalendarServiceImpl implements CalendarService {
             return false;
         }
 
-        List<Challenge> validChallenges = challengeRepository.findChallengesForDate(date, userInfo);
+        List<Challenge> validChallenges = challengeRepository.findChallengesForDateAndUserInfo(date, userInfo);
         if (validChallenges.isEmpty()) {
             return false;
         }
