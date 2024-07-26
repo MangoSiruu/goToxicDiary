@@ -1,0 +1,21 @@
+.formGroupButtons {
+    display: flex;
+    justify-content: center; /* 버튼들을 오른쪽으로 정렬합니다 */
+    gap: 10px; /* 버튼들 사이의 간격을 설정합니다 */
+}
+    
+.formGroupButtons .cancel {
+    background-color: #d3d3d3;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+    
+.formGroupButtons .submit {
+    background-color: #ffa500;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
