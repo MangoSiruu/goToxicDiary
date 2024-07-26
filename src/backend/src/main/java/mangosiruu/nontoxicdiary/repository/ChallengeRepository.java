@@ -29,4 +29,7 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
                                            @Param("today") LocalDate today,
                                            @Param("userId") Long userId,
                                            Pageable pageable);
+
+    @Query("SELECT c FROM Challenge c WHERE c.startDate <= :date AND c.endDate >= :date")
+    List<Challenge> findChallengesForDate(@Param("date") LocalDate date);
 }
