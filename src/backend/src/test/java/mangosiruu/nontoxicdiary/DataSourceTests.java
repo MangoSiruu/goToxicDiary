@@ -11,8 +11,8 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@SpringBootTest
 @Log4j2
+@SpringBootTest
 public class DataSourceTests {
     @Autowired
     private DataSource dataSource;
