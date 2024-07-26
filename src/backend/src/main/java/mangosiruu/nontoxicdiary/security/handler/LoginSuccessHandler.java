@@ -9,7 +9,6 @@ import mangosiruu.nontoxicdiary.dto.UserInfoDto;
 import mangosiruu.nontoxicdiary.exception.ResponseMap;
 import mangosiruu.nontoxicdiary.exception.TokenException;
 import mangosiruu.nontoxicdiary.security.UserDetailsImpl;
-import mangosiruu.nontoxicdiary.service.RefreshTokenService;
 import mangosiruu.nontoxicdiary.service.UserInfoService;
 import mangosiruu.nontoxicdiary.util.JwtUtil;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +25,6 @@ import java.io.IOException;
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
     private final UserInfoService userInfoService;
-    private final RefreshTokenService refreshTokenService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
@@ -45,10 +43,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             // Refresh 토큰 발급
             ResponseCookie refreshTokenCookie= jwtUtil.getRefreshTokenCookie(authentication.getName());
             response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
-
-            // DB에 Refresh 토큰 등록
-            String refreshToken=refreshTokenCookie.getValue();
-            refreshTokenService.register(refreshToken);
 
             // 응답 본문 구성
             Gson gson = new Gson();

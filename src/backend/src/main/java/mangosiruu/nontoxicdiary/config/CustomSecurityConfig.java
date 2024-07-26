@@ -7,7 +7,6 @@ import mangosiruu.nontoxicdiary.security.UserDetailsServiceImpl;
 import mangosiruu.nontoxicdiary.security.filter.LoginFilter;
 import mangosiruu.nontoxicdiary.security.filter.TokenCheckFilter;
 import mangosiruu.nontoxicdiary.security.handler.LoginSuccessHandler;
-import mangosiruu.nontoxicdiary.service.RefreshTokenService;
 import mangosiruu.nontoxicdiary.service.UserInfoService;
 import mangosiruu.nontoxicdiary.util.JwtUtil;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -40,7 +39,6 @@ public class CustomSecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final UserInfoService userInfoService;
     private final UserDetailsServiceImpl userDetailsService;
-    private final RefreshTokenService refreshTokenService;
 
 
     @Bean
@@ -81,7 +79,7 @@ public class CustomSecurityConfig {
         LoginFilter loginFilter=new LoginFilter("/api/auth/login");
         loginFilter.setAuthenticationManager(authManager);
 
-        LoginSuccessHandler loginSuccessHandler=new LoginSuccessHandler(jwtUtil, userInfoService, refreshTokenService);
+        LoginSuccessHandler loginSuccessHandler=new LoginSuccessHandler(jwtUtil, userInfoService);
         loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
 
         http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
