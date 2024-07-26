@@ -2,18 +2,19 @@ package mangosiruu.nontoxicdiary.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class FoodCategory {
-
+@NoArgsConstructor
+public class UserInfo extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String food;
+    @Column(length= 10, nullable = false)
+    private String nickname;
 }
