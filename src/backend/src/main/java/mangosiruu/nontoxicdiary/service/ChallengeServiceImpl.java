@@ -86,7 +86,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
         // 특정 유저가 특정 기간 동안에 특정 카테고리에 대해서 먹은 회수 중 제한 개수보다 작거나 같은 행 조회
         List<LocalDate> failedDates=toxicFoodRepository.findChallengeFailedDates(userId, categoryId, startDate, endDate, maxCount);
-        List<ChallengeSuccessDto> successes=new LinkedList<>();
+        List<ChallengeSuccessWithDateDto> successes=new LinkedList<>();
 
         // (시작일 ~ 어제)까지의 챌린지 성공 목록 생성
         int successCount=0;
@@ -97,7 +97,7 @@ public class ChallengeServiceImpl implements ChallengeService {
             if(success) successCount++;
 
             // 성공 목록에 ChallengeSuccessDto 추가
-            successes.add(ChallengeSuccessDto.builder()
+            successes.add(ChallengeSuccessWithDateDto.builder()
                     .success(success)
                     .date(date)
                     .build());

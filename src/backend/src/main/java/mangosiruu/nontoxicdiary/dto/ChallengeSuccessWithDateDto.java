@@ -1,19 +1,17 @@
 package mangosiruu.nontoxicdiary.dto;
 
-import java.time.LocalDate;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CalendarListOutputDto {
-
+public class ChallengeSuccessWithDateDto {
     private LocalDate date;
-    private List<ToxicFoodDto> toxicFoods;
-    private List<ChallengeSuccessWithCategoryDto> challengeSuccess;
+    private boolean success;
 }
