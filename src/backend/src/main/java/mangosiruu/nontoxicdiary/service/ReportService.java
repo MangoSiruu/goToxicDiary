@@ -5,5 +5,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface ReportService {
 
-    ReportOutputDto getReport(int year, int month);
+    ReportOutputDto getReport(int year, int month, Long userId);
 }
