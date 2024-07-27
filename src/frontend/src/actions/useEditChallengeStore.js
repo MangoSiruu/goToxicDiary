@@ -6,9 +6,18 @@ const useEditChallengeStore = create((set) => ({
     challengeList: [], 
     updateChallengeListInfo: async (id) => {
         try {
-            const responseData = await fetchInstance(`https://67327f75-71f8-4777-acb0-9e7fee4f7680.mock.pstmn.io/api/challenge/${id}`, 'PUT');
+
+            const token = localStorage.getItem('token');
             
-            console.log(responseData)
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const responseData = await fetchInstance(`http://3.37.98.95:8080/api/challenge/${id}`, {
+                method: 'PUT',
+                headers: { Authorization: `${token}` }
+            });
+
             if (responseData) {
 -                set((state) => ({ challengeList: [...state.challengeList, responseData] }));
             } else {

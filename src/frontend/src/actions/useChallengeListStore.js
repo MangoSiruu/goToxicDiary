@@ -4,15 +4,25 @@ import fetchInstance from '../utils/fetchInstance';
 /* 서버로부터 챌린지들을 받아오기 -> MyChallengeListView로 return */
 const useChallengeListStore = create((set) => ({
     challengeList: [],
-    updateChallengeListInfo: async () => {
+    updateChallengeListInfo: async (finished) => {
         try {
-            const responseData = await fetchInstance('https://67327f75-71f8-4777-acb0-9e7fee4f7680.mock.pstmn.io/api/challenge', 'GET');
 
-            console.log(responseData)
+            const token = localStorage.getItem('token');
             
-            if (Array.isArray(responseData)) {
-                const transformedData = responseData.map(({ id, title, toxicCategory, startDate, endDate }) => ({ id, title, toxicCategory, startDate, endDate }));
+            if (!token) {
+                throw new Error('No authentication token found');
+            }
+
+            const responseData = await fetchInstance('http://3.37.98.95:8080/api/challenge', {
+                method: 'GET',
+                queryParams: { finished: finished.toString(), page_size: 10, cursor: '' },
+                headers: { Authorization: `${token}` }
+            });
+
+            if (responseData && responseData.content) {
+                const transformedData = responseData.content.map(({ id, title, category, endDate }) => ({ id, title, category, endDate }));
                 set({ challengeList: transformedData });
+                
             } else {
                 console.warn('Unexpected response data format:', responseData);
             }
