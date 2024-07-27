@@ -1,21 +1,13 @@
 import { create } from 'zustand';
 import fetchInstance from '../utils/fetchInstance';
 
-/* 서버로 기존 챌린지 수정 후 보내기 */
+// 기존 챌린지 수정 후 보내기 (미완)
 const useEditChallengeStore = create((set) => ({
     challengeList: [], 
     updateChallengeListInfo: async (id) => {
         try {
-
-            const token = localStorage.getItem('token');
-            
-            if (!token) {
-                throw new Error('No authentication token found');
-            }
-
             const responseData = await fetchInstance(`http://3.37.98.95:8080/api/challenge/${id}`, {
                 method: 'PUT',
-                headers: { Authorization: `${token}` }
             });
 
             if (responseData) {

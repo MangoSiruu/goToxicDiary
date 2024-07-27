@@ -1,20 +1,14 @@
 import { create } from 'zustand';
 import fetchInstance from '../utils/fetchInstance';
 
-/* 서버로 새로운 챌린지 생성후 보내기 */
+// 새로운 챌린지 생성후 보내기
 const useNewChallengeStore = create((set) => ({
     challengeList: [],
     createChallengeListInfo: async (challengeData) => {
         try {
-            const token = localStorage.getItem('token');
-
-            if (!token) {
-                throw new Error('No authentication token found');
-            }
-
+            // body에 JSON 데이터가 담겨져서 보내짐
             const responseData = await fetchInstance('http://3.37.98.95:8080/api/challenge', {
                 method: 'POST',
-                headers: { Authorization: `${token}` },
                 body: challengeData
             });
 
