@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../instance';
 import { endpoint } from '../path';
+import { path } from '../../routes/path';
 
 const signUpRequest = async (data) => {
   const requestData = {
@@ -13,11 +15,12 @@ const signUpRequest = async (data) => {
 };
 
 const useSignUp = () => {
+  const navigate = useNavigate();
   return useMutation({
     mutationFn: signUpRequest,
     onSuccess: (status) => {
       if (status === 201) {
-        console.log('회원가입 성공');
+        navigate(path.login);
       }
     },
   });

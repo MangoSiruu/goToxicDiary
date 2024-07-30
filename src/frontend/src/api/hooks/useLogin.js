@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../instance';
 import { endpoint } from '../path';
+import { path } from '../../routes/path';
 
 const loginRequest = async (data) => {
   const requestData = {
@@ -12,6 +14,8 @@ const loginRequest = async (data) => {
 };
 
 const useLogin = () => {
+  const navigate = useNavigate();
+
   return useMutation({
     mutationFn: loginRequest,
     onSuccess: (response) => {
@@ -21,6 +25,7 @@ const useLogin = () => {
         const accessToken = authorizationHeader ? authorizationHeader.split(' ')[1] : null;
         localStorage.setItem('nickname', nickname);
         localStorage.setItem('token', accessToken);
+        navigate(path.main);
       }
     },
   });
