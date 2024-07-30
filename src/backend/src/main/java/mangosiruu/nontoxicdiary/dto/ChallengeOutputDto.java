@@ -16,6 +16,7 @@ public class ChallengeOutputDto {
     private Long id;
     private String title;
     private String category;
+    private Long maxCount;
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate startDate;
     @JsonFormat(pattern="yyyy-MM-dd")
