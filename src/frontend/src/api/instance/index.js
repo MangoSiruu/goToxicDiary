@@ -8,8 +8,8 @@ export const axiosInstance = axios.create({
   },
 });
 
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'http://3.37.98.95:8080';
 
 export const fetchInstance = axiosInstance({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://3.37.98.95:8080',
 });
