@@ -5,47 +5,37 @@ import ButtonGroup from '../../common/Button/ButtonGroup';
 import getTodayDate from '../../../utils/getTodayDate';
 import getEnddayDate from '../../../utils/getEnddayDate';
 import useNewChallengeStore from '../../../actions/useNewChallengeStore';
-import Icon from '../../common/Icons/Icon';
 import durationCalculator from '../../../utils/durationCalcurator';
 import useEditChallengeStore from '../../../actions/useEditChallengeStore';
-
+import { CategoryButton } from '../../common/Button/Categories';
+import { categories } from '../../../constant/Foods/categories';
 
 /* 순서대로 */
-const CategorySelect = ({ category, handleCategoryChange, categories }) => {
-  const categoryIcons = {
-    '술': 'beer',
-    '인스턴트': 'instant',
-    '매운 음식': 'pepper',
-    '카페인': 'coffee',
-    '야식': 'pizza',
-    '액상과당': 'cola',
-    '기타': 'spoon'
-  };
-
+const CategorySelect = ({ category, handleCategoryChange }) => {
   return (
     <div className={styles.container}>
       <h4 className={styles.title}>카테고리 선택하기</h4>
       <h5>하나만 선택해주세요</h5>
       <div className={styles.categoryOptions}>
         {categories.map((cat) => (
-          <button
+          <CategoryButton
             key={cat}
-            className={category === cat ? styles.active : styles.button}
-            onClick={() => handleCategoryChange(cat)}
-          >
-            <Icon input={categoryIcons[cat]} />
-            <span>{cat}</span>
-          </button>
+            category={cat}
+            onClick={() => handleCategoryChange(cat.replace(/[\p{Emoji}]/gu, '').trim())}
+            isSelected={category === cat}
+          />
         ))}
       </div>
     </div>
   );
 };
 
+
 const SetName = ({ challengeName, handleChallengeNameChange }) => {
   return (
     <div className={styles.container}>
       <h4 className={styles.title}>챌린지 이름 짓기</h4>
+      <div className={styles.inputContainer}>
         <input
           id="challengeName"
           type="text"
@@ -55,9 +45,11 @@ const SetName = ({ challengeName, handleChallengeNameChange }) => {
           onChange={handleChallengeNameChange}
           className={styles.input}
         />
+      </div>
     </div>
   );
 };
+
 
 const SetGoal = ({ category, goal, handleGoalChange }) => {
   return (
@@ -81,7 +73,7 @@ const SetGoal = ({ category, goal, handleGoalChange }) => {
 
 const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, durations }) => {
   return (
-    <div className={styles.formGroup}>
+    <div className={styles.container}>
       <h4 className={styles.title}>종료일 설정하기</h4>
       <div className={styles.durationOptions}>
         {durations.map((dur) => (
@@ -93,6 +85,7 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, durati
             {dur}
           </button>
         ))}
+        
       </div>
       <div className={styles.datePicker}>
         <input type="date" value={startDate} readOnly />
@@ -113,7 +106,8 @@ const NewMyChallengeView = () => {
   const [challengeName, setChallengeName] = useState(challenge?.title || '');
   const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());
   const [endDate, setEndDate] = useState(challenge?.endDate || '');
-  const categories = ['술', '인스턴트', '매운 음식', '카페인', '야식', '액상과당', '기타'];
+  const [maxCount, setMaxCount] = useState(challenge?.toxicCategory || '');
+  const categories = ['술', '인스턴트', '매운음식', '카페인', '야식', '액상과당', '기타'];
   const durations = ['1주', '2주', '1달'];
 
   const createChallengeListInfo = useNewChallengeStore((state) => state.createChallengeListInfo);
@@ -147,6 +141,7 @@ const NewMyChallengeView = () => {
   const handleChallengeNameChange = (e) => {
     setChallengeName(e.target.value);
   };
+  
 
   const handleDurationChange = (dur) => {
     setDuration(dur);
@@ -155,13 +150,17 @@ const NewMyChallengeView = () => {
   };
 
   const handleSubmit = async () => {
+    
     const challengeData = {
-      toxicCategory: category,
+      category,
       title: challengeName,
-      goal,
+      maxCount: goal,       // 이거 나중에 바꿔야됨 maxCount로
       startDate,
       endDate,
     };
+
+    console.log(challengeData)
+
     if (challenge) {
       // Editing existing challenge
       await updateChallengeListInfo(challenge.id, challengeData);

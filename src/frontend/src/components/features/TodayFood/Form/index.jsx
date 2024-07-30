@@ -5,10 +5,6 @@ import { categories } from '../../../../constant/Foods/categories';
 import { Fields } from './Fields';
 import { CategoryButton } from '../../../common/Button/Categories';
 import { UnderlinedButton } from '../../../common/Button/UnderlinedButton';
-import { axiosInstance } from '../../../../api/instance';
-import { endpoint } from '../../../../api/path';
-import { getTodayDate } from '../../../../utils/Calendar/getTodayDate';
-import { removeIcons } from '../../../../utils/Icons/removeIcons';
 
 export function TodayEatForm() {
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -20,25 +16,9 @@ export function TodayEatForm() {
     );
   };
 
-  const handleFormSubmit = async (data) => {
+  const handleFormSubmit = (data) => {
     setRecords(data);
     setSelectedCategories([]);
-
-    try {
-      const toxicFoods = Object.entries(data).map(([name, { count }]) => ({
-        name: removeIcons(name),
-        count,
-      }));
-      const requestData = {
-        date: getTodayDate(),
-        toxicFoods,
-      };
-
-      const res = await axiosInstance.post(endpoint.CALENDAR, requestData);
-      console.log('Response:', res.data);
-    } catch (error) {
-      console.error('오늘먹은음식 기록 실패:', error);
-    }
   };
 
   const handleFormCancel = () => {
