@@ -67,15 +67,15 @@ export function SignUpForm() {
               required: '닉네임을 입력하세요.',
               minLength: {
                 value: 2,
-                message: '! 2~8자리의 아이디를 입력해주세요.',
+                message: '! 2~8자리의 닉네임을 입력해주세요.',
               },
               maxLength: {
                 value: 8,
-                message: '! 2~8자리의 아이디를 입력해주세요.',
+                message: '! 2~8자리의 닉네임을 입력해주세요.',
               },
             })}
           />
-          {errors.password && <Error>{errors.password.message}</Error>}
+          {errors.username && <Error>{errors.username.message}</Error>}
         </FormBox>
         <SubmitButton type="confirm">회원가입</SubmitButton>
       </FormWrapper>

@@ -1,9 +1,9 @@
-import { SignUpForm } from './components/features/User/Form/SignUp';
+import SignUpPage from './pages/SignUp';
 
 function App() {
   return (
     <div>
-      <SignUpForm />
+      <SignUpPage />
     </div>
   );
 }

@@ -1,16 +1,16 @@
 import styled from '@emotion/styled';
-import { LoginForm } from '../../components/features/User/Form/Login';
 import logoTitle from '../../assets/icons/svg/logoTitle.svg';
 import { Wrapper } from '../../components/common/layouts/Wrapper';
+import { SignUpForm } from '../../components/features/User/Form/SignUp';
 
-export default function LoginPage() {
+export default function SignUpPage() {
   return (
     <Wrapper>
       <LogoSection>
         <img src={logoTitle} alt="고망다이어리 로고" width="200px" />
       </LogoSection>
       <FormSection>
-        <LoginForm />
+        <SignUpForm />
       </FormSection>
     </Wrapper>
   );
