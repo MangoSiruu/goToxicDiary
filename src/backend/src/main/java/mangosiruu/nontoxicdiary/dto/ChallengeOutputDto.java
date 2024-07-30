@@ -17,5 +17,7 @@ public class ChallengeOutputDto {
     private String title;
     private String category;
     @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate startDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate endDate;
 }
