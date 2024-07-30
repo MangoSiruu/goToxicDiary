@@ -8,6 +8,12 @@ export function SignUpStatus({ status, error, success }) {
   if (success) return <Success>🎉회원가입 완료🎉</Success>;
 }
 
+export function LoginStatus({ status, error, success }) {
+  if (status === 'loading') return <SubmitButton>로그인 하는 중...✨</SubmitButton>;
+  if (error) return <Error>🚫아이디와 비밀번호를 확인해주세요.🚫</Error>;
+  if (success) return <Success>🎉로그인 완료🎉</Success>;
+}
+
 const Error = styled.span`
   color: ${colors.mainOrange};
 `;

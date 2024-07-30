@@ -9,15 +9,16 @@ const signUpRequest = async (data) => {
     nickname: data.nickname,
   };
   const response = await axiosInstance.post(`${endpoint.AUTH}/signup`, requestData);
-  return { userId: response.data.userId, nickname: data.nickname };
+  return response.status;
 };
 
 const useSignUp = () => {
   return useMutation({
     mutationFn: signUpRequest,
-    onSuccess: (data) => {
-      const { nickname } = data;
-      if (nickname) localStorage.setItem('nickname', nickname);
+    onSuccess: (status) => {
+      if (status === 201) {
+        console.log('회원가입 성공');
+      }
     },
   });
 };

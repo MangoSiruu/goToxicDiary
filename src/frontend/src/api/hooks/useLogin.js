@@ -8,19 +8,22 @@ const loginRequest = async (data) => {
     password: data.password,
   };
   const response = await axiosInstance.post(`${endpoint.AUTH}/login`, requestData);
-  return response.data;
+  return response;
 };
 
-const useSignUp = () => {
+const useLogin = () => {
   return useMutation({
     mutationFn: loginRequest,
     onSuccess: (response) => {
       if (response.status === 200) {
-        const accessToken = response.headers.authorization;
+        const { nickname } = response.data.user;
+        const authorizationHeader = response.headers.authorization;
+        const accessToken = authorizationHeader ? authorizationHeader.split(' ')[1] : null;
+        localStorage.setItem('nickname', nickname);
         localStorage.setItem('token', accessToken);
       }
     },
   });
 };
 
-export default useSignUp;
+export default useLogin;

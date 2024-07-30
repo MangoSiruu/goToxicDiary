@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form';
 import { UnderlinedInputField } from '../../../../common/Form/Input/UnderlinedInputField';
 import { Error, FormWrapper, FormBox, Label } from '../Common';
 import { SubmitButton } from '../../../TodayFood/Form/Button';
+import useLogin from '../../../../../api/hooks/useLogin';
+import { getStatus } from '../../../../common/Status';
+import { LoginStatus } from '../../../../common/Status/Auth';
 
 export function LoginForm() {
   const {
@@ -10,9 +13,11 @@ export function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { mutateAsync: login, isLoading, isError, isSuccess, error } = useLogin();
+  const status = getStatus({ isLoading, isError, isSuccess });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    await login(data);
   };
 
   return (
@@ -35,7 +40,7 @@ export function LoginForm() {
           />
           {errors.password && <Error>{errors.password.message}</Error>}
         </FormBox>
-
+        <LoginStatus status={status} success={isSuccess} error={error} />
         <SubmitButton theme="orange" type="confirm">
           로그인
         </SubmitButton>
