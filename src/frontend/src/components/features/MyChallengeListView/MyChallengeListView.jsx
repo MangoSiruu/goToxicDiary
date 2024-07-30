@@ -10,6 +10,8 @@ import TabComponent from '../../common/Tab/TabComponent';
 import getTodayDate from '../../../utils/getTodayDate';
 import { UnderlinedButton } from '../../common/Button/UnderlinedButton';
 
+// 챌린지 리스트 헤더
+// h1 h3 스타일 변경해야 하나?
 const MyChallengeListViewHeader = ({ moveToNewMyChallengeView }) => (
     <div className={style.headerContainer}>
         <div className={style.textContainer}>
@@ -22,35 +24,53 @@ const MyChallengeListViewHeader = ({ moveToNewMyChallengeView }) => (
     </div>
 );
 
-const MyChallengeListViewButton = ({ challenge, handleEdit, handleDelete }) => (
-    <div className={style.challengeActions} onClick={(e) => e.stopPropagation()}>
-        <EditButton onClick={() => handleEdit(challenge)}>수정</EditButton>
-        <DeleteButton id={challenge.id} onDelete={() => handleDelete(challenge.id)}>삭제</DeleteButton>
-    </div>
+
+// Tab이 완료됨(true)이면 삭제 수정 버튼이 안 보임
+const MyChallengeListViewButton = ({ challenge, handleEdit, handleDelete, finished }) => (
+    !finished ? (
+        <div className={style.challengeActions} onClick={(e) => e.stopPropagation()}>
+            <EditButton onClick={() => handleEdit(challenge)}>
+                수정
+            </EditButton>
+            <DeleteButton id={challenge.id} onDelete={() => handleDelete(challenge.id)}>
+                삭제
+            </DeleteButton>
+        </div>
+    ) : null
 );
 
+// '종료까지 몇 일' 인지 계산하고 보여줌
+// duration이 음수 즉, 종료되었으면 기간을 보여주고, 양수이면 종료까지 몇 일 보여줌
 const MyChallengeListViewEndDate = ({ challenge }) => {
     const duration = durationCalculator(getTodayDate(), challenge.endDate);
     return (
         <div className={style.challengeText}>
             <div>{challenge.title}</div>
             <div>{challenge.body}</div>
-            <div>종료까지 {duration}일</div>
+            <div>
+                {duration < 0 ? `${challenge.startDate} ~ ${challenge.endDate}` : `종료까지 ${duration}일`}    
+            </div>
         </div>
     );
 };
 
+// 챌린지 리스트를 보여줌
 const MyChallengeListView = () => {
     const navigate = useNavigate();
+
+    // finished는 종료됨과 진행중을 구분함
     const [finished, setFinished] = useState(false);
-    const { challengeList, updateChallengeListInfo, deleteChallenge } = useChallengeListStore((state) => ({
+
+    // 챌린지 리스트들을 store에서 가져와서 띄워줌
+    const { challengeList, cursor, hasNext, updateChallengeListInfo, deleteChallenge } = useChallengeListStore((state) => ({
         challengeList: state.challengeList,
+        cursor: state.cursor,
+        hasNext: state.hasNext,
         updateChallengeListInfo: state.updateChallengeListInfo,
-        deleteChallenge: state.deleteChallenge
+        deleteChallenge: state.deleteChallenge,
     }));
 
     useEffect(() => {
-        // Fetch the challenge list when the component mounts or the `finished` state changes
         fetchChallengeList();
     }, [finished]);
 
@@ -71,19 +91,40 @@ const MyChallengeListView = () => {
     }, [navigate]);
 
     const handleDelete = useCallback((id) => {
-        deleteChallenge(id); // Make sure this function exists in your store
+        deleteChallenge(id);
     }, [deleteChallenge]);
 
     const fetchChallengeList = useCallback(() => {
-        // Example fetch function - replace with actual logic
         updateChallengeListInfo(finished);
     }, [finished, updateChallengeListInfo]);
 
+
+    // 스크롤로 다음 리스트 최대 10개를 불러오기
+    const loadMoreChallenges = useCallback(() => {
+        if (hasNext) {
+            updateChallengeListInfo(finished, cursor);
+        }
+    }, [hasNext, cursor, finished, updateChallengeListInfo]);
+    const handleScroll = useCallback((e) => {
+        const { scrollTop, clientHeight, scrollHeight } = e.target.scrollingElement;
+        if (scrollHeight - scrollTop <= clientHeight + 100) {
+            loadMoreChallenges();
+        }
+    }, [loadMoreChallenges]);
+
+    useEffect(() => {
+        document.addEventListener('scroll', handleScroll);
+        return () => {
+            document.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
+
+    
     return (
         <div className={style.wrapper}>
             <header>
                 <MyChallengeListViewHeader moveToNewMyChallengeView={moveToNewMyChallengeView} />
-                <TabComponent isFinished={finished} onTabChange={handleTabChange} />
+                <TabComponent finished={finished} onTabChange={handleTabChange} />
             </header>
             <ul className={style.challengeList}>
                 {challengeList.map((challenge) => (
@@ -99,6 +140,7 @@ const MyChallengeListView = () => {
                           challenge={challenge} 
                           handleEdit={handleEdit} 
                           handleDelete={handleDelete} 
+                          finished={finished}
                         />
                       </div>
                     </li>
