@@ -56,8 +56,12 @@ ul {
   padding: 0;
   font-weight: 400;
   font-style: normal;
+  letter-spacing: -0.05em;
 }
 
+body {
+  background-color: #fbf4ee;
+}
 fieldset,
 iframe {
   border: 0;
@@ -96,7 +100,7 @@ button:disabled {
   cursor: default;
 }
 :focus {
-  outline: 4px solid rgba(255, 127, 0, 1);
+  outline: 2px solid rgba(255, 127, 0, 0.5);
   outline-offset: 1px;
 }
 :focus[data-focus-method='mouse']:not(input):not(textarea):not(select),
