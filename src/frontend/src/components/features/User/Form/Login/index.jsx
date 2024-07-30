@@ -36,7 +36,9 @@ export function LoginForm() {
           {errors.password && <Error>{errors.password.message}</Error>}
         </FormBox>
 
-        <SubmitButton type="confirm">로그인</SubmitButton>
+        <SubmitButton theme="orange" type="confirm">
+          로그인
+        </SubmitButton>
       </FormWrapper>
     </form>
   );

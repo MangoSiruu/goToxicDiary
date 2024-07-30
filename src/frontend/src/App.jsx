@@ -1,10 +1,12 @@
+import { QueryClientProvider } from '@tanstack/react-query';
 import SignUpPage from './pages/SignUp';
+import { queryClient } from './api/instance';
 
 function App() {
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       <SignUpPage />
-    </div>
+    </QueryClientProvider>
   );
 }
 

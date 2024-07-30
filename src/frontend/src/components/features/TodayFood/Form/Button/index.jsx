@@ -1,17 +1,20 @@
 import styled from '@emotion/styled';
 import { colors } from '../../../../../styles/variants';
 
-export function SubmitButton({ children }) {
-  return <Button>{children}</Button>;
+export function SubmitButton({ children, theme }) {
+  return <Button theme={theme}>{children}</Button>;
 }
 
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 15px 0;
-  border-radius: 5px;
-  background-color: ${colors.mainOrange};
-  color: ${colors.white};
-`;
+const Button = styled.button(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: theme === 'orange' ? `${colors.mainOrange}` : `${colors.lightGray}`,
+  border: 'none',
+  borderRadius: '5px',
+  color: `${colors.white},`,
+  cursor: 'pointer',
+  padding: '15px 0',
+  transition: 'background-color 0.3s ease',
+}));

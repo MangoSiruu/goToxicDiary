@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import logoTitle from '../../assets/icons/svg/logoTitle.svg';
 import { Wrapper } from '../../components/common/layouts/Wrapper';
 import { SignUpForm } from '../../components/features/User/Form/SignUp';
+import RetryErrorBoundary from '../../components/common/RetryErrorBoundary';
 
 export default function SignUpPage() {
   return (
@@ -10,7 +11,9 @@ export default function SignUpPage() {
         <img src={logoTitle} alt="고망다이어리 로고" width="200px" />
       </LogoSection>
       <FormSection>
-        <SignUpForm />
+        <RetryErrorBoundary>
+          <SignUpForm />
+        </RetryErrorBoundary>
       </FormSection>
     </Wrapper>
   );

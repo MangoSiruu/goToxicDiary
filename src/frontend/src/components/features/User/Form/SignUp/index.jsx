@@ -1,8 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { UnderlinedInputField } from '../../../../common/Form/Input/UnderlinedInputField';
-import { SubmitButton } from '../../../TodayFood/Form/Button';
 import { Error, FormWrapper, FormBox, Label } from '../Common';
+import useSignUp from '../../../../../api/hooks/useSignUp';
+import { SubmitButton } from '../../../TodayFood/Form/Button';
+import { SignUpStatus } from '../../../../common/Status/Auth';
+import { getStatus } from '../../../../common/Status';
 
 export function SignUpForm() {
   const {
@@ -12,9 +15,11 @@ export function SignUpForm() {
     formState: { errors },
   } = useForm();
   const password = watch('password');
+  const { mutateAsync: signUp, isLoading, isError, isSuccess, error } = useSignUp();
+  const status = getStatus({ isLoading, isError, isSuccess });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    await signUp(data);
   };
 
   return (
@@ -63,7 +68,7 @@ export function SignUpForm() {
         <FormBox>
           <UnderlinedInputField
             placeholder="닉네임"
-            {...register('username', {
+            {...register('nickname', {
               required: '닉네임을 입력하세요.',
               minLength: {
                 value: 2,
@@ -75,9 +80,12 @@ export function SignUpForm() {
               },
             })}
           />
-          {errors.username && <Error>{errors.username.message}</Error>}
+          {errors.nickname && <Error>{errors.nickname.message}</Error>}
         </FormBox>
-        <SubmitButton type="confirm">회원가입</SubmitButton>
+        <SignUpStatus status={status} success={isSuccess} error={error} />
+        <SubmitButton theme="orange" type="submit">
+          회원가입
+        </SubmitButton>
       </FormWrapper>
     </form>
   );
