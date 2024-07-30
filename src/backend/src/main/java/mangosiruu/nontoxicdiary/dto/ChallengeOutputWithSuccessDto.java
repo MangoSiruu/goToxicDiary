@@ -19,6 +19,8 @@ public class ChallengeOutputWithSuccessDto {
     private String category;
     private Long maxCount;
     @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate startDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate endDate;
     private Integer progress;
     private List<ChallengeSuccessWithDateDto> successes;
