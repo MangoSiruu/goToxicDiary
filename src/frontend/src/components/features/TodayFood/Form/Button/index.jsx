@@ -10,7 +10,7 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 15px;
+  padding: 15px 0;
   border-radius: 5px;
   background-color: ${colors.mainOrange};
   color: ${colors.white};

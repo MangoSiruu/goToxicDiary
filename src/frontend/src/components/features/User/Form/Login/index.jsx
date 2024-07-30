@@ -19,6 +19,7 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormWrapper>
+        <Label>아이디</Label>
         <FormBox>
           <UnderlinedInputField
             placeholder="아이디"
@@ -26,6 +27,7 @@ export function LoginForm() {
           />
           {errors.id && <Error>{errors.id.message}</Error>}
         </FormBox>
+        <Label>비밀번호</Label>
         <FormBox>
           <UnderlinedInputField
             type="password"
@@ -59,4 +61,11 @@ const FormWrapper = styled.div`
 
 const FormBox = styled.div`
   width: 100%;
+`;
+
+const Label = styled.label`
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  color: ${colors.mainGray};
 `;
