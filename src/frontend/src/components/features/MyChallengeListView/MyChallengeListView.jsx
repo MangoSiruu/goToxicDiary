@@ -1,43 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useChallengeListStore from '../../../actions/useChallengeListStore';
 import durationCalculator from '../../../utils/durationCalcurator';
-
 import style from './MyChallengeListView.module.css'; 
 import Icon from '../../common/Icons/Icon';
 import EditButton from '../../common/Button/ButtonEdit';
 import DeleteButton from '../../common/Button/ButtonDelete';
-import ButtonNewChallenge from '../../common/Button/ButtonNewChallenge';
-
 import TabComponent from '../../common/Tab/TabComponent'; 
 import getTodayDate from '../../../utils/getTodayDate';
+import { UnderlinedButton } from '../../common/Button/UnderlinedButton';
 
-
-const MyChallengeListViewHeader = ({ moveToNewMyChallengeView }) => {
-    return (
-        <div className={style.headerContainer}>
-            <div className={style.textContainer}>
-                <h1>내 챌린지</h1>
-                <h3>고자극 식생활 타파 도전 일기!</h3>
-            </div>
-            <ButtonNewChallenge className={style.button} onClick={() => moveToNewMyChallengeView(null)} />
+const MyChallengeListViewHeader = ({ moveToNewMyChallengeView }) => (
+    <div className={style.headerContainer}>
+        <div className={style.textContainer}>
+            <h1>내 챌린지</h1>
+            <h3>고자극 식생활 타파 도전 일기!</h3>
         </div>
-    );
-};
+        <UnderlinedButton onClick={() => moveToNewMyChallengeView(null)}>
+            새로 만들기
+        </UnderlinedButton>
+    </div>
+);
 
-const MyChallengeListViewButton = ({ challenge, handleEdit, handleDelete }) => {
-    return (
-        <div className={style.challengeActions} onClick={(e) => e.stopPropagation()}>
-            <EditButton onClick={() => handleEdit(challenge)}>수정</EditButton>
-            <DeleteButton id={challenge.id} onClick={handleDelete}>삭제</DeleteButton>
-        </div>
-    );
-};
+const MyChallengeListViewButton = ({ challenge, handleEdit, handleDelete }) => (
+    <div className={style.challengeActions} onClick={(e) => e.stopPropagation()}>
+        <EditButton onClick={() => handleEdit(challenge)}>수정</EditButton>
+        <DeleteButton id={challenge.id} onDelete={() => handleDelete(challenge.id)}>삭제</DeleteButton>
+    </div>
+);
 
 const MyChallengeListViewEndDate = ({ challenge }) => {
-
-    /* getTodayDate ~ getEndDate 로 할 것 */
-    // const duration = durationCalculator(getTodayDate(), '2024-07-30');
     const duration = durationCalculator(getTodayDate(), challenge.endDate);
     return (
         <div className={style.challengeText}>
@@ -50,61 +42,68 @@ const MyChallengeListViewEndDate = ({ challenge }) => {
 
 const MyChallengeListView = () => {
     const navigate = useNavigate();
+    const [finished, setFinished] = useState(false);
+    const { challengeList, updateChallengeListInfo, deleteChallenge } = useChallengeListStore((state) => ({
+        challengeList: state.challengeList,
+        updateChallengeListInfo: state.updateChallengeListInfo,
+        deleteChallenge: state.deleteChallenge
+    }));
+
+    useEffect(() => {
+        // Fetch the challenge list when the component mounts or the `finished` state changes
+        fetchChallengeList();
+    }, [finished]);
+
     const moveToNewMyChallengeView = (challenge) => {
         navigate("/newmychallengeview", { state: { challenge } });
     };
 
-    const [isFinished, setIsFinished] = useState(false);
-    
-    
-    
-    
-    // 여기서 두 번 호출해버림 나중에 한 번으로 고치기
-    const { challengeList, updateChallengeListInfo } = useChallengeListStore((state) => ({
-        challengeList: state.challengeList,
-        updateChallengeListInfo: state.updateChallengeListInfo,
-    }));
-    const handleDelete = (id) => {
-        const updatedList = challengeList.filter(challenge => challenge.id !== id);
-        useChallengeListStore.setState({ challengeList: updatedList });
+    const handleTabChange = (newFinished) => {
+        setFinished(newFinished);
     };
 
+    const handleEdit = useCallback((challenge) => {
+        moveToNewMyChallengeView(challenge);
+    }, [navigate]);
 
+    const handleCardClick = useCallback((challenge) => {
+        navigate(`/challengedetailview/${challenge.id}`);
+    }, [navigate]);
 
-    useEffect(() => {
-        updateChallengeListInfo();
-    }, [updateChallengeListInfo]);
+    const handleDelete = useCallback((id) => {
+        deleteChallenge(id); // Make sure this function exists in your store
+    }, [deleteChallenge]);
 
-    const handleTabChange = (finished) => { setIsFinished(finished);};
-    const handleEdit = (challenge) => {moveToNewMyChallengeView(challenge);};
-    
-    const handleCardClick = (challenge) => { navigate(`/challengedetailview/${challenge.id}`); };
+    const fetchChallengeList = useCallback(() => {
+        // Example fetch function - replace with actual logic
+        updateChallengeListInfo(finished);
+    }, [finished, updateChallengeListInfo]);
 
     return (
         <div className={style.wrapper}>
             <header>
-                <div>
-                    <MyChallengeListViewHeader moveToNewMyChallengeView={moveToNewMyChallengeView} />
-                    <TabComponent isFinished={isFinished} onTabChange={handleTabChange} />
-                    <ul className={style.challengeList}>
-                        {challengeList.map((challenge) => {
-                            return (
-                                <li 
-                                    key={challenge.id}                                    
-                                    className={style.challengeItem} 
-                                    onClick={() => handleCardClick(challenge)}
-                                >
-                                    <div className={style.challengeInfo}>
-                                        <Icon input={challenge.toxicCategory} />  
-                                        <MyChallengeListViewEndDate challenge={challenge} />
-                                        <MyChallengeListViewButton challenge={challenge} handleEdit={handleEdit} handleDelete={handleDelete} />
-                                    </div>
-                                 </li>
-                            );
-                        })}
-                    </ul>
-                </div>
+                <MyChallengeListViewHeader moveToNewMyChallengeView={moveToNewMyChallengeView} />
+                <TabComponent isFinished={finished} onTabChange={handleTabChange} />
             </header>
+            <ul className={style.challengeList}>
+                {challengeList.map((challenge) => (
+                    <li 
+                      key={challenge.id}
+                      className={style.challengeItem}
+                      onClick={() => handleCardClick(challenge)}
+                    >
+                      <div className={style.challengeInfo}>
+                        <Icon input={challenge.category} />
+                        <MyChallengeListViewEndDate challenge={challenge} />
+                        <MyChallengeListViewButton 
+                          challenge={challenge} 
+                          handleEdit={handleEdit} 
+                          handleDelete={handleDelete} 
+                        />
+                      </div>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

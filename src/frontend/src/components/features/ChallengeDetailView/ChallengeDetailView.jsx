@@ -53,12 +53,11 @@ const ChallengeDetailView = () => {
 
     const { title, toxicCategory, maxCount, endDate, successes } = challenge;
     const startDate = successes.length > 0 ? successes[0].date : endDate;
-    const dateRange = getDateRange(startDate, endDate);
+    const dateRange = getDateRange(startDate, endDate).reverse(); // Reverse the date range
 
     return (
         <div className={style.wrapper}>
             <DetailHeader title={title} startDate={startDate} endDate={endDate} toxicCategory={toxicCategory} count={maxCount} />
-            <div className={style.details}>
                 <div className={style.dayList}>
                     {dateRange.map((date, index) => {
                         const success = successes.find((s) => s.date === date.toISOString().split('T')[0]);
@@ -74,7 +73,6 @@ const ChallengeDetailView = () => {
                     })}
                 </div>
             </div>
-        </div>
     );
 };
 

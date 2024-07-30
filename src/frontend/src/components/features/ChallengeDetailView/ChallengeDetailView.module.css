@@ -1,3 +1,15 @@
+/* Hide scrollbar for webkit browsers (Chrome, Safari) */
+.dayList::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.dayList {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+/* General styles */
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -48,18 +60,23 @@
 }
 
 .dayList {
-    margin-top: 20px;
+    list-style: none;
+    padding: 20px;
+    width: 100%;
+    flex: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .dayItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    margin: 10px 0;
-    background-color: #fff;
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .emoji {

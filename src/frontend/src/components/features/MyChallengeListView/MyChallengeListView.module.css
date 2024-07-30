@@ -9,7 +9,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px
+  padding: 20px;
+  background-color: #FBF4EE; /* Ensure the header background matches the wrapper */
+  z-index: 1;
 }
 
 .textContainer {
@@ -24,7 +26,14 @@
   list-style: none;
   padding: 20px;
   width: 100%;
+  flex: 1;
+  overflow-y: auto;
 }
+
+.challengeList::-webkit-scrollbar {
+  display: none;
+}
+
 
 .challengeItem {
   display: flex;
@@ -53,30 +62,30 @@
 .challengeText {
   display: flex;
   flex-direction: column;
-  flex: 1; /* Allow it to take up the available space */
+  flex: 1;
 }
 
 .challengeActions {
   display: flex;
   gap: 10px;
-  margin-left: 20px; /* Add space between text and actions */
+  margin-left: 20px;
 }
 
 .editButton,
 .deleteButton {
-  padding: 8px 16px; /* Adjust padding as needed */
-  font-size: 14px; /* Adjust font size as needed */
+  padding: 8px 16px;
+  font-size: 14px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .editButton {
-  background-color: #4CAF50; /* Green color */
+  background-color: #4CAF50;
   color: white;
 }
 
 .deleteButton {
-  background-color: #f44336; /* Red color */
+  background-color: #f44336;
   color: white;
 }

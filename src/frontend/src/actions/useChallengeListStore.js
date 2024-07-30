@@ -1,17 +1,20 @@
 import { create } from 'zustand';
 import fetchInstance from '../utils/fetchInstance';
 
-/* 서버로부터 챌린지들을 받아오기 -> MyChallengeListView로 return */
+// 서버로부터 챌린지들을 받아오기
 const useChallengeListStore = create((set) => ({
     challengeList: [],
-    updateChallengeListInfo: async () => {
+    updateChallengeListInfo: async (finished) => {
         try {
-            const responseData = await fetchInstance('https://67327f75-71f8-4777-acb0-9e7fee4f7680.mock.pstmn.io/api/challenge', 'GET');
+            // queryParams로 리스트 10개 씩 받아오기
+            const responseData = await fetchInstance('http://3.37.98.95:8080/api/challenge', {
+                method: 'GET',
+                queryParams: { finished: finished, page_size: 10, cursor: '' },
+            });
 
-            console.log(responseData)
-            
-            if (Array.isArray(responseData)) {
-                const transformedData = responseData.map(({ id, title, toxicCategory, startDate, endDate }) => ({ id, title, toxicCategory, startDate, endDate }));
+            // 정상적으로 갔다면 id, title, category, enddate로 나눠서 set
+            if (responseData) {
+                const transformedData = responseData.content.map(({ id, title, category, endDate }) => ({ id, title, category, endDate }));
                 set({ challengeList: transformedData });
             } else {
                 console.warn('Unexpected response data format:', responseData);
