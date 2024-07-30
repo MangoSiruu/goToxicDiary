@@ -1,8 +1,8 @@
 export const endpoint = {
-  AUTH: '/auth',
-  USER: '/user',
-  CALENDAR: '/calendar',
-  REPORT: '/report',
+  AUTH: '/api/auth',
+  USER: '/api/user',
+  CALENDAR: '/api/calendar',
+  REPORT: '/api/report',
 };
 
 export const getDynamicPoint = {

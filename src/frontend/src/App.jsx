@@ -1,12 +1,25 @@
-import { TodayEatForm } from './components/features/TodayFood/Form';
-import { TodayFoodSection } from './components/features/TodayFood';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import StartView from './pages/StartView';
+import SignUpPage from './pages/SignUp';
+import LoginPage from './pages/Login';
+import { queryClient } from './api/instance';
+import { path } from './routes/path';
+import AuthProvider from './Provider/AuthProvider';
 
 function App() {
   return (
-    <div style={{ backgroundColor: '#FBF4EE' }}>
-      <TodayFoodSection />
-      <TodayEatForm />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path={path.start} element={<StartView />} />
+            <Route path={path.signup} element={<SignUpPage />} />
+            <Route path={path.login} element={<LoginPage />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

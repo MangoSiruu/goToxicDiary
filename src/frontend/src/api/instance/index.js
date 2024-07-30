@@ -1,28 +1,33 @@
 import { QueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
-const initInstance = () => {
-  const instance = axios.create({
-    timeout: 5000,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  });
+export const BASE_URL = 'http://3.37.98.95:8080';
 
-  return instance;
-};
-
-export const BASE_URL = 'http://localhost:3000';
-
-export const fetchInstance = initInstance({
-  baseURL: 'http://localhost:3000',
+export const axiosInstance = axios.create({
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  baseURL: `${BASE_URL}`,
+  withCredentials: 'true',
 });
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // eslint-disable-next-line no-param-reassign
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
 
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: 1,
+      retry: 3,
       refetchOnMount: true,
       refetchOnReconnect: true,
       refetchOnWindowFocus: true,
