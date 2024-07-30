@@ -14,8 +14,10 @@ const signUpRequest = async (data) => {
 const useSignUp = () => {
   return useMutation({
     mutationFn: signUpRequest,
-    onSuccess: () => {
-      // store에 저장
+    onSuccess: (data) => {
+      const { username, nickname } = data;
+      if (username) localStorage.setItem('username', username);
+      if (nickname) localStorage.setItem('nickname', nickname);
     },
   });
 };
