@@ -1,9 +1,9 @@
-import { StartView } from './pages/StartView';
+import LoginPage from './pages/Login';
 
 function App() {
   return (
     <div>
-      <StartView />
+      <LoginPage />
     </div>
   );
 }
