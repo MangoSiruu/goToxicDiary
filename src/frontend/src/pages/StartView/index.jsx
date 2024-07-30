@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import logoTitle from '../../assets/icons/svg/logoTitle.svg';
 import { colors } from '../../styles/variants';
 
-export function StartView() {
+export default function StartView() {
   return (
     <Wrapper>
       <img src={logoTitle} alt="고망다이어리 로고" width="200px" />

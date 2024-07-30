@@ -32,12 +32,12 @@ export function SignUpForm() {
             {...register('id', {
               required: '아이디를 입력하세요',
               minLength: {
-                value: 4,
-                message: '! 4~12자리의 아이디를 입력해주세요.',
+                value: 8,
+                message: '! 8~15자리의 아이디를 입력해주세요.',
               },
               maxLength: {
-                value: 12,
-                message: '! 4~12자리의 아이디를 입력해주세요.',
+                value: 15,
+                message: '! 8~15자리의 아이디를 입력해주세요.',
               },
             })}
           />
@@ -48,7 +48,17 @@ export function SignUpForm() {
           <UnderlinedInputField
             type="password"
             placeholder="비밀번호"
-            {...register('password', { required: '비밀번호를 입력하세요' })}
+            {...register('password', {
+              required: '비밀번호를 입력하세요',
+              minLength: {
+                value: 12,
+                message: '! 12~20자리 비밀번호를 입력해주세요.',
+              },
+              maxLength: {
+                value: 20,
+                message: '! 12~20자리의 아이디를 입력해주세요.',
+              },
+            })}
           />
           {errors.password && <Error>{errors.password.message}</Error>}
         </FormBox>
@@ -72,11 +82,11 @@ export function SignUpForm() {
               required: '닉네임을 입력하세요.',
               minLength: {
                 value: 2,
-                message: '! 2~8자리의 닉네임을 입력해주세요.',
+                message: '! 2~10자리의 닉네임을 입력해주세요.',
               },
               maxLength: {
-                value: 8,
-                message: '! 2~8자리의 닉네임을 입력해주세요.',
+                value: 10,
+                message: '! 2~10자리의 닉네임을 입력해주세요.',
               },
             })}
           />
