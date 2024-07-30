@@ -1,12 +1,13 @@
 import styled from 'styled-components';
+import React, { forwardRef } from 'react';
 import { colors } from '../../../../styles/variants';
 
-export function UnderlinedInputField(props) {
-  return <Field {...props} />;
-}
+export const UnderlinedInputField = forwardRef((props, ref) => {
+  return <Field ref={ref} {...props} />;
+});
 
 const Field = styled.input`
-  width: 351px;
+  width: 100%;
   height: 40px;
   border: none;
   border-bottom: 1px solid ${colors.lightGray};
