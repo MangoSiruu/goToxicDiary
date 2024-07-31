@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import mangosiruu.nontoxicdiary.service.UserService;
 import mangosiruu.nontoxicdiary.util.Util;
-import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -20,12 +20,12 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException{
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("Login Filter.........");
 
         // GET 방식으로 호출하면 request 에서 NullPointerException 발생
         if(request.getMethod().equalsIgnoreCase("GET")){
-            throw new AuthenticationServiceException("GET method not supported");
+            throw new BadCredentialsException("GET method not supported");
         }
 
         Map<String, String> requestBody=Util.parseRequestJSON(request);
@@ -36,12 +36,12 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             // 길이 검사
             if(username.length() < UserService.MIN_USERNAME_LENGTH
                     || username.length() > UserService.MAX_USERNAME_LENGTH){
-                throw new AuthenticationServiceException("username: 크기가 " + UserService.MIN_USERNAME_LENGTH + "에서 " + UserService.MAX_USERNAME_LENGTH + " 사이여야 합니다.");
+                throw new BadCredentialsException("username: 크기가 " + UserService.MIN_USERNAME_LENGTH + "에서 " + UserService.MAX_USERNAME_LENGTH + " 사이여야 합니다.");
             }
 
             if(password.length() < UserService.MIN_PASSWORD_LENGTH
                     || password.length() > UserService.MAX_PASSWORD_LENGTH){
-                throw new AuthenticationServiceException("password: 크기가 " + UserService.MIN_PASSWORD_LENGTH + "에서 " + UserService.MAX_PASSWORD_LENGTH + " 사이여야 합니다.");
+                throw new BadCredentialsException("password: 크기가 " + UserService.MIN_PASSWORD_LENGTH + "에서 " + UserService.MAX_PASSWORD_LENGTH + " 사이여야 합니다.");
             }
 
             UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(username, password);
@@ -51,7 +51,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             return authentication;
         }
         else{
-            throw new AuthenticationServiceException("username과 password를 입력해주세요.");
+            throw new BadCredentialsException("username과 password를 입력해주세요.");
         }
     }
 }
