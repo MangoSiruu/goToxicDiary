@@ -6,5 +6,5 @@ export const endpoint = {
 };
 
 export const getDynamicPoint = {
-  CALENDAR_BY_DATE: (date) => `${endpoint.CALENDAR_BY_DATE}/${date}`,
+  CALENDAR_BY_DATE: (date) => `${endpoint.CALENDAR}/${date}`,
 };
