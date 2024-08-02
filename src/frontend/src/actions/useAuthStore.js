@@ -2,9 +2,9 @@ import create from 'zustand';
 
 const useAuthStore = create((set) => ({
   authInfo: undefined,
-  isReady: false,
+  isAuthenticated: false,
   setAuthInfo: (authInfo) => set({ authInfo }),
-  setIsReady: (isReady) => set({ isReady }),
+  setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 }));
 
 export default useAuthStore;
