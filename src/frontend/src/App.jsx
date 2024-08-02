@@ -17,6 +17,7 @@ function App() {
             <Route path={path.start} element={<StartView />} />
             <Route path={path.signup} element={<SignUpPage />} />
             <Route path={path.login} element={<LoginPage />} />
+            <Route path={path.test} element={<TodayEatPage />} />
             <Route path={path.todayEat} element={<TodayEatPage />} />
           </Routes>
         </Router>

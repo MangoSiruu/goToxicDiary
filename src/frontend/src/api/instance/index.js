@@ -62,7 +62,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalConfig = error.config;
-    const redirectUrl = `${window.location.origin}/${path.login}`;
+    const redirectUrl = `${window.location.origin}${path.login}`;
     if (error.response.status === 401) {
       try {
         const newToken = await reissueToken();

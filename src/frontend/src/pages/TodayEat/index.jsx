@@ -7,9 +7,18 @@ import RetryErrorBoundary from '../../components/common/RetryErrorBoundary';
 export default function TodayFoodSection() {
   const { data, isLoading } = useGetTodayEatFoods();
 
+  const getToxicFoods = () => {
+    if (!data || !data.dailyRecord) {
+      return [];
+    }
+    return data.dailyRecord.toxicFoods;
+  };
+
+  const toxicFoods = getToxicFoods();
+
   const renderComponent = () => {
     if (isLoading) return <Loader />;
-    return <CardList toxicFoods={data} />;
+    return <CardList toxicFoods={toxicFoods} />;
   };
 
   return (
