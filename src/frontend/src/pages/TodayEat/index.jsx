@@ -5,6 +5,7 @@ import { TodayEatForm } from '../../components/features/TodayFood/Form';
 import { CardList } from '../../components/features/TodayFood/CardList';
 import useTodayFoods from '../../hooks/useTodayEatFoods';
 import { breakpoints } from '../../styles/variants';
+import RetryErrorBoundary from '../../components/common/RetryErrorBoundary';
 
 export default function TodayEatPage() {
   const [toxicFoods, setToxicFoods] = useState([]);
@@ -24,7 +25,9 @@ export default function TodayEatPage() {
     <Wrapper>
       <Title>오늘 내가 먹은 고자극 음식은?</Title>
       <CardList toxicFoods={toxicFoods} />
-      <TodayEatForm todayFoods={todayFoods} onFoodsUpdate={handleFoodsUpdate} />
+      <RetryErrorBoundary>
+        <TodayEatForm todayFoods={todayFoods} onFoodsUpdate={handleFoodsUpdate} />
+      </RetryErrorBoundary>
     </Wrapper>
   );
 }

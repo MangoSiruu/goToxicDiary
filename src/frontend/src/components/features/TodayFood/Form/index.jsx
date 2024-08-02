@@ -1,19 +1,21 @@
-/* eslint-disable no-alert */
 import { useState } from 'react';
 import styled from 'styled-components';
 import { categories } from '../../../../constant/Foods/categories';
 import { Fields } from './Fields';
 import { CategoryButton } from '../../../common/Button/Categories';
-import { axiosInstance } from '../../../../api/instance';
-import { endpoint } from '../../../../api/path';
-import { getTodayDate } from '../../../../utils/Calendar/getTodayDate';
-import { removeIcons } from '../../../../utils/Icons/removeIcons';
-import useTodayEatFoodsStore from '../../../../actions/useTodayEatFoodStore';
-import { breakpoints } from '../../../../styles/variants';
+import { breakpoints, colors } from '../../../../styles/variants';
+import { useSaveTodayEatFoods } from '../../../../api/hooks/useSaveTodayEatFoods';
+import Loader from '../../../common/Loader';
 
 export function TodayEatForm({ todayFoods, onFoodsUpdate }) {
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const setTodayFoods = useTodayEatFoodsStore((state) => state.setTodayFoods);
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  const mutation = useSaveTodayEatFoods((data) => {
+    onFoodsUpdate(data);
+    setSuccessMessage('🎉기록이 완료되었어요🎉');
+    setTimeout(() => setSuccessMessage(null), 5000);
+  });
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prev) =>
@@ -21,27 +23,9 @@ export function TodayEatForm({ todayFoods, onFoodsUpdate }) {
     );
   };
 
-  const handleFormSubmit = async (data) => {
+  const handleFormSubmit = (data) => {
+    mutation.mutate(data);
     setSelectedCategories([]);
-
-    try {
-      const toxicFoods = Object.entries(data).map(([name, { count }]) => ({
-        name: removeIcons(name),
-        count,
-      }));
-      const foods = {
-        date: getTodayDate(),
-        toxicFoods,
-      };
-
-      const res = await axiosInstance.post(endpoint.CALENDAR, foods);
-      if (res.data && res.status === 201) {
-        setTodayFoods(res.data.dailyRecord.toxicFoods);
-        onFoodsUpdate(res.data.dailyRecord.toxicFoods);
-      }
-    } catch (error) {
-      window.alert('다시 시도해 주세요.');
-    }
   };
 
   const handleFormCancel = () => {
@@ -70,6 +54,10 @@ export function TodayEatForm({ todayFoods, onFoodsUpdate }) {
           onCancel={handleFormCancel}
         />
       )}
+      <HandleContainer>
+        {mutation.isPending && <Loader />}
+        {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
+      </HandleContainer>
     </Wrapper>
   );
 }
@@ -79,6 +67,24 @@ const Title = styled.h1`
   font-weight: bold;
   @media screen and (max-width: ${breakpoints.sm}) {
     font-size: 16px;
+  }
+`;
+
+const HandleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 8px 0;
+  height: 30px;
+`;
+
+const SuccessMessage = styled.div`
+  color: ${colors.mainOrange};
+  font-size: 16px;
+  font-weight: bold;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 14px;
   }
 `;
 
