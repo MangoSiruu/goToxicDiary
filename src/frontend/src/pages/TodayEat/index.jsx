@@ -1,30 +1,34 @@
+import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { Wrapper } from '../../components/common/layouts/Wrapper/Orange';
+import { TodayEatForm } from '../../components/features/TodayFood/Form';
 import { CardList } from '../../components/features/TodayFood/CardList';
-import { Header } from '../../components/features/TodayFood/Header';
-import { useGetTodayEatFoods } from '../../api/hooks/useGetTodayEatFoods';
-import Loader from '../../components/common/Loader';
-import RetryErrorBoundary from '../../components/common/RetryErrorBoundary';
+import useTodayFoods from '../../hooks/useTodayEatFoods';
 
-export default function TodayFoodSection() {
-  const { data, isLoading } = useGetTodayEatFoods();
+export default function TodayEatPage() {
+  const [toxicFoods, setToxicFoods] = useState([]);
+  const todayFoods = useTodayFoods();
 
-  const getToxicFoods = () => {
-    if (!data || !data.dailyRecord) {
-      return [];
+  useEffect(() => {
+    if (todayFoods) {
+      setToxicFoods(todayFoods);
     }
-    return data.dailyRecord.toxicFoods;
-  };
+  }, [todayFoods]);
 
-  const toxicFoods = getToxicFoods();
-
-  const renderComponent = () => {
-    if (isLoading) return <Loader />;
-    return <CardList toxicFoods={toxicFoods} />;
+  const handleFoodsUpdate = (newToxicFoods) => {
+    setToxicFoods(newToxicFoods);
   };
 
   return (
-    <div style={{ backgroundColor: '#FBF4EE' }}>
-      <Header />
-      <RetryErrorBoundary>{renderComponent()}</RetryErrorBoundary>
-    </div>
+    <Wrapper>
+      <Title>오늘 내가 먹은 고자극 음식은?</Title>
+      <CardList toxicFoods={toxicFoods} />
+      <TodayEatForm onFoodsUpdate={handleFoodsUpdate} />
+    </Wrapper>
   );
 }
+
+const Title = styled.h1`
+  font-size: 24px;
+  font-weight: bold;
+`;

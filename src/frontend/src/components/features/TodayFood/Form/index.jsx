@@ -1,18 +1,18 @@
+/* eslint-disable no-alert */
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { colors } from '../../../../styles/variants';
 import { categories } from '../../../../constant/Foods/categories';
 import { Fields } from './Fields';
 import { CategoryButton } from '../../../common/Button/Categories';
-import { UnderlinedButton } from '../../../common/Button/UnderlinedButton';
 import { axiosInstance } from '../../../../api/instance';
 import { endpoint } from '../../../../api/path';
 import { getTodayDate } from '../../../../utils/Calendar/getTodayDate';
 import { removeIcons } from '../../../../utils/Icons/removeIcons';
+import useTodayEatFoodStore from '../../../../actions/useTodayEatFoodStore';
 
-export function TodayEatForm() {
+export function TodayEatForm({ onFoodsUpdate }) {
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [records, setRecords] = useState({});
+  const setTodayFoods = useTodayEatFoodStore((state) => state.setTodayFoods);
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prev) =>
@@ -21,7 +21,6 @@ export function TodayEatForm() {
   };
 
   const handleFormSubmit = async (data) => {
-    setRecords(data);
     setSelectedCategories([]);
 
     try {
@@ -29,15 +28,18 @@ export function TodayEatForm() {
         name: removeIcons(name),
         count,
       }));
-      const requestData = {
+      const foods = {
         date: getTodayDate(),
         toxicFoods,
       };
 
-      const res = await axiosInstance.post(endpoint.CALENDAR, requestData);
-      console.log('Response:', res.data);
+      const res = await axiosInstance.post(endpoint.CALENDAR, foods);
+      if (res.data && res.status === 201) {
+        setTodayFoods(res.data.dailyRecord.toxicFoods);
+        onFoodsUpdate(res.data.dailyRecord.toxicFoods);
+      }
     } catch (error) {
-      console.error('오늘먹은음식 기록 실패:', error);
+      window.alert('다시 시도해 주세요.');
     }
   };
 
@@ -47,18 +49,7 @@ export function TodayEatForm() {
 
   return (
     <Wrapper>
-      <Title>오늘 내가 먹은 고자극 음식은?</Title>
-      {Object.keys(records).length === 0 ? (
-        <UnderlinedButton>기록하러 가기</UnderlinedButton>
-      ) : (
-        Object.entries(records).map(([category, { count, unit }]) => (
-          <Record key={category}>
-            {category}: {count} {unit}
-          </Record>
-        ))
-      )}
       <Title>오늘 하루동안 무엇을, 얼마나 드셨나요?</Title>
-
       <Description>카테고리를 선택해 주세요.(중복 가능)</Description>
       <ButtonWrapper>
         {categories.map((category) => (
@@ -89,6 +80,7 @@ const Title = styled.h1`
 const Description = styled.h3`
   font-size: 14px;
 `;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -107,11 +99,4 @@ const ButtonWrapper = styled.div`
   align-content: flex-start;
   padding: 0px 10px;
   gap: 20px;
-`;
-
-const Record = styled.div`
-  font-size: 16px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: ${colors.mainGray};
 `;
