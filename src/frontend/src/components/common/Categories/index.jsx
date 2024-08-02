@@ -52,6 +52,7 @@ const categoryStyles = {
   `;
   
   // CategoryBox 컴포넌트 정의
+  // <CategoryBox type="beer" count="3">
   const CategoryBox = ({ type, count }) => {
     const { icon, backgroundColor } = categoryStyles[type];
   
