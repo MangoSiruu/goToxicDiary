@@ -1,20 +1,38 @@
-/* eslint-disable react/jsx-props-no-spreading */
+import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { colors } from '../../../../../styles/variants';
 import { getUnitOption } from '../../../../../utils/getUnitOptions';
 import { ConfirmButton, CancelButton } from '../../../../common/Button/ButtonModal';
+import { removeIcons } from '../../../../../utils/Icons/removeIcons';
 
-export function Fields({ categories, onSubmit, onCancel }) {
-  const { control, handleSubmit, reset, getValues } = useForm({
-    defaultValues: categories.reduce(
-      (acc, category) => ({
+export function Fields({ categories, existingFoods, onSubmit, onCancel }) {
+  const { control, handleSubmit, reset, getValues, setValue } = useForm({
+    defaultValues: categories.reduce((acc, category) => {
+      const removedCategory = removeIcons(category);
+      const food = (Array.isArray(existingFoods)
+        ? existingFoods.find((item) => removeIcons(item.name) === removedCategory)
+        : null) || { count: '', unit: getUnitOption(removedCategory) };
+      return {
         ...acc,
-        [category]: { count: '', unit: getUnitOption(category) },
-      }),
-      {},
-    ),
+        [category]: food,
+      };
+    }, {}),
   });
+
+  useEffect(() => {
+    if (Array.isArray(existingFoods)) {
+      categories.forEach((category) => {
+        const removedCategory = removeIcons(category);
+        const food = existingFoods.find((item) => removeIcons(item.name) === removedCategory);
+        if (food) {
+          setValue(category, { count: food.count, unit: food.unit });
+        } else {
+          setValue(category, { count: '', unit: getUnitOption(removedCategory) });
+        }
+      });
+    }
+  }, [existingFoods, categories, setValue]);
 
   const onFormSubmit = () => {
     const values = getValues();
@@ -41,7 +59,9 @@ export function Fields({ categories, onSubmit, onCancel }) {
             name={`${category}.count`}
             control={control}
             rules={{ required: '숫자를 입력해주세요.' }}
-            render={({ field }) => <Input type="number" placeholder="횟수" {...field} />}
+            render={({ field }) => (
+              <Input type="number" placeholder="횟수" {...field} value={field.value || ''} />
+            )}
           />
           {getUnitOption(category)}
         </FieldContainer>

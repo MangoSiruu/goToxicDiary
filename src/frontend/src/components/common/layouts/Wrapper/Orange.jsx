@@ -8,4 +8,5 @@ export const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${colors.backgroundColor};
+  padding: 10px 20px;
 `;

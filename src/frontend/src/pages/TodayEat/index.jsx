@@ -4,6 +4,7 @@ import { Wrapper } from '../../components/common/layouts/Wrapper/Orange';
 import { TodayEatForm } from '../../components/features/TodayFood/Form';
 import { CardList } from '../../components/features/TodayFood/CardList';
 import useTodayFoods from '../../hooks/useTodayEatFoods';
+import { breakpoints } from '../../styles/variants';
 
 export default function TodayEatPage() {
   const [toxicFoods, setToxicFoods] = useState([]);
@@ -23,7 +24,7 @@ export default function TodayEatPage() {
     <Wrapper>
       <Title>오늘 내가 먹은 고자극 음식은?</Title>
       <CardList toxicFoods={toxicFoods} />
-      <TodayEatForm onFoodsUpdate={handleFoodsUpdate} />
+      <TodayEatForm todayFoods={todayFoods} onFoodsUpdate={handleFoodsUpdate} />
     </Wrapper>
   );
 }
@@ -31,4 +32,7 @@ export default function TodayEatPage() {
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 16px;
+  }
 `;

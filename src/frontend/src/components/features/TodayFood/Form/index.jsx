@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
-import styled from '@emotion/styled';
 import { useState } from 'react';
+import styled from 'styled-components';
 import { categories } from '../../../../constant/Foods/categories';
 import { Fields } from './Fields';
 import { CategoryButton } from '../../../common/Button/Categories';
@@ -8,11 +8,12 @@ import { axiosInstance } from '../../../../api/instance';
 import { endpoint } from '../../../../api/path';
 import { getTodayDate } from '../../../../utils/Calendar/getTodayDate';
 import { removeIcons } from '../../../../utils/Icons/removeIcons';
-import useTodayEatFoodStore from '../../../../actions/useTodayEatFoodStore';
+import useTodayEatFoodsStore from '../../../../actions/useTodayEatFoodStore';
+import { breakpoints } from '../../../../styles/variants';
 
-export function TodayEatForm({ onFoodsUpdate }) {
+export function TodayEatForm({ todayFoods, onFoodsUpdate }) {
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const setTodayFoods = useTodayEatFoodStore((state) => state.setTodayFoods);
+  const setTodayFoods = useTodayEatFoodsStore((state) => state.setTodayFoods);
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prev) =>
@@ -64,6 +65,7 @@ export function TodayEatForm({ onFoodsUpdate }) {
       {selectedCategories.length > 0 && (
         <Fields
           categories={selectedCategories}
+          existingFoods={todayFoods}
           onSubmit={handleFormSubmit}
           onCancel={handleFormCancel}
         />
@@ -75,10 +77,16 @@ export function TodayEatForm({ onFoodsUpdate }) {
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 16px;
+  }
 `;
 
 const Description = styled.h3`
   font-size: 14px;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 12px;
+  }
 `;
 
 const Wrapper = styled.div`
