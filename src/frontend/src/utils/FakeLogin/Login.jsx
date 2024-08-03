@@ -20,7 +20,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://3.37.98.95:8080/api/auth/login', {
+      const response = await fetch('http://13.125.171.199:8080/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

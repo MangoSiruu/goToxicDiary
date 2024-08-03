@@ -7,7 +7,7 @@ const useNewChallengeStore = create((set) => ({
     createChallengeListInfo: async (challengeData) => {
         try {
             // body에 JSON 데이터가 담겨져서 보내짐
-            const responseData = await fetchInstance('http://3.37.98.95:8080/api/challenge', {
+            const responseData = await fetchInstance('http://13.125.171.199:8080/api/challenge', {
                 method: 'POST',
                 body: challengeData
             });

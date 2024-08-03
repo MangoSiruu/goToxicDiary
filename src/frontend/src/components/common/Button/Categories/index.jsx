@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { colors } from '../../../../styles/variants';
 
-export function CategoryButton({ category, onClick, isSelected }) {
+export function CategoryButton({ category, onClick, isSelected, disabled }) {
   return (
     <Button
       style={{
@@ -9,6 +9,7 @@ export function CategoryButton({ category, onClick, isSelected }) {
         color: isSelected ? colors.white : colors.darkGray,
       }}
       onClick={() => onClick(category)}
+      disabled={disabled}
     >
       {category}
     </Button>

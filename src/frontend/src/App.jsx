@@ -1,5 +1,10 @@
-import { QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import ChallengeDetail from './components/features/ChallengeDetail/ChallengeDetail';
+import MyChallengeList from './components/features/MyChallengeList/MyChallengeList';
+import NewMyChallenge from './components/features/NewMyChallenge/NewMyChallenge';
+
 import { ChakraProvider } from '@chakra-ui/react';
 import StartView from './pages/StartView';
 import SignUpPage from './pages/SignUp';
@@ -20,6 +25,9 @@ function App() {
             <Route path={path.login} element={<LoginPage />} />
             <Route path={path.main} element={<MainPage />} />
             <Route path={path.todayEat} element={<TodayEatPage />} />
+            <Route path="/mychallengelist" element={<MyChallengeList />} />
+            <Route path="/newmychallenge" element={<NewMyChallenge />} />
+            <Route path="/challengedetail/:id" element={<ChallengeDetail />} />
           </Routes>
         </Router>
       </QueryClientProvider>

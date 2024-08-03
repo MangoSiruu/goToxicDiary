@@ -5,7 +5,7 @@ import fetchInstance from '../utils/fetchInstance';
 const useChallengeDeleteStore = () => ({
     deleteChallenge: async (id) => {
         try {
-            const response = fetchInstance(`http://3.37.98.95:8080/api/challenge/${id}`, {
+            const response = fetchInstance(`http://13.125.171.199:8080/api/challenge/${id}`, {
                 method: 'DELETE',
             });
             
