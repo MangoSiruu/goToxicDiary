@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Login = () => {
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
@@ -77,6 +77,6 @@ const Login = () => {
       {success && <p style={{ color: 'green' }}>{success}</p>}
     </div>
   );
-};
+}
 
 export default Login;

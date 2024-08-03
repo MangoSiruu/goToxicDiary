@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../instance';
 import { endpoint } from '../path';
 import { path } from '../../routes/path';
+import useAuthStore from '../../actions/useAuthStore';
 
 const loginRequest = async (data) => {
   const requestData = {
@@ -15,16 +16,27 @@ const loginRequest = async (data) => {
 
 const useLogin = () => {
   const navigate = useNavigate();
+  const setAuthInfo = useAuthStore((state) => state.setAuthInfo);
+  const setIsAuthenticated = useAuthStore((state) => state.setIsAuthenticated);
 
   return useMutation({
     mutationFn: loginRequest,
     onSuccess: (response) => {
+      const { nickname } = response.data.user;
+      const authorizationHeader = response.headers.authorization;
+      const accessToken = authorizationHeader ? authorizationHeader.split(' ')[1] : null;
+
       if (response.status === 200) {
-        const { nickname } = response.data.user;
-        const authorizationHeader = response.headers.authorization;
-        const accessToken = authorizationHeader ? authorizationHeader.split(' ')[1] : null;
         localStorage.setItem('nickname', nickname);
         localStorage.setItem('token', accessToken);
+        const authInfo = {
+          nickname,
+          accessToken,
+        };
+
+        setAuthInfo(authInfo);
+        setIsAuthenticated(true);
+
         navigate(path.main);
       }
     },
