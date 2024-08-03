@@ -70,8 +70,7 @@ axiosInstance.interceptors.response.use(
         originalConfig.headers.authorization = `Bearer ${newToken}`;
         return await axios(error.config);
       } catch (refreshError) {
-        window.alert('토큰이 만료되어 자동으로 로그아웃 되었습니다.');
-        handleLogout();
+        window.alert('자동으로 로그인 연장 되었습니다.');
         window.location.replace(redirectUrl);
         return Promise.reject(refreshError);
       }
