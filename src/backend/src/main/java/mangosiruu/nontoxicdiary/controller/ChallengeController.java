@@ -29,7 +29,7 @@ public class ChallengeController {
     @ApiOperation("챌린지 목록 조회")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("")
-    public ResponseEntity<Map<String, Object>> listUnfinished(PageRequestDto pageRequestDto, @RequestParam Boolean finished){
+    public ResponseEntity<Map<String, Object>> list(PageRequestDto pageRequestDto, @RequestParam Boolean finished){
         // Context 에서 principal 가져오기
         Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
