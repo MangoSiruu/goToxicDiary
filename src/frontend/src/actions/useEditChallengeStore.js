@@ -6,7 +6,7 @@ const useEditChallengeStore = create((set) => ({
     challengeList: [], 
     updateChallengeListInfo: async (id, updatedData) => {
         try {
-            const responseData = await fetchInstance(`http://3.37.98.95:8080/api/challenge/${id}`, {
+            const responseData = await fetchInstance(`http://13.125.171.199:8080/api/challenge/${id}`, {
                 method: 'PUT',
                 body: updatedData
             });
