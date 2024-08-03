@@ -6,7 +6,10 @@ const DeleteButton = ({ id }) => {
   const { deleteChallenge } = useChallengeDeleteStore();
 
   const handleClick = () => {
-    deleteChallenge(id);
+    if (window.confirm("삭제하시겠습니까?")) {
+      deleteChallenge(id);
+      window.location.reload();
+    }
   };
 
   return (

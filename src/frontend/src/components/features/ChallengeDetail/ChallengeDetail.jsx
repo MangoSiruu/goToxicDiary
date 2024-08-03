@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import style from './ChallengeDetailView.module.css';
+import style from './ChallengeDetail.module.css';
 import useChallengeDetailStore from '../../../actions/useChallengeDetailStore';
 import getTodayDate from '../../../utils/getTodayDate';
 import Icon from '../../common/Icons/Icon';
