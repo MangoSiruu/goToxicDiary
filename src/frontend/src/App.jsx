@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import ChallengeDetailView from "./components/features/ChallengeDetailView/ChallengeDetailView";
-import MyChallengeListView from './components/features/MyChallengeListView/MyChallengeListView';
-import NewMyChallengeView from './components/features/NewMyChallengeView/NewMyChallengeView';
+import ChallengeDetail from "./components/features/ChallengeDetail/ChallengeDetail";
+import MyChallengeList from './components/features/MyChallengeList/MyChallengeList';
+import NewMyChallenge from './components/features/NewMyChallenge/NewMyChallenge';
 import Login from './utils/FakeLogin/Login';
 
 
@@ -15,9 +15,9 @@ function App() {
     
     <Router>
       <Routes>
-        <Route path="/mychallengelistview" element={<MyChallengeListView />} />
-        <Route path="/newmychallengeview" element={<NewMyChallengeView />} />
-        <Route path="/challengedetailview/:id" element={<ChallengeDetailView />} />
+        <Route path="/mychallengelist" element={<MyChallengeList />} />
+        <Route path="/newmychallenge" element={<NewMyChallenge />} />
+        <Route path="/challengedetail/:id" element={<ChallengeDetail />} />
       </Routes>
     </Router>
     </div>
