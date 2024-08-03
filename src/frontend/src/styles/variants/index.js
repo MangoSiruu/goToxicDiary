@@ -10,9 +10,9 @@ export const breakpoints = {
 export const colors = {
   mainOrange: '#F27F0C',
   mainGray: '#2D2D2D',
-  darkGray: ' #5A5A5A',
+  darkGray: '#5A5A5A',
   midgray: '#808080',
-  lightGray: 'BDBDBD',
+  lightGray: '#BDBDBD',
   backgroundColor: '#FBF4EE',
   white: '#FFF',
   // 카테고리 색깔들
