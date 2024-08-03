@@ -5,47 +5,40 @@ import ButtonGroup from '../../common/Button/ButtonGroup';
 import getTodayDate from '../../../utils/getTodayDate';
 import getEnddayDate from '../../../utils/getEnddayDate';
 import useNewChallengeStore from '../../../actions/useNewChallengeStore';
-import Icon from '../../common/Icons/Icon';
 import durationCalculator from '../../../utils/durationCalcurator';
 import useEditChallengeStore from '../../../actions/useEditChallengeStore';
+import { CategoryButton } from '../../common/Button/Categories';
+import { categories } from '../../../constant/Foods/categories';
 
 
-/* 순서대로 */
-const CategorySelect = ({ category, handleCategoryChange, categories }) => {
-  const categoryIcons = {
-    '술': 'beer',
-    '인스턴트': 'instant',
-    '매운 음식': 'pepper',
-    '카페인': 'coffee',
-    '야식': 'pizza',
-    '액상과당': 'cola',
-    '기타': 'spoon'
-  };
-
+// 카테고리 선택 칸
+const CategorySelect = ({ category, handleCategoryChange, disabled }) => {
   return (
     <div className={styles.container}>
+      
       <h4 className={styles.title}>카테고리 선택하기</h4>
       <h5>하나만 선택해주세요</h5>
       <div className={styles.categoryOptions}>
         {categories.map((cat) => (
-          <button
+          <CategoryButton
             key={cat}
-            className={category === cat ? styles.active : styles.button}
-            onClick={() => handleCategoryChange(cat)}
-          >
-            <Icon input={categoryIcons[cat]} />
-            <span>{cat}</span>
-          </button>
+            category={cat}
+            onClick={() => handleCategoryChange(cat.replace(/[\p{Emoji}]/gu, '').trim())}   // '🍺 술' 에서 이모티콘 🍺를 제고하고 술만 State하는 코드
+            isSelected={category === cat}
+            disabled={disabled}
+          />
         ))}
       </div>
     </div>
   );
 };
 
+// 이름 작성 칸
 const SetName = ({ challengeName, handleChallengeNameChange }) => {
   return (
     <div className={styles.container}>
       <h4 className={styles.title}>챌린지 이름 짓기</h4>
+      <div className={styles.inputContainer}>
         <input
           id="challengeName"
           type="text"
@@ -55,23 +48,32 @@ const SetName = ({ challengeName, handleChallengeNameChange }) => {
           onChange={handleChallengeNameChange}
           className={styles.input}
         />
+      </div>
     </div>
   );
 };
 
-const SetGoal = ({ category, goal, handleGoalChange }) => {
+// 목표 설정 칸
+const SetGoal = ({ category, goal, handleGoalChange, disabled }) => {
   return (
     <div className={styles.container}>
       <h4 className={styles.title}>목표 설정하기</h4>
       <div className={styles.goalSetting}>
         <span>하루에</span>
-        <div className={styles.setCategoryText}>{category}</div>
+        <div 
+          className={styles.setCategoryText}
+          disabled={disabled}
+        >
+          {category}
+        </div>
+        
         <input
           type="number"
           value={goal}
           onChange={handleGoalChange}
           min="0"
           className={styles.input}
+          disabled={disabled}
         />
         <span>번 이상 먹기</span>
       </div>
@@ -79,9 +81,10 @@ const SetGoal = ({ category, goal, handleGoalChange }) => {
   );
 };
 
-const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, durations }) => {
+// 종료날 선택 칸
+const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, durations, disabled }) => {
   return (
-    <div className={styles.formGroup}>
+    <div className={styles.container}>
       <h4 className={styles.title}>종료일 설정하기</h4>
       <div className={styles.durationOptions}>
         {durations.map((dur) => (
@@ -89,10 +92,12 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, durati
             key={dur}
             className={duration === dur ? styles.active : styles.button}
             onClick={() => handleDurationChange(dur)}
+            disabled={disabled}
           >
             {dur}
           </button>
         ))}
+        
       </div>
       <div className={styles.datePicker}>
         <input type="date" value={startDate} readOnly />
@@ -103,22 +108,24 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, durati
   );
 };
 
+
+// 수정 모드일 때와 새로쓰는 모드일 때가 구별됨 
+// disable로 수정 모드일 때는 title 빼고는 조작 불가
 const NewMyChallengeView = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const challenge = location.state?.challenge;
-  const [category, setCategory] = useState(challenge?.toxicCategory || '');
+  const [category, setCategory] = useState(challenge?.category || '');
   const [duration, setDuration] = useState('');
-  const [goal, setGoal] = useState(challenge?.goal || 0);
+  const [goal, setGoal] = useState(challenge?.maxCount || 0);
   const [challengeName, setChallengeName] = useState(challenge?.title || '');
   const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());
   const [endDate, setEndDate] = useState(challenge?.endDate || '');
-  const categories = ['술', '인스턴트', '매운 음식', '카페인', '야식', '액상과당', '기타'];
+  const categories = ['술', '인스턴트', '매운음식', '카페인', '야식', '액상과당', '기타'];
   const durations = ['1주', '2주', '1달'];
 
   const createChallengeListInfo = useNewChallengeStore((state) => state.createChallengeListInfo);
   const updateChallengeListInfo = useEditChallengeStore((state) => state.updateChallengeListInfo);
-
 
   useEffect(() => {
     if (challenge) {
@@ -147,6 +154,7 @@ const NewMyChallengeView = () => {
   const handleChallengeNameChange = (e) => {
     setChallengeName(e.target.value);
   };
+  
 
   const handleDurationChange = (dur) => {
     setDuration(dur);
@@ -154,38 +162,40 @@ const NewMyChallengeView = () => {
     setEndDate(newEndDate);
   };
 
+  // fetch로 form 제출
   const handleSubmit = async () => {
     const challengeData = {
-      toxicCategory: category,
+      category,
       title: challengeName,
-      goal,
+      maxCount: goal,       // 이거 나중에 바꿔야됨 maxCount로
       startDate,
       endDate,
     };
+
+    // 수정할 경우와 새로만들 경우
     if (challenge) {
-      // Editing existing challenge
       await updateChallengeListInfo(challenge.id, challengeData);
     } else {
-      // Creating new challenge
       await createChallengeListInfo(challengeData);
     }
     navigate('/mychallengelistview');
   };
 
-  
-
   const handleCancel = () => {
     navigate(-1);
   };
 
+  // 수정 모드 확인
+  const isEditMode = !!challenge;
+
   return (
     <div className={styles.wrapper}>
-      <h1>새로운 챌린지 만들기</h1>
+      <h1>{isEditMode ? '챌린지 수정하기' : '새로운 챌린지 만들기'}</h1>
       <div className={styles.card}>
-        <CategorySelect category={category} handleCategoryChange={handleCategoryChange} categories={categories} />
+        <CategorySelect category={category} handleCategoryChange={handleCategoryChange} categories={categories} disabled={isEditMode} />
         <SetName challengeName={challengeName} handleChallengeNameChange={handleChallengeNameChange} />
-        <SetGoal category={category} goal={goal} handleGoalChange={handleGoalChange} />
-        <SetEndDate duration={duration} handleDurationChange={handleDurationChange} startDate={startDate} endDate={endDate} durations={durations} />
+        <SetGoal category={category} goal={goal} handleGoalChange={handleGoalChange} disabled={isEditMode} />
+        <SetEndDate duration={duration} handleDurationChange={handleDurationChange} startDate={startDate} endDate={endDate} durations={durations} disabled={isEditMode} />
         <ButtonGroup onCancel={handleCancel} onSubmit={handleSubmit} />
       </div>
     </div>

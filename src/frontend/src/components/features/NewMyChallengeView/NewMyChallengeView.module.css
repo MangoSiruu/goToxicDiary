@@ -154,4 +154,7 @@ h5 {
 
 .container {
   margin: 20px 0;
+  margin-right: auto; /* Allow automatic right margin to push it left */
+
+  
 }

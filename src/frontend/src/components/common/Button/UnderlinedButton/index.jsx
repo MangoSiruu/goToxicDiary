@@ -1,8 +1,9 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { colors } from '../../../../styles/variants';
 
-export function UnderlinedButton({ children }) {
-  return <Button>{children}</Button>;
+export function UnderlinedButton({ onClick, children }) {
+  return <Button onClick={onClick}>{children}</Button>;
 }
 
 const Button = styled.button`

@@ -26,6 +26,13 @@ import CategoryBox from "./components/common/Categories/index"
 import WeeklyCalendar from "./components/features/Calendar/WeeklyCalendar";
 import MonthlyCalendar from "./components/features/Calendar/MonthlyCalendar";
 import { add, format, sub } from "date-fns";
+import { QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import StartView from './pages/StartView';
+import SignUpPage from './pages/SignUp';
+import LoginPage from './pages/Login';
+import { queryClient } from './api/instance';
+import { path } from './routes/path';
 
 function App() {
   const response = {
@@ -46,9 +53,17 @@ function App() {
       <p>{format(date, 'yyyy-MM-dd')}</p>
       <p>{format(sub(date, {days : 1}), 'yyyy-MM-dd')}</p>
       
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Routes>
+            <Route path={path.start} element={<StartView />} />
+            <Route path={path.signup} element={<SignUpPage />} />
+            <Route path={path.login} element={<LoginPage />} />
+          </Routes>
+        </Router>
+      </QueryClientProvider>
+      
     </div>
-    
-    
   );
 }
 
