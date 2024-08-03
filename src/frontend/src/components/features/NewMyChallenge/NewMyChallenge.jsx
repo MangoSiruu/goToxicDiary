@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import styles from './NewMyChallengeView.module.css';
+import styles from './NewMyChallenge.module.css';
 import ButtonGroup from '../../common/Button/ButtonGroup';
 import getTodayDate from '../../../utils/getTodayDate';
 import getEnddayDate from '../../../utils/getEnddayDate';

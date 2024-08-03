@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useChallengeListStore from '../../../actions/useChallengeListStore';
 import durationCalculator from '../../../utils/durationCalcurator';
-import style from './MyChallengeListView.module.css'; 
+import style from './MyChallengeList.module.css'; 
 import Icon from '../../common/Icons/Icon';
 import EditButton from '../../common/Button/ButtonEdit';
 import DeleteButton from '../../common/Button/ButtonDelete';
