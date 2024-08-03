@@ -42,7 +42,7 @@
 
 .categoryOptions button.active,
 .durationOptions button.active {
-  background-color: #ffa500;
+  background-color: #666;
   color: white;
 }
 

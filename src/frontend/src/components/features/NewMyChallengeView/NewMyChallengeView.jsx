@@ -100,7 +100,7 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
         <input 
           type="date" 
           value={endDate} 
-          onChange={handleEndDateChange}  // Ensure this is passed
+          onChange={handleEndDateChange}
           disabled={disabled}
         />
       </div>
@@ -118,9 +118,9 @@ const NewMyChallengeView = () => {
   const [duration, setDuration] = useState('');
   const [goal, setGoal] = useState(challenge?.maxCount || 0);
   const [challengeName, setChallengeName] = useState(challenge?.title || '');
-  const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());   // 
+  const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());   
   const [endDate, setEndDate] = useState(challenge?.endDate || '');
-  const durations = ['1주', '2주', '1달'];
+  const [durations, setDurations] = useState(['1주', '2주', '1달'] || getTodayDate());
 
   const createChallengeListInfo = useNewChallengeStore((state) => state.createChallengeListInfo);
   const updateChallengeListInfo = useEditChallengeStore((state) => state.updateChallengeListInfo);
@@ -160,7 +160,11 @@ const NewMyChallengeView = () => {
   };
 
   const handleEndDateChange = (e) => {
-    setEndDate(e.target.value);
+    const newEndDate = e.target.value;
+    setEndDate(newEndDate);
+    const calculatedDuration = durationCalculator(startDate, newEndDate);
+    const mappedDuration = mapDaysToDuration(calculatedDuration);
+    setDuration(mappedDuration);
   };
 
   // fetch로 form 제출
@@ -168,7 +172,7 @@ const NewMyChallengeView = () => {
     const challengeData = {
       category,
       title: challengeName,
-      maxCount: goal,       // 이거 나중에 바꿔야됨 maxCount로
+      maxCount: goal,       
       startDate,
       endDate,
     };
@@ -213,7 +217,7 @@ const NewMyChallengeView = () => {
           handleDurationChange={handleDurationChange} 
           startDate={startDate} 
           endDate={endDate} 
-          handleEndDateChange={handleEndDateChange}  // Pass the handler here
+          handleEndDateChange={handleEndDateChange}  
           durations={durations} 
           disabled={isEditMode}
         />
