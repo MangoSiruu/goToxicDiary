@@ -5,7 +5,7 @@ import StartView from './pages/StartView';
 import SignUpPage from './pages/SignUp';
 import LoginPage from './pages/Login';
 import TodayEatPage from './pages/TodayEat';
-import TodayFoodSection from './components/features/Main/TodayFoodSection';
+import MainPage from './pages/Main';
 import { queryClient } from './api/instance';
 import { path } from './routes/path';
 
@@ -18,7 +18,7 @@ function App() {
             <Route path={path.start} element={<StartView />} />
             <Route path={path.signup} element={<SignUpPage />} />
             <Route path={path.login} element={<LoginPage />} />
-            <Route path={path.main} element={<TodayFoodSection />} />
+            <Route path={path.main} element={<MainPage />} />
             <Route path={path.todayEat} element={<TodayEatPage />} />
           </Routes>
         </Router>

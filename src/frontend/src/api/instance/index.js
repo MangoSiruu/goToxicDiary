@@ -4,7 +4,7 @@ import axios from 'axios';
 import { endpoint } from '../path';
 import { path } from '../../routes/path';
 
-export const BASE_URL = 'http://3.37.98.95:8080';
+export const BASE_URL = 'http://13.125.171.199:8080';
 
 export const axiosInstance = axios.create({
   timeout: 5000,

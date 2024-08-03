@@ -3,6 +3,7 @@ export const endpoint = {
   USER: '/api/user',
   CALENDAR: '/api/calendar',
   REPORT: '/api/report',
+  CHALLENGE: '/api/challenge',
 };
 
 export const getDynamicPoint = {
