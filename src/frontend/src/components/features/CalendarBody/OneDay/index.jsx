@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { colors } from "../../../../styles/variants";
 import CategoryBox from "../../../common/Categories";
 import { getEngCategoryType } from "../../../../utils/getEngCategoryType";
+import { getIconPath } from "../../../../utils/Icons/getIconPath";
 
 
 // 컴포넌트 설명
@@ -22,15 +23,40 @@ const OneDay = ({ dateStr }) => {
     // 표시할 일자
     const dateNum = date.getDate();
 
+    // fetchInstance(url/api/calendar/dateStr, 'GET') - 캘린더 하루 조회
+    const response = {
+        "message" : "섭취 기록 조회 성공",
+        "dailyRecord" : [
+            {
+                "date" : "2024-07-24",
+                "toxicFoods" : [
+                    {"name" : "술", "count": 2},
+					{"name" : "카페인", "count": 3},
+					{"name" : "액상과당", "count": 1}
+                ]
+            }
+        ]
+    };
+
     return (
         <Wrapper>
             <Header>
                 <p>{day}</p>
                 <p>{dateNum}</p>
             </Header>
-            <Box>
-            <CategoryBox type={"beer"} count={3}/>
-            </Box>
+            {response.dailyRecord.map(record => (
+                <Box key={record.date}>
+                    {record.toxicFoods.length > 0 ? (record.toxicFoods.map(food => (
+                        <CategoryBox key={food.name} type={getEngCategoryType(food.name)} count={food.count}/>
+                    ))
+                ) : (
+                    <EmptyBox>
+                        <img src={getIconPath("로고")} alt="망고 로고"></img>
+                        <p>텅</p>
+                    </EmptyBox>
+                )}
+                </Box>
+            ))}
         </Wrapper>
     );
 };
@@ -72,6 +98,17 @@ const Box = styled.div`
     gap: 5px;
 
     height: 229px;
+`;
+
+const EmptyBox = styled.div`
+    /* box-empty */
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    gap: 5px;
 `;
 
 export default OneDay;
