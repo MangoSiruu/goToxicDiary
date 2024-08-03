@@ -23,20 +23,29 @@
 
 import React from "react";
 import CategoryBox from "./components/common/Categories/index"
+import WeeklyCalendar from "./components/features/Calendar/WeeklyCalendar";
+import MonthlyCalendar from "./components/features/Calendar/MonthlyCalendar";
+import { add, format, sub } from "date-fns";
 
 function App() {
   const response = {
   }
 
+  const date = new Date("2023-03-01");
+
   return (
     <div>
       <CategoryBox type="beer" count="1"/>
-      <CategoryBox type="coffee" count="2"/>
-      <CategoryBox type="cola" count="3"/>
-      <CategoryBox type="instant" count="4"/>
-      <CategoryBox type="pepper" count="5"/>
-      <CategoryBox type="pizza" count="6"/>
-      <CategoryBox type="spoon" count="7"/>
+      
+
+      {/* <OneWeek></OneWeek> */}
+      <WeeklyCalendar></WeeklyCalendar>
+      <br></br>
+      <MonthlyCalendar></MonthlyCalendar>
+      
+      <p>{format(date, 'yyyy-MM-dd')}</p>
+      <p>{format(sub(date, {days : 1}), 'yyyy-MM-dd')}</p>
+      
     </div>
     
     
