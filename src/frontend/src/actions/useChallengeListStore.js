@@ -11,7 +11,7 @@ const useChallengeListStore = create((set) => ({
             // queryParams로 리스트 10개 씩 받아오기
             const responseData = await fetchInstance('http://13.125.171.199:8080/api/challenge', {
                 method: 'GET',
-                queryParams: { finished: finished, page_size: 10, cursor },
+                queryParams: { finished: finished, size: 10, cursor },
             });
              
             if (responseData) {

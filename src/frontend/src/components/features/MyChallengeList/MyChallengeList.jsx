@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useChallengeListStore from '../../../actions/useChallengeListStore';
 import durationCalculator from '../../../utils/durationCalcurator';
@@ -11,7 +11,6 @@ import getTodayDate from '../../../utils/getTodayDate';
 import { UnderlinedButton } from '../../common/Button/UnderlinedButton';
 
 // 챌린지 리스트 헤더
-// h1 h3 스타일 변경해야 하나?
 const MyChallengeListViewHeader = ({ moveToNewMyChallengeView }) => (
     <div className={style.headerContainer}>
         <div className={style.textContainer}>
@@ -23,7 +22,6 @@ const MyChallengeListViewHeader = ({ moveToNewMyChallengeView }) => (
         </UnderlinedButton>
     </div>
 );
-
 
 // Tab이 완료됨(true)이면 삭제 수정 버튼이 안 보임
 const MyChallengeListViewButton = ({ challenge, handleEdit, handleDelete, finished }) => (
@@ -40,7 +38,6 @@ const MyChallengeListViewButton = ({ challenge, handleEdit, handleDelete, finish
 );
 
 // '종료까지 몇 일' 인지 계산하고 보여줌
-// duration이 음수 즉, 종료되었으면 기간을 보여주고, 양수이면 종료까지 몇 일 보여줌
 const MyChallengeListViewEndDate = ({ challenge }) => {
     const duration = durationCalculator(getTodayDate(), challenge.endDate);
     return (
@@ -57,11 +54,10 @@ const MyChallengeListViewEndDate = ({ challenge }) => {
 // 챌린지 리스트를 보여줌
 const MyChallengeListView = () => {
     const navigate = useNavigate();
-
-    // finished는 종료됨과 진행중을 구분함
+    const listRef = useRef(null); // useRef를 사용하여 ul 요소 참조
     const [finished, setFinished] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    // 챌린지 리스트들을 store에서 가져와서 띄워줌
     const { challengeList, cursor, hasNext, updateChallengeListInfo, deleteChallenge } = useChallengeListStore((state) => ({
         challengeList: state.challengeList,
         cursor: state.cursor,
@@ -70,12 +66,43 @@ const MyChallengeListView = () => {
         deleteChallenge: state.deleteChallenge,
     }));
 
+    const loadMoreChallenges = useCallback(() => {
+        if (hasNext) {
+            setLoading(true);
+            updateChallengeListInfo(finished, cursor).finally(() => setLoading(false));
+        }
+    }, [hasNext, cursor, finished, updateChallengeListInfo]);
+
+    const handleScroll = useCallback(() => {
+        if (listRef.current) {
+            const { scrollTop, clientHeight, scrollHeight } = listRef.current;
+            // 바닥에 정확히 닿았을 때
+            if (scrollHeight - scrollTop === clientHeight && !loading) {
+                loadMoreChallenges();
+            }
+        }
+    }, [loading, loadMoreChallenges]);
+    
+
+    useEffect(() => {
+        const container = listRef.current;
+        container.addEventListener('scroll', handleScroll);
+        return () => {
+            container.removeEventListener('scroll', handleScroll);
+        };
+    }, [handleScroll]);
+
     useEffect(() => {
         fetchChallengeList();
     }, [finished]);
 
+    const fetchChallengeList = useCallback(() => {
+        setLoading(true);
+        updateChallengeListInfo(finished).finally(() => setLoading(false));
+    }, [finished, updateChallengeListInfo]);
+
     const moveToNewMyChallengeView = (challenge) => {
-        navigate("/newmychallengeview", { state: { challenge } });
+        navigate("/newmychallenge", { state: { challenge } });
     };
 
     const handleTabChange = (newFinished) => {
@@ -87,46 +114,20 @@ const MyChallengeListView = () => {
     }, [navigate]);
 
     const handleCardClick = useCallback((challenge) => {
-        navigate(`/challengedetailview/${challenge.id}`);
+        navigate(`/challengedetail/${challenge.id}`);
     }, [navigate]);
 
     const handleDelete = useCallback((id) => {
         deleteChallenge(id);
     }, [deleteChallenge]);
 
-    const fetchChallengeList = useCallback(() => {
-        updateChallengeListInfo(finished);
-    }, [finished, updateChallengeListInfo]);
-
-
-    // 스크롤로 다음 리스트 최대 10개를 불러오기
-    const loadMoreChallenges = useCallback(() => {
-        if (hasNext) {
-            updateChallengeListInfo(finished, cursor);
-        }
-    }, [hasNext, cursor, finished, updateChallengeListInfo]);
-    const handleScroll = useCallback((e) => {
-        const { scrollTop, clientHeight, scrollHeight } = e.target.scrollingElement;
-        if (scrollHeight - scrollTop <= clientHeight + 100) {
-            loadMoreChallenges();
-        }
-    }, [loadMoreChallenges]);
-
-    useEffect(() => {
-        document.addEventListener('scroll', handleScroll);
-        return () => {
-            document.removeEventListener('scroll', handleScroll);
-        };
-    }, [handleScroll]);
-
-    
     return (
         <div className={style.wrapper}>
             <header>
                 <MyChallengeListViewHeader moveToNewMyChallengeView={moveToNewMyChallengeView} />
                 <TabComponent finished={finished} onTabChange={handleTabChange} />
             </header>
-            <ul className={style.challengeList}>
+            <ul className={style.challengeList} ref={listRef}>
                 {challengeList.map((challenge) => (
                     <li 
                       key={challenge.id}
@@ -146,6 +147,7 @@ const MyChallengeListView = () => {
                     </li>
                 ))}
             </ul>
+            {loading && <div className={style.loading}>로딩 중...</div>}
         </div>
     );
 }
