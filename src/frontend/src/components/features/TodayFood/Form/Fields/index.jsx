@@ -6,7 +6,7 @@ import { getUnitOption } from '../../../../../utils/getUnitOptions';
 import { ConfirmButton, CancelButton } from '../../../../common/Button/ButtonModal';
 import { removeIcons } from '../../../../../utils/Icons/removeIcons';
 
-export function Fields({ categories, existingFoods, onSubmit, onCancel }) {
+export function Fields({ categories = [], existingFoods = [], onSubmit, onCancel }) {
   const { control, handleSubmit, reset, getValues } = useForm({
     defaultValues: categories.reduce((acc, category) => {
       const removedCategory = removeIcons(category);
