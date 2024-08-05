@@ -136,3 +136,7 @@ h5 {
   color: #666;
 }
 
+/* styles.css 또는 해당 CSS 파일에 추가 */
+.date-container {
+  margin-top: 20px; /* 원하는 만큼 조정 가능 */
+}

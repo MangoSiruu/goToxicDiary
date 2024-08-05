@@ -55,7 +55,7 @@ const StyledDateInput = styled.input`
   border: none;
   border-bottom: 1px solid #BDBDBD;
   background-color: transparent;
-  font-size: 14px;
+  font-size: 18px;
   &:disabled {
     background-color: #f0f0f0;
   }
@@ -164,21 +164,25 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
         ))}
       </CategoryOptions>
 
-      <StyledDateInput>
-        <div type="date" value={startDate} readOnly />
+      <div className={styles['date-container']}>
+        <StyledDateInput
+          type="date"
+          value={startDate}
+          readOnly
+          disabled={disabled}
+        />
         <span> - </span>
-        <div
-          type="date" 
-          value={endDate} 
+        <StyledDateInput
+          type="date"
+          value={endDate}
           onChange={handleEndDateChange}
           disabled={disabled}
         />
-      </StyledDateInput>
-
-
+      </div>
     </FormContainer>
-    );
+  );
 };
+
 
 
 
