@@ -5,13 +5,8 @@ import CategoryBox from "../../../common/Categories";
 import { getEngCategoryType } from "../../../../utils/getEngCategoryType";
 import { getIconPath } from "../../../../utils/Icons/getIconPath";
 
-
-// 컴포넌트 설명
-// @param dateStr
-// return (
-//  <OneDay dateStr="2024-07-27"></OneDay>
-// )
-const OneDay = ({ dateStr }) => {
+// <OneDay dateStr="2024-07-27" dailyResponse={response.map(...)}></OneDay>
+const OneDay = ({ dateStr, dailyResponse }) => {
     // 표시할 날을 "YYYY-MM-DD" 형식의 string으로 받아온 다음 Date 객체로 변경
     const date = new Date(dateStr);
 
@@ -23,20 +18,17 @@ const OneDay = ({ dateStr }) => {
     // 표시할 일자
     const dateNum = date.getDate();
 
-    // fetchInstance(url/api/calendar/dateStr, 'GET') - 캘린더 하루 조회
-    const response = {
-        "message" : "섭취 기록 조회 성공",
-        "dailyRecord" : [
-            {
-                "date" : "2024-07-24",
-                "toxicFoods" : [
-                    {"name" : "술", "count": 2},
-					{"name" : "카페인", "count": 3},
-					{"name" : "액상과당", "count": 1}
-                ]
-            }
-        ]
-    };
+    // const dailyResponse = {
+    //     "date" : "2024-08-10",
+    //     "toxicFoods" : [
+    //         {"name" : "매운음식", "count" : 2},
+    //         {"name" : "야식", "count" : 1}
+    //     ],
+    //     "challengeSuccess" : [
+    //         {"category":"카페인", "success" : true},
+    //         {"category":"슬", "success" : false}
+    //     ]
+    // }
 
     return (
         <Wrapper>
@@ -44,19 +36,17 @@ const OneDay = ({ dateStr }) => {
                 <p>{day}</p>
                 <p>{dateNum}</p>
             </Header>
-            {response.dailyRecord.map(record => (
-                <Box key={record.date}>
-                    {record.toxicFoods.length > 0 ? (record.toxicFoods.map(food => (
-                        <CategoryBox key={food.name} type={getEngCategoryType(food.name)} count={food.count}/>
-                    ))
-                ) : (
-                    <EmptyBox>
-                        <img src={getIconPath("로고")} alt="망고 로고"></img>
-                        <p>텅</p>
-                    </EmptyBox>
-                )}
-                </Box>
-            ))}
+            <Box>
+                {dailyResponse.toxicFoods.length > 0 ? (dailyResponse.toxicFoods.map(food => (
+                    <CategoryBox key={food.name} type={getEngCategoryType(food.name)} count={food.count}/>
+                ))
+            ) : (
+                <EmptyBox>
+                    <img src={getIconPath("로고")} alt="망고 로고"></img>
+                    <p>텅</p>
+                </EmptyBox>
+            )}
+            </Box>
         </Wrapper>
     );
 };
@@ -74,6 +64,9 @@ const Wrapper = styled.div`
     margin: 0 auto;
 
     background-color: ${ colors.white };
+    border-radius: 10px;
+
+    // background: rgba(244, 209, 96, 0.4);
 `;
 
 const Header = styled.div`

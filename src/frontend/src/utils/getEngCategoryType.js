@@ -4,7 +4,7 @@ export const getEngCategoryType = (category) => {
             return 'beer';
         case '인스턴트':
             return 'instant';
-        case '매운 음식':
+        case '매운음식':
             return 'pepper';
         case '카페인':
             return 'coffee';

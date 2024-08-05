@@ -33,6 +33,19 @@ const categoryStyles = {
     },
   };
   
+  // <CategoryBox type="beer" count="3"></CategoryBox>
+  const CategoryBox = ({ type, count }) => {
+    const { icon, backgroundColor } = categoryStyles[type];
+  
+    return (
+      <Box bgColor={backgroundColor}>
+          {icon} x {count}
+      </Box>
+    );
+  };
+  
+  export default CategoryBox;
+  
   // 카테고리 박스의 스타일을 정의한 컴포넌트
   const Box = styled.div`
     display: flex;
@@ -50,17 +63,3 @@ const categoryStyles = {
     background: rgba(${(props) => props.bgColor});
     color: white;
   `;
-  
-  // CategoryBox 컴포넌트 정의
-  // <CategoryBox type="beer" count="3">
-  const CategoryBox = ({ type, count }) => {
-    const { icon, backgroundColor } = categoryStyles[type];
-  
-    return (
-      <Box bgColor={backgroundColor}>
-          {icon} x {count}
-      </Box>
-    );
-  };
-  
-  export default CategoryBox;
