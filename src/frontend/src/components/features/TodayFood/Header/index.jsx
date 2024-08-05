@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { UnderlinedButton } from '../../../common/Button/UnderlinedButton';
+import { breakpoints } from '../../../../styles/variants';
 
 export function Header() {
   return (
@@ -23,4 +24,7 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   font-weight: bold;
   font-size: 28px;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 20px;
+  }
 `;

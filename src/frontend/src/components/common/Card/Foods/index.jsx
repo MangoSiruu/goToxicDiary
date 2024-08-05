@@ -1,13 +1,20 @@
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import { colors } from '../../../../styles/variants';
 import { IconContainer } from '../../layouts/Icons';
 import { getIconPath } from '../../../../utils/Icons/getIconPath';
+import { path } from '../../../../routes/path';
 
 export function Card({ toxicFood }) {
   const { name, count } = toxicFood;
+  const nav = useNavigate();
+
+  const moveToForm = () => {
+    nav(path.todayEat);
+  };
 
   return (
-    <Wrapper>
+    <Wrapper onClick={moveToForm}>
       <IconContainer src={getIconPath(name)} width="56px" height="46px" />
       <FoodName>{name}</FoodName>
       <Count>{count}</Count>

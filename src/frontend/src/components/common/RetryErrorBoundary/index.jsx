@@ -1,19 +1,19 @@
 import styled from '@emotion/styled';
 import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { SubmitButton } from '../../features/TodayFood/Form/Button';
 
 function FallbackComponent({ error, resetErrorBoundary }) {
   return (
     <Wrapper>
-      <h2>😭 에러가 발생했습니다 😭</h2>
+      <h2 style={{ fontWeight: '700' }}>😭 에러가 발생했습니다 😭</h2>
       <h4 style={{ color: 'red' }}>{error.message}</h4>
-      <SubmitButton
+      <button
+        type="button"
         onClick={() => resetErrorBoundary()}
-        style={{ width: '100px', margin: '16px 0' }}
+        style={{ width: '100px', margin: '16px 0', fontSize: '12px' }}
       >
         다시 시도하기
-      </SubmitButton>
+      </button>
     </Wrapper>
   );
 }
