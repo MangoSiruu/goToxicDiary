@@ -48,12 +48,10 @@ function App() {
   const subOneMonth = format(sub(month, {months: 1}), "yyyy-MM-dd");
 
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       {/* <CategoryBox type="beer" count="1"/> */}      
 
       {/* <WeeklyCalendar></WeeklyCalendar> */}
-      <br></br>
-      <MonthlyCalendar></MonthlyCalendar>
       
       {/* <p>오늘 {format(date, 'yyyy-MM-dd')}</p>
       <p>일요일 {format(week, 'yyyy-MM-dd')}</p>
@@ -68,17 +66,16 @@ function App() {
       <p>{format(date, 'yyyy-MM-dd')}</p>
       <p>{format(sub(date, {months: 1}), 'yyyy-MM-dd')}</p> */}
       
-      {/* <QueryClientProvider client={queryClient}>
-        <Router>
-          <Routes>
-            <Route path={path.start} element={<StartView />} />
-            <Route path={path.signup} element={<SignUpPage />} />
-            <Route path={path.login} element={<LoginPage />} />
-          </Routes>
-        </Router>
-      </QueryClientProvider> */}
-      
-    </div>
+      <MonthlyCalendar></MonthlyCalendar>
+      <br></br>
+      <Router>
+        <Routes>
+          <Route path={path.start} element={<StartView />} />
+          <Route path={path.signup} element={<SignUpPage />} />
+          <Route path={path.login} element={<LoginPage />} />
+        </Routes>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
