@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useChallenge } from '../../../../../api/hooks/useChallenge';
-import { colors } from '../../../../../styles/variants';
+import { colors, breakpoints } from '../../../../../styles/variants';
 
 export default function ProgressRate({ id }) {
   const { data, isError } = useChallenge(id);
@@ -38,4 +38,8 @@ const Rate = styled.h1`
   font-family: 'GmarketSansMedium';
   margin-left: 4px;
   margin-top: 4px;
+  @media (max-width: ${breakpoints.xs}) {
+    font-size: 12px;
+    margin: 0 auto;
+  }
 `;

@@ -24,9 +24,10 @@ export function WidgetBox({ challenge }) {
           <Inner>
             <Title>{challenge.title}</Title>
             <Description>
-              종료까지 <span style={{ fontWeight: 700 }}>{remainingDays}</span>일
+              D - <span style={{ fontWeight: 700, fontSize: '12px' }}>{remainingDays}</span>
             </Description>
           </Inner>
+
           <ProgressRate id={challenge.id} />
         </HeaderContainer>
       </Header>
@@ -43,6 +44,7 @@ const Wrapper = styled.button`
   gap: 10px;
   background: #ffffff;
   border-radius: 20px;
+  min-height: 219px;
 `;
 
 const Header = styled.div`
@@ -55,6 +57,7 @@ const Header = styled.div`
   gap: 10px;
   border-bottom: 1px solid #bdbdbd;
   position: relative;
+  margin-left: 8px;
 `;
 
 const HeaderContainer = styled.div`
@@ -70,6 +73,7 @@ const Inner = styled.div`
   align-items: flex-start;
   padding: 8px;
   gap: 4px;
+  margin-left: -8px;
 `;
 
 const Title = styled.span`
@@ -83,4 +87,5 @@ const Title = styled.span`
 const Description = styled.span`
   color: ${colors.mainOrange};
   font-family: 'GmarketSansMedium';
+  font-size: 12px;
 `;

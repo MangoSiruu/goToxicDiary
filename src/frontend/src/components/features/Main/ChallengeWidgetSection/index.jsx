@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { breakpoints } from '../../../../styles/variants';
@@ -11,24 +12,36 @@ export function ChallengeWidgetSection() {
   const nav = useNavigate();
   const { data, isLoading } = useChallengeList({ finished: false, size: 2 });
   const challengeList = data.content;
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const moveToChallengePage = () => {
     nav(path.mychallengelist);
   };
 
   const renderComponent = () => {
+    if (isLoading) return <Loader />;
     if (!challengeList || challengeList.length <= 0) {
       return <span>진행 중인 챌린지가 없어요!</span>;
     }
-    if (isLoading) return <Loader />;
+    // 화면 너비가 xs 이하일 경우 하나의 챌린지 항목만 보여줌
+    const itemsToShow =
+      windowWidth <= parseInt(breakpoints.xs, 10) ? challengeList.slice(0, 1) : challengeList;
+
     return (
       <List>
-        {challengeList.map((challenge) => (
-          <WidgetBox challenge={challenge} />
+        {itemsToShow.map((challenge) => (
+          <WidgetBox key={challenge.id} challenge={challenge} />
         ))}
       </List>
     );
   };
+
   return (
     <Wrapper>
       <Header>
@@ -55,6 +68,12 @@ const List = styled.div`
   padding: 10px 0px;
   width: 100%;
   gap: 30px;
+  @media (max-width: ${breakpoints.xs}) {
+    flex-direction: row;
+    justify-content: center;
+    padding: 0;
+    gap: 4px;
+  }
 `;
 
 const Header = styled.div`
@@ -68,7 +87,7 @@ const Header = styled.div`
 const Title = styled.span`
   font-size: 24px;
   font-weight: 700;
-  @media screen and (max-width: ${breakpoints.sm}) {
+  @media screen and (max-width: ${breakpoints.xs}) {
     font-size: 20px;
   }
 `;

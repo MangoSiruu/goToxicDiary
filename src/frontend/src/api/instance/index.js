@@ -40,6 +40,7 @@ export const handleLogout = async () => {
     );
     if (res.status === 200) {
       localStorage.clear();
+      window.location.href = path.login;
     }
   } catch (error) {
     alert('로그아웃 실패');
@@ -70,8 +71,8 @@ axiosInstance.interceptors.response.use(
         originalConfig.headers.authorization = `Bearer ${newToken}`;
         return await axios(error.config);
       } catch (refreshError) {
-        window.alert('자동으로 로그인 연장 되었습니다.');
         window.location.replace(redirectUrl);
+        window.alert('세션이 만료되었습니다. 로그인 페이지로 이동합니다.');
         return Promise.reject(refreshError);
       }
     }
