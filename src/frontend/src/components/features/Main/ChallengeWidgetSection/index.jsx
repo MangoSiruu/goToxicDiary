@@ -1,14 +1,20 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { breakpoints } from '../../../../styles/variants';
 import { WidgetBox } from './WidgetBox';
 import { UnderlinedButton } from '../../../common/Button/UnderlinedButton';
 import { useChallengeList } from '../../../../api/hooks/useChallengeList';
 import Loader from '../../../common/Loader';
+import { path } from '../../../../routes/path';
 
 export function ChallengeWidgetSection() {
+  const nav = useNavigate();
   const { data, isLoading } = useChallengeList({ finished: false, size: 2 });
-
   const challengeList = data.content;
+
+  const moveToChallengePage = () => {
+    nav(path.mychallengelist);
+  };
 
   const renderComponent = () => {
     if (!challengeList || challengeList.length <= 0) {
@@ -27,7 +33,7 @@ export function ChallengeWidgetSection() {
     <Wrapper>
       <Header>
         <Title>내 챌린지</Title>
-        <UnderlinedButton>보러가기</UnderlinedButton>
+        <UnderlinedButton onClick={moveToChallengePage}>보러가기</UnderlinedButton>
       </Header>
       {renderComponent()}
     </Wrapper>
@@ -47,6 +53,8 @@ const List = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 10px 0px;
+  width: 100%;
+  gap: 30px;
 `;
 
 const Header = styled.div`

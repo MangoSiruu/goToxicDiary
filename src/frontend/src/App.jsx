@@ -26,8 +26,8 @@ function App() {
             <Route path={path.login} element={<LoginPage />} />
             <Route path={path.main} element={<MainPage />} />
             <Route path={path.todayEat} element={<TodayEatPage />} />
-            <Route path="/mychallengelist" element={<MyChallengeList />} />
-            <Route path="/newmychallenge" element={<NewMyChallenge />} />
+            <Route path={path.mychallengelist} element={<MyChallengeList />} />
+            <Route path={path.newmychallenge} element={<NewMyChallenge />} />
             <Route path="/challengedetail/:id" element={<ChallengeDetail />} />
           </Routes>
         </Router>

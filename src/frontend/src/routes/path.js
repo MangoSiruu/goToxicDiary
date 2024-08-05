@@ -5,4 +5,6 @@ export const path = {
   signup: '/signup',
   todayEat: '/todayEat',
   test: '/test',
+  mychallengelist: '/mychallengelist',
+  newmychallenge: '/newmychallenge',
 };

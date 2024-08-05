@@ -51,13 +51,13 @@ const RightSection = styled.section`
 `;
 
 const LeftSection = styled.section`
-  width: 30%;
   max-width: 297px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   gap: 40px;
-  background: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 20px;
 `;

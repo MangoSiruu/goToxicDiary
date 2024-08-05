@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { axiosInstance } from '../instance';
