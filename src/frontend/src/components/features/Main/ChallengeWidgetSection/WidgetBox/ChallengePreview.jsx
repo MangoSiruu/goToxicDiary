@@ -22,7 +22,7 @@ export default function ChallegePreview({ id }) {
         </Text>
       )}
       {successList.map((challengeSuccess) => (
-        <DayBox key={challenge.id}>
+        <DayBox key={challengeSuccess.date}>
           <Date>{formatDate(challengeSuccess.date)}</Date>
           <Modal success={challengeSuccess.success}>
             {challengeSuccess.success ? '성공' : '실패'}
@@ -68,7 +68,7 @@ const Modal = styled.div`
   align-items: center;
   padding: 4px 8px;
   gap: 4px;
-  background-color: ${(props) => (props.success ? '#FFA500' : '#BDBDBD')};
+  background-color: ${({ success }) => (success ? '#FFA500' : '#BDBDBD')};
   color: ${colors.white};
   font-size: 14px;
   border-radius: 5px;

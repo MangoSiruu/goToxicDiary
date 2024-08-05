@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import styled from 'styled-components';
 import { AiFillHome, AiFillEdit } from 'react-icons/ai';
 import { FaCalendarAlt } from 'react-icons/fa';
@@ -29,6 +30,13 @@ export default function MenuBar() {
     nav(path.mychallengelist);
   };
 
+  const handleConfirmLogout = () => {
+    const isConfirm = window.confirm('정말 로그아웃 하시겠어요?');
+    if (isConfirm) {
+      handleLogout();
+    }
+  };
+
   return (
     <Wrapper>
       <button type="button" onClick={moveToHome}>
@@ -43,7 +51,7 @@ export default function MenuBar() {
         <AiFillEdit style={{ fontSize: '24px', cursor: 'pointer' }} onClick={moveToTodayEat} />
         <FaCalendarAlt style={{ fontSize: '24px', cursor: 'pointer' }} onClick={moveToCalendar} />
         <FaFire style={{ fontSize: '24px', cursor: 'pointer' }} onClick={moveToChallenge} />
-        <IoLogOut style={{ fontSize: '28px', cursor: 'pointer' }} onClick={() => handleLogout()} />
+        <IoLogOut style={{ fontSize: '28px', cursor: 'pointer' }} onClick={handleConfirmLogout} />
       </Container>
     </Wrapper>
   );
