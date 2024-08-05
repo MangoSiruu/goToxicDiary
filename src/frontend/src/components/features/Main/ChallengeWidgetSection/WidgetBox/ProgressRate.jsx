@@ -38,7 +38,7 @@ const Rate = styled.h1`
   font-family: 'GmarketSansMedium';
   margin-left: 4px;
   margin-top: 4px;
-  @media (max-width: ${breakpoints.xs}) {
+  @media (max-width: ${breakpoints.sm}) {
     font-size: 12px;
     margin: 0 auto;
   }

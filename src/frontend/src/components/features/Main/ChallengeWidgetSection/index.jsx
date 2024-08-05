@@ -10,7 +10,7 @@ import { path } from '../../../../routes/path';
 
 export function ChallengeWidgetSection() {
   const nav = useNavigate();
-  const { data, isLoading } = useChallengeList({ finished: false, size: 2 });
+  const { data, isLoading } = useChallengeList({ finished: false, size: 3 });
   const challengeList = data.content;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -29,9 +29,15 @@ export function ChallengeWidgetSection() {
     if (!challengeList || challengeList.length <= 0) {
       return <span>진행 중인 챌린지가 없어요!</span>;
     }
-    // 화면 너비가 xs 이하일 경우 하나의 챌린지 항목만 보여줌
-    const itemsToShow =
-      windowWidth <= parseInt(breakpoints.xs, 10) ? challengeList.slice(0, 1) : challengeList;
+    // 화면 너비가 xs 이하일 경우 하나의 챌린지 항목만, sm 이하의 경우에는 세개까지.
+    let itemsToShow;
+    if (windowWidth <= parseInt(breakpoints.xs, 10)) {
+      itemsToShow = challengeList.slice(0, 1);
+    } else if (windowWidth <= parseInt(breakpoints.sm, 10)) {
+      itemsToShow = challengeList.slice(0, 3);
+    } else {
+      itemsToShow = challengeList.slice(0, 2);
+    }
 
     return (
       <List>
@@ -74,6 +80,11 @@ const List = styled.div`
     padding: 0;
     gap: 4px;
   }
+  @media (max-width: ${breakpoints.sm}) {
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px 0px;
+  }
 `;
 
 const Header = styled.div`
@@ -87,7 +98,7 @@ const Header = styled.div`
 const Title = styled.span`
   font-size: 24px;
   font-weight: 700;
-  @media screen and (max-width: ${breakpoints.xs}) {
+  @media screen and (max-width: ${breakpoints.sm}) {
     font-size: 20px;
   }
 `;

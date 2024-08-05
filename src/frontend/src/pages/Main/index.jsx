@@ -3,6 +3,7 @@ import TodayFoodSection from '../../components/features/Main/TodayFoodSection';
 import { ChallengeWidgetSection } from '../../components/features/Main/ChallengeWidgetSection';
 import { colors, breakpoints } from '../../styles/variants';
 import MenuBar from '../../components/features/Main/MenuBar';
+import UserBanner from '../../components/features/Main/UserBanner';
 
 export default function MainPage() {
   return (
@@ -10,6 +11,7 @@ export default function MainPage() {
       <Container>
         <MenuBar />
         <RightSection>
+          <UserBanner />
           <TodayFoodSection />
         </RightSection>
         <LeftSection>
@@ -30,7 +32,7 @@ const Wrapper = styled.div`
   padding: 30px;
   gap: 30px;
   background-color: ${colors.backgroundColor};
-  @media (max-width: ${breakpoints.xs}) {
+  @media (max-width: ${breakpoints.sm}) {
     flex-direction: column;
   }
 `;
@@ -42,7 +44,7 @@ const Container = styled.div`
   align-items: center;
   padding: 30px 10px;
   gap: 30px;
-  @media (max-width: ${breakpoints.xs}) {
+  @media (max-width: ${breakpoints.sm}) {
     flex-direction: column;
     align-items: stretch;
   }
@@ -67,7 +69,7 @@ const LeftSection = styled.section`
   gap: 40px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 20px;
-  @media (max-width: ${breakpoints.xs}) {
+  @media (max-width: ${breakpoints.sm}) {
     max-width: none;
     width: 100%;
     margin-top: 20px;

@@ -24,7 +24,7 @@ export function WidgetBox({ challenge }) {
           <Inner>
             <Title>{challenge.title}</Title>
             <Description>
-              D - <span style={{ fontWeight: 700, fontSize: '12px' }}>{remainingDays}</span>
+              D - <span style={{ fontWeight: 700, fontSize: '14px' }}>{remainingDays}</span>
             </Description>
           </Inner>
 
@@ -72,12 +72,11 @@ const Inner = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 8px;
-  gap: 4px;
   margin-left: -8px;
 `;
 
 const Title = styled.span`
-  font-size: 16px;
+  font-size: 14px;
   font-family: 'GmarketSansMedium';
   @media screen and (max-width: ${breakpoints.sm}) {
     font-size: 14px;

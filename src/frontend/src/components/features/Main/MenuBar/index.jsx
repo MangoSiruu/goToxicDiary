@@ -32,7 +32,7 @@ export default function MenuBar() {
   return (
     <Wrapper>
       <button type="button" onClick={moveToHome}>
-        <IconContainer src={logoImg} alt="고망다이어리 로고" width="40px" height="40px" />
+        <IconContainer src={logoImg} alt="고망다이어리 로고" width="45px" height="45px" />
       </button>
       <Container>
         <AiFillHome
@@ -54,13 +54,13 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  padding: 50px 12px;
+  padding: 50px 8px;
   max-height: 1024px;
   gap: 70px;
   background-color: ${colors.mainOrange};
   border-radius: 20px;
 
-  @media (max-width: ${breakpoints.xs}) {
+  @media (max-width: ${breakpoints.sm}) {
     flex-direction: row;
     padding: 4px 8px;
     justify-content: space-between;
@@ -77,7 +77,7 @@ const Container = styled.div`
   padding: 0px 20px;
   gap: 30px;
   color: ${colors.white};
-  @media (max-width: ${breakpoints.xs}) {
+  @media (max-width: ${breakpoints.sm}) {
     flex-direction: row;
     margin: 0;
     gap: 12px;
