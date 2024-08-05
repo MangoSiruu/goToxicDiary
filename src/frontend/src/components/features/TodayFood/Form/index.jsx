@@ -1,18 +1,21 @@
-import styled from '@emotion/styled';
 import { useState } from 'react';
-import { colors } from '../../../../styles/variants';
+import styled from 'styled-components';
 import { categories } from '../../../../constant/Foods/categories';
 import { Fields } from './Fields';
 import { CategoryButton } from '../../../common/Button/Categories';
-import { UnderlinedButton } from '../../../common/Button/UnderlinedButton';
-import { axiosInstance } from '../../../../api/instance';
-import { endpoint } from '../../../../api/path';
-import { getTodayDate } from '../../../../utils/Calendar/getTodayDate';
-import { removeIcons } from '../../../../utils/Icons/removeIcons';
+import { breakpoints, colors } from '../../../../styles/variants';
+import { useSaveTodayEatFoods } from '../../../../api/hooks/useSaveTodayEatFoods';
+import Loader from '../../../common/Loader';
 
-export function TodayEatForm() {
+export function TodayEatForm({ todayFoods, onFoodsUpdate }) {
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [records, setRecords] = useState({});
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  const mutation = useSaveTodayEatFoods((data) => {
+    onFoodsUpdate(data);
+    setSuccessMessage('🎉기록이 완료되었어요🎉');
+    setTimeout(() => setSuccessMessage(null), 5000);
+  });
 
   const handleCategoryClick = (category) => {
     setSelectedCategories((prev) =>
@@ -20,25 +23,9 @@ export function TodayEatForm() {
     );
   };
 
-  const handleFormSubmit = async (data) => {
-    setRecords(data);
+  const handleFormSubmit = (data) => {
+    mutation.mutate(data);
     setSelectedCategories([]);
-
-    try {
-      const toxicFoods = Object.entries(data).map(([name, { count }]) => ({
-        name: removeIcons(name),
-        count,
-      }));
-      const requestData = {
-        date: getTodayDate(),
-        toxicFoods,
-      };
-
-      const res = await axiosInstance.post(endpoint.CALENDAR, requestData);
-      console.log('Response:', res.data);
-    } catch (error) {
-      console.error('오늘먹은음식 기록 실패:', error);
-    }
   };
 
   const handleFormCancel = () => {
@@ -47,18 +34,7 @@ export function TodayEatForm() {
 
   return (
     <Wrapper>
-      <Title>오늘 내가 먹은 고자극 음식은?</Title>
-      {Object.keys(records).length === 0 ? (
-        <UnderlinedButton>기록하러 가기</UnderlinedButton>
-      ) : (
-        Object.entries(records).map(([category, { count, unit }]) => (
-          <Record key={category}>
-            {category}: {count} {unit}
-          </Record>
-        ))
-      )}
       <Title>오늘 하루동안 무엇을, 얼마나 드셨나요?</Title>
-
       <Description>카테고리를 선택해 주세요.(중복 가능)</Description>
       <ButtonWrapper>
         {categories.map((category) => (
@@ -73,10 +49,15 @@ export function TodayEatForm() {
       {selectedCategories.length > 0 && (
         <Fields
           categories={selectedCategories}
+          existingFoods={todayFoods}
           onSubmit={handleFormSubmit}
           onCancel={handleFormCancel}
         />
       )}
+      <HandleContainer>
+        {mutation.isPending && <Loader />}
+        {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
+      </HandleContainer>
     </Wrapper>
   );
 }
@@ -84,11 +65,36 @@ export function TodayEatForm() {
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 16px;
+  }
+`;
+
+const HandleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 8px 0;
+  height: 30px;
+`;
+
+const SuccessMessage = styled.div`
+  color: ${colors.mainOrange};
+  font-size: 16px;
+  font-weight: bold;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 14px;
+  }
 `;
 
 const Description = styled.h3`
   font-size: 14px;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 12px;
+  }
 `;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -107,11 +113,4 @@ const ButtonWrapper = styled.div`
   align-content: flex-start;
   padding: 0px 10px;
   gap: 20px;
-`;
-
-const Record = styled.div`
-  font-size: 16px;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: ${colors.mainGray};
 `;
