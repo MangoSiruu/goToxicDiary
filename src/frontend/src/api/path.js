@@ -8,4 +8,5 @@ export const endpoint = {
 
 export const getDynamicPoint = {
   CALENDAR_BY_DATE: (date) => `${endpoint.CALENDAR}/${date}`,
+  CHALLENGE_BY_ID: (id) => `${endpoint.CHALLENGE}/${id}`,
 };

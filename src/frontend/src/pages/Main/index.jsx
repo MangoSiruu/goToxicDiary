@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import TodayFoodSection from '../../components/features/Main/TodayFoodSection';
 import { ChallengeWidgetSection } from '../../components/features/Main/ChallengeWidgetSection';
-import { colors } from '../../styles/variants';
+import { colors, breakpoints } from '../../styles/variants';
+import MenuBar from '../../components/features/Main/MenuBar';
+import UserBanner from '../../components/features/Main/UserBanner';
 
 export default function MainPage() {
   return (
     <Wrapper>
       <Container>
+        <MenuBar />
         <RightSection>
+          <UserBanner />
           <TodayFoodSection />
         </RightSection>
         <LeftSection>
@@ -20,15 +24,17 @@ export default function MainPage() {
 }
 
 const Wrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: stretch;
   padding: 30px;
   gap: 30px;
-  width: 100%;
-  height: 100vh;
   background-color: ${colors.backgroundColor};
+  @media (max-width: ${breakpoints.sm}) {
+    flex-direction: column;
+  }
 `;
 
 const Container = styled.div`
@@ -38,11 +44,15 @@ const Container = styled.div`
   align-items: center;
   padding: 30px 10px;
   gap: 30px;
+  @media (max-width: ${breakpoints.sm}) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const RightSection = styled.section`
-  width: 70%;
-  max-width: 883px;
+  width: 100%;
+  // max-width: 883px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -51,13 +61,18 @@ const RightSection = styled.section`
 `;
 
 const LeftSection = styled.section`
-  width: 30%;
-  max-width: 297px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   gap: 40px;
-  background: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
   border-radius: 20px;
+  @media (max-width: ${breakpoints.sm}) {
+    max-width: none;
+    width: 100%;
+    margin-top: 20px;
+    background-color: ${colors.backgroundColor};
+  }
 `;
