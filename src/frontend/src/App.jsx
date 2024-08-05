@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import { ChakraProvider } from '@chakra-ui/react';
+import { QueryClientProvider } from '@tanstack/react-query';
 import ChallengeDetail from './components/features/ChallengeDetail/ChallengeDetail';
 import MyChallengeList from './components/features/MyChallengeList/MyChallengeList';
 import NewMyChallenge from './components/features/NewMyChallenge/NewMyChallenge';
 
-import { ChakraProvider } from '@chakra-ui/react';
 import StartView from './pages/StartView';
 import SignUpPage from './pages/SignUp';
 import LoginPage from './pages/Login';

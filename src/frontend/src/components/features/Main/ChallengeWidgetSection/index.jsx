@@ -6,7 +6,7 @@ import { useChallengeList } from '../../../../api/hooks/useChallengeList';
 import Loader from '../../../common/Loader';
 
 export function ChallengeWidgetSection() {
-  const { data, isLoading } = useChallengeList({ finished: false, page_size: 2 });
+  const { data, isLoading } = useChallengeList({ finished: false, size: 2 });
 
   const challengeList = data.content;
 
