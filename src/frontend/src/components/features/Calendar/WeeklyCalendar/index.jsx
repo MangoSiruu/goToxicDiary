@@ -2,12 +2,25 @@ import React from "react";
 import CalendarWrapper from "../CalendarWrapper";
 import CalendarHeader from "../../CalendarHeader";
 import OneWeek from "../../CalendarBody/OneWeek";
+import useStandardDateStore from "../../../../actions/useStandardDateStore";
 
 const WeeklyCalendar = () => {
+    
+    const { subOneWeek, addOneWeek, getWeeksTitle, today, week } = useStandardDateStore(state => ({
+        subOneWeek: state.subOneWeek,
+        addOneWeek: state.addOneWeek,
+        getWeeksTitle: state.getWeeksTitle,
+        today: state.today,
+        week: state.week
+    }));
+
     return (
         <CalendarWrapper>
-            <CalendarHeader prevAction="" nextAction="" title="2024년 7월 셋째주"></CalendarHeader>
-            <OneWeek></OneWeek>
+            <CalendarHeader 
+                prevAction={subOneWeek} 
+                nextAction={addOneWeek} 
+                title={getWeeksTitle(today, week)}/>
+            <OneWeek sundayDate={week}></OneWeek>
         </CalendarWrapper>
     );
 };

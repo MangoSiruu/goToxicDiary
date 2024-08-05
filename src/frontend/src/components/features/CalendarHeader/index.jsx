@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { colors } from "../../../styles/variants";
 
+// <CalendarHeader prevAction={} nextAction={} title=""></CalendarHeader>
 const CalendarHeader = ({ prevAction, nextAction, title }) => {
     return (
         <Wrapper>
