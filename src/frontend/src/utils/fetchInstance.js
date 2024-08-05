@@ -23,7 +23,7 @@ const fetchInstance = async (url, { method = {}, body = null, queryParams = {} }
       method,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `${token}`,
+        Authorization: `Bearer ${token}`,
       },
       credentials: 'include',
       body: bodies,

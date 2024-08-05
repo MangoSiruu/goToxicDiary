@@ -1,30 +1,32 @@
-/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-alert */
 import { useForm, Controller } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { colors } from '../../../../../styles/variants';
 import { getUnitOption } from '../../../../../utils/getUnitOptions';
 import { ConfirmButton, CancelButton } from '../../../../common/Button/ButtonModal';
+import { removeIcons } from '../../../../../utils/Icons/removeIcons';
 
-export function Fields({ categories, onSubmit, onCancel }) {
+export function Fields({ categories, existingFoods, onSubmit, onCancel }) {
   const { control, handleSubmit, reset, getValues } = useForm({
-    defaultValues: categories.reduce(
-      (acc, category) => ({
+    defaultValues: categories.reduce((acc, category) => {
+      const removedCategory = removeIcons(category);
+
+      const foodItem = existingFoods.find((item) => removeIcons(item.name) === removedCategory) || {
+        count: 0,
+        unit: getUnitOption(removedCategory),
+      };
+
+      return {
         ...acc,
-        [category]: { count: '', unit: getUnitOption(category) },
-      }),
-      {},
-    ),
+        [category]: foodItem,
+      };
+    }, {}),
   });
 
   const onFormSubmit = () => {
     const values = getValues();
-    const hasEmptyFields = Object.values(values).some(({ count }) => count === '');
-    if (hasEmptyFields) {
-      window.confirm('모든 필드를 입력해주세요.');
-    } else {
-      onSubmit(values);
-      reset();
-    }
+    onSubmit(values);
+    reset();
   };
 
   const handleCancel = () => {
@@ -40,9 +42,21 @@ export function Fields({ categories, onSubmit, onCancel }) {
           <Controller
             name={`${category}.count`}
             control={control}
-            rules={{ required: '숫자를 입력해주세요.' }}
-            render={({ field }) => <Input type="number" placeholder="횟수" {...field} />}
+            rules={{
+              required: '숫자를 입력해주세요.',
+              min: {
+                value: 0,
+                message: '0 이상의 숫자만 입력 가능해요.',
+              },
+            }}
+            render={({ field, fieldState }) => (
+              <Box>
+                <Input type="number" placeholder="횟수" {...field} value={field.value || ''} />
+                {fieldState.error && <ErrorMessage>{fieldState.error.message}</ErrorMessage>}
+              </Box>
+            )}
           />
+
           {getUnitOption(category)}
         </FieldContainer>
       ))}
@@ -72,6 +86,11 @@ const Label = styled.label`
   width: 100px;
 `;
 
+const Box = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Input = styled.input`
   padding: 10px;
   font-size: 14px;
@@ -87,4 +106,10 @@ const ButtonWrapper = styled.div`
   align-items: center;
   padding: 30px;
   gap: 10px;
+`;
+
+const ErrorMessage = styled.span`
+  color: red;
+  font-size: 12px;
+  margin: 8px 0;
 `;
