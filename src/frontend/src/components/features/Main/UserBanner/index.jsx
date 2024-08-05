@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { path } from '../../../../routes/path';
+import { breakpoints } from '../../../../styles/variants';
 
 export default function UserBanner() {
   const nickname = localStorage.getItem('nickname');
@@ -41,9 +42,16 @@ const Button = styled.button`
   color: white;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 5px;
+  @media (max-width: ${breakpoints.sm}) {
+    font-size: 12px;
+  }
 `;
+
 const Title = styled.span`
   font-size: 20px;
   font-family: 'GmarketSansMedium';
   color: white;
+  @media (max-width: ${breakpoints.sm}) {
+    font-size: 14px;
+  }
 `;

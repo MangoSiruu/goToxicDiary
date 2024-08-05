@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useChallenge } from '../../../../../api/hooks/useChallenge';
 import Loader from '../../../../common/Loader';
-import { colors } from '../../../../../styles/variants';
+import { colors, breakpoints } from '../../../../../styles/variants';
 
 export default function ChallegePreview({ id }) {
   const { data, isLoading } = useChallenge(id);
@@ -23,7 +23,7 @@ export default function ChallegePreview({ id }) {
       )}
       {successList.map((challengeSuccess) => (
         <DayBox key={challenge.id}>
-          <p>{formatDate(challengeSuccess.date)}</p>
+          <Date>{formatDate(challengeSuccess.date)}</Date>
           <Modal success={challengeSuccess.success}>
             {challengeSuccess.success ? '성공' : '실패'}
           </Modal>
@@ -46,6 +46,7 @@ const Text = styled.div`
   padding: 4px 8px;
   text-align: center;
 `;
+
 const DayBox = styled.div`
   width: 100%;
   display: flex;
@@ -55,6 +56,12 @@ const DayBox = styled.div`
   padding: 10px;
 `;
 
+const Date = styled.p`
+  font-size: 16px;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 14px;
+  }
+`;
 const Modal = styled.div`
   display: flex;
   justify-content: center;
@@ -64,6 +71,8 @@ const Modal = styled.div`
   background-color: ${(props) => (props.success ? '#FFA500' : '#BDBDBD')};
   color: ${colors.white};
   font-size: 14px;
-
   border-radius: 5px;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    font-size: 12px;
+  }
 `;

@@ -27,7 +27,6 @@ export function WidgetBox({ challenge }) {
               D - <span style={{ fontWeight: 700, fontSize: '14px' }}>{remainingDays}</span>
             </Description>
           </Inner>
-
           <ProgressRate id={challenge.id} />
         </HeaderContainer>
       </Header>
