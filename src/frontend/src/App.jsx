@@ -38,22 +38,37 @@ function App() {
   const response = {
   }
 
-  const date = new Date("2023-03-01");
+  const date = new Date();
+  const week = sub(new Date(), {days: new Date().getDay()});
+  const month = sub(new Date(), {days: new Date().getDate()-1});
+
+  const addOneWeek = add(week, {weeks: 1});
+  const subOneWeek = sub(week, {weeks: 1});
+  const addOneMonth = add(month, {months: 1});
+  const subOneMonth = format(sub(month, {months: 1}), "yyyy-MM-dd");
 
   return (
     <div>
-      <CategoryBox type="beer" count="1"/>
-      
+      {/* <CategoryBox type="beer" count="1"/> */}      
 
-      {/* <OneWeek></OneWeek> */}
-      <WeeklyCalendar></WeeklyCalendar>
+      {/* <WeeklyCalendar></WeeklyCalendar> */}
       <br></br>
       <MonthlyCalendar></MonthlyCalendar>
       
+      {/* <p>오늘 {format(date, 'yyyy-MM-dd')}</p>
+      <p>일요일 {format(week, 'yyyy-MM-dd')}</p>
+      <p>1일 {format(month, 'yyyy-MM-dd')}</p>
+      <br></br>
+      <p>{format(addOneWeek, 'yyyy-MM-dd')}</p>
+      <p>{format(subOneWeek, 'yyyy-MM-dd')}</p>
+      <br></br>
+      <p>{format(addOneMonth, 'yyyy-MM-dd')}</p>
+      <p>{format(subOneMonth, 'yyyy-MM-dd')}</p>
+      <br></br>
       <p>{format(date, 'yyyy-MM-dd')}</p>
-      <p>{format(sub(date, {days : 1}), 'yyyy-MM-dd')}</p>
+      <p>{format(sub(date, {months: 1}), 'yyyy-MM-dd')}</p> */}
       
-      <QueryClientProvider client={queryClient}>
+      {/* <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
             <Route path={path.start} element={<StartView />} />
@@ -61,7 +76,7 @@ function App() {
             <Route path={path.login} element={<LoginPage />} />
           </Routes>
         </Router>
-      </QueryClientProvider>
+      </QueryClientProvider> */}
       
     </div>
   );
