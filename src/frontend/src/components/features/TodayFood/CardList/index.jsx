@@ -11,7 +11,7 @@ export function CardList({ toxicFoods }) {
   }, [toxicFoods]);
 
   const renderList = () => {
-    if (!todayToxicFoods) {
+    if (!todayToxicFoods || todayToxicFoods.length <= 0) {
       return (
         <Wrapper>
           <ExceptionCard />
