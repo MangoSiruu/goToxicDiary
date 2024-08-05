@@ -9,14 +9,84 @@ import durationCalculator from '../../../utils/durationCalcurator';
 import useEditChallengeStore from '../../../actions/useEditChallengeStore';
 import { CategoryButton } from '../../common/Button/Categories';
 import { categories } from '../../../constant/Foods/categories';
+import styled from '@emotion/styled';
+
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #FBF4EE;
+  align-items: center;
+  justify-content: center;
+`
+
+const FormContainer = styled.div`
+  margin-right: auto;
+  width: 100%;
+  padding: 25px;
+`
+
+
+const InputValue = styled.input`
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 4px;
+  gap: 10px;
+
+  width: 100%; /* 부모 요소의 너비에 맞춤 */
+  height: 33px;
+
+  border: none; /* 기본 테두리 제거 */
+  border-bottom: 1px solid #BDBDBD; /* 하단 테두리 추가 */
+
+  background-color: transparent; /* 배경색 투명 */
+  font-size: 14px; /* 텍스트 크기 */
+  outline: none; /* 포커스 시 아웃라인 제거 */
+`;
+
+
+const StyledDateInput = styled.input`
+  box-sizing: border-box;
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid #BDBDBD;
+  background-color: transparent;
+  font-size: 18px;
+  &:disabled {
+    background-color: #f0f0f0;
+  }
+`;
+
+const Title = styled.div`
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+`
+
+const SubTitle = styled.div`
+  font-size: 18px;
+  margin-bottom: 20px;
+`
+
+const CategoryOptions = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap; 
+`;
+
+
 
 // 카테고리 선택 칸
 const CategorySelect = ({ category, handleCategoryChange, disabled }) => {
   return (
-    <div className={styles.container}>
-      <h4 className={styles.title}>카테고리 선택하기</h4>
-      <h5>하나만 선택해주세요</h5>
-      <div className={styles.categoryOptions}>
+    <FormContainer>
+      <Title>카테고리 선택하기</Title>
+      <SubTitle>하나만 선택해주세요</SubTitle>
+      <CategoryOptions>
         {categories.map((cat) => (
           <CategoryButton
             key={cat}
@@ -26,43 +96,41 @@ const CategorySelect = ({ category, handleCategoryChange, disabled }) => {
             disabled={disabled}
           />
         ))}
-      </div>
-    </div>
+      </CategoryOptions>
+    </FormContainer>
   );
 };
 
 // 이름 작성 칸
 const SetName = ({ challengeName, handleChallengeNameChange }) => {
   return (
-    <div className={styles.container}>
-      <h4 className={styles.title}>챌린지 이름 짓기</h4>
-      <div className={styles.inputContainer}>
-        <input
+    <FormContainer>
+      <Title>챌린지 이름 짓기</Title>
+      <InputValue
           id="challengeName"
           type="text"
           maxLength="10"
           placeholder="10자 이내로 이름을 지어주세요."
           value={challengeName}
           onChange={handleChallengeNameChange}
-          className={styles.input}
-        />
-      </div>
-    </div>
+        />  
+    </FormContainer>
   );
 };
 
 // 목표 설정 칸
 const SetGoal = ({ category, goal, handleGoalChange, disabled }) => {
   return (
-    <div className={styles.container}>
-      <h4 className={styles.title}>목표 설정하기</h4>
+    <FormContainer>
+      <Title>목표 설정하기</Title>
+      
       <div className={styles.goalSetting}>
         <span>하루에</span>
         <div className={styles.setCategoryText} disabled={disabled}>
           {category}
         </div>
         
-        <input
+        <InputValue
           type="number"
           value={goal}
           onChange={handleGoalChange}
@@ -70,18 +138,19 @@ const SetGoal = ({ category, goal, handleGoalChange, disabled }) => {
           className={styles.input}
           disabled={disabled}
         />
-        <span>번 이상 먹기</span>
+        <span>번 이하 먹기</span>
       </div>
-    </div>
-  );
+
+    </FormContainer>
+    );
 };
 
 // 종료날 선택 칸
 const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handleEndDateChange, durations, disabled }) => {
   return (
-    <div className={styles.container}>
-      <h4 className={styles.title}>종료일 설정하기</h4>
-      <div className={styles.categoryOptions}>
+    <FormContainer>
+      <Title>종료일 설정하기</Title>
+      <CategoryOptions>
         {durations.map((dur) => (
           <CategoryButton
             key={dur}
@@ -93,20 +162,29 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
             {dur}
           </CategoryButton>
         ))}
-      </div>
-      <div className={styles.datePicker}>
-        <input type="date" value={startDate} readOnly />
+      </CategoryOptions>
+
+      <div className={styles['date-container']}>
+        <StyledDateInput
+          type="date"
+          value={startDate}
+          readOnly
+          disabled={disabled}
+        />
         <span> - </span>
-        <input 
-          type="date" 
-          value={endDate} 
+        <StyledDateInput
+          type="date"
+          value={endDate}
           onChange={handleEndDateChange}
           disabled={disabled}
         />
       </div>
-    </div>
+    </FormContainer>
   );
 };
+
+
+
 
 // 수정 모드일 때와 새로쓰는 모드일 때가 구별됨 
 // disable로 수정 모드일 때는 title 빼고는 조작 불가
@@ -183,7 +261,7 @@ const NewMyChallengeView = () => {
     } else {
       await createChallengeListInfo(challengeData);
     }
-    navigate('/mychallengelistview');
+    navigate('/mychallengelist');
   };
 
   const handleCancel = () => {
@@ -194,7 +272,7 @@ const NewMyChallengeView = () => {
   const isEditMode = !!challenge;
 
   return (
-    <div className={styles.wrapper}>
+    <Wrapper>
       <h1>{isEditMode ? '챌린지 수정하기' : '새로운 챌린지 만들기'}</h1>
       <div className={styles.card}>
         <CategorySelect 
@@ -223,7 +301,7 @@ const NewMyChallengeView = () => {
         />
         <ButtonGroup onCancel={handleCancel} onSubmit={handleSubmit} />
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

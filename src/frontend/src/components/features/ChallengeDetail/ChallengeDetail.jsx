@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import style from './ChallengeDetail.module.css';
 import useChallengeDetailStore from '../../../actions/useChallengeDetailStore';
 import getTodayDate from '../../../utils/getTodayDate';
 import Icon from '../../common/Icons/Icon';
 
 // 디테일 헤더
-// h1 h3 변경해야 할까?
-const DetailHeader = ({ title, startDate, endDate, category, maxCount, successfulCount }) => {
+const DetailHeader = ({ title, startDate, endDate, category, maxCount, successfulCount, finished }) => {
     return (
         <div className={style.header}>
-            <h1 className={style.title}><Icon input={category}/>  {title} 챌린지 참여 중</h1>
+            <h1 className={style.title}>
+                <Icon input={category}/>  
+                {title} 챌린지 {finished ? '끝' : '참여 중'}
+            </h1>
             <h3 className={style.category}>{startDate} ~ {endDate} 까지 하루에 {category} {maxCount} 이하 먹기</h3>
             <h3 className={style.category}>누적 성공 횟수 {successfulCount}회</h3>
         </div>
@@ -18,14 +20,11 @@ const DetailHeader = ({ title, startDate, endDate, category, maxCount, successfu
 };
 
 // 디테일 리스트 컨테이너
-// map(date, index) -> 맵을 date에 index를 붙여서 순차적으로 나열
-// 성공 실패 버튼 모달로 변경하기
-const DetailListContainer = ({ dateRange, successes }) => (
+const DetailListContainer = ({ dateRange }) => (
     <div className={style.dayList}>
-        {dateRange.map((date, index) => {
-            const dateString = date.toISOString().split('T')[0];
-            const success = successes.find((s) => s.date === dateString);
-            const isSuccess = success && success.success;
+        {dateRange.map((item, index) => {
+            const { date, success } = item;
+            const isSuccess = success;
 
             return (
                 <div className={style.dayItem} key={index}>
@@ -44,24 +43,36 @@ const DetailListContainer = ({ dateRange, successes }) => (
     </div>
 );
 
-// 현재까지의 성공 실패 List 가져오기 
-// endDate이 30일인데, 오늘 27일 까지의 성공 실패여부 List 가져오기
-const getDateRange = (startDate, endDate) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const dateArray = [];
+// 날짜 범위와 성공 여부를 포함한 배열 생성 (오늘까지)
+const getDateRangeWithSuccess = (startDateStr, endDateStr, successes) => {
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+    const today = new Date(); // 오늘 날짜
+    const dateArray = []; 
 
-    while (start <= end) {
-        dateArray.push(new Date(start));
-        start.setDate(start.getDate() + 1);
+    // 오늘 날짜까지의 날짜 배열 생성
+    while (startDate <= endDate && startDate <= today) {
+        const dateStr = startDate.toISOString().split('T')[0];
+        const successEntry = successes.find(entry => entry.date === dateStr);
+        const isSuccess = successEntry ? successEntry.success : false;
+        
+        dateArray.push({
+            date: new Date(startDate),
+            success: isSuccess
+        });
+
+        startDate.setDate(startDate.getDate() + 1);
     }
+    
     return dateArray;
 };
 
 // 챌린지 디테일 뷰
-// 이거 배치에 따라서 오류가 나는데 나중에 리팩토링 한 번 해야 됨 -> 쥰내 신기함 하나라도 배치 다르게 하면 에러뜸
 const ChallengeDetailView = () => {
     const { id } = useParams();
+    const location = useLocation();
+    const { finished } = location.state || { finished: false }; 
+
     const { updateChallengeDateInfo, challenge } = useChallengeDetailStore(state => ({
         updateChallengeDateInfo: state.updateChallengeDateInfo,
         challenge: state.challenge
@@ -77,16 +88,24 @@ const ChallengeDetailView = () => {
 
     const { title, category, maxCount, endDate, successes, startDate } = challenge;
     
-    // 현재날까지의 최신순이 맨위에 위치할 수 있도록 함 -> reverse
-    const dateRange = getDateRange(startDate, getTodayDate()).reverse(); 
+    // 오늘까지의 성공 여부를 포함한 배열을 생성
+    const dateRange = getDateRangeWithSuccess(startDate, endDate, successes).reverse(); 
 
     // 성공 횟수 카운트
-    const successfulCount = successes.filter(success => success.success).length;
+    const successfulCount = dateRange.filter(item => item.success).length;
 
     return (
         <div className={style.wrapper}>
-            <DetailHeader title={title} startDate={startDate} endDate={endDate} category={category} maxCount={maxCount} successfulCount={successfulCount} />
-            <DetailListContainer dateRange={dateRange} successes={successes} />
+            <DetailHeader 
+                finished={finished} 
+                title={title} 
+                startDate={startDate} 
+                endDate={endDate} 
+                category={category} 
+                maxCount={maxCount} 
+                successfulCount={successfulCount} 
+            />
+            <DetailListContainer dateRange={dateRange} />
         </div>
     );
 };
