@@ -13,7 +13,6 @@ import MainPage from './pages/Main';
 import { queryClient } from './api/instance';
 import { path } from './routes/path';
 import CalendarPage from './pages/Calendar';
-import { WeeklyHeader } from './components/features/Calendar/WeeklyHeader';
 import Layout from './components/common/layouts/Layout';
 import theme from './styles/theme';
 

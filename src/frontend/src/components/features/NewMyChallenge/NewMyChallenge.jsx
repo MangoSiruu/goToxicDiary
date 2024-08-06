@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -19,12 +21,12 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-`;
   h1 {
     font-size: 2rem; /* Adjust font size as needed */
     color: #333; /* Adjust text color as needed */
     margin-bottom: 20px; /* Adjust margin as needed */
   }
+`;
 
 const FormContainer = styled.div`
   margin-right: auto;
@@ -199,10 +201,16 @@ function NewMyChallengeView() {
   const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());
   const [endDate, setEndDate] = useState(challenge?.endDate || '');
   const [durations, setDurations] = useState(['1주', '2주', '1달'] || getTodayDate());
-  const [categories, setCategories] = useState(['액상과당']);
 
   const createChallengeListInfo = useNewChallengeStore((state) => state.createChallengeListInfo);
   const updateChallengeListInfo = useEditChallengeStore((state) => state.updateChallengeListInfo);
+
+  const mapDaysToDuration = (days) => {
+    if (days === 7) return '1주';
+    if (days === 14) return '2주';
+    if (days >= 28 && days <= 31) return '1달';
+    return '';
+  };
 
   useEffect(() => {
     if (challenge) {
@@ -212,13 +220,6 @@ function NewMyChallengeView() {
       setEndDate(initialEndDate);
     }
   }, [challenge, startDate]);
-
-  const mapDaysToDuration = (days) => {
-    if (days === 7) return '1주';
-    if (days === 14) return '2주';
-    if (days >= 28 && days <= 31) return '1달';
-    return '';
-  };
 
   const handleCategoryChange = (cat) => {
     setCategory(cat);
