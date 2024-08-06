@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useChallengeListStore from '../../../actions/useChallengeListStore';
 import durationCalculator from '../../../utils/durationCalcurator';
@@ -23,7 +23,6 @@ const MyChallengeListViewHeader = ({ moveToNewMyChallengeView }) => (
         </UnderlinedButton>
     </div>
 );
-
 
 // Tab이 완료됨(true)이면 삭제 수정 버튼이 안 보임
 const MyChallengeListViewButton = ({ challenge, handleEdit, handleDelete, finished }) => (
@@ -70,6 +69,8 @@ const MyChallengeListView = () => {
         deleteChallenge: state.deleteChallenge,
     }));
 
+    const listRef = useRef(null);
+
     useEffect(() => {
         fetchChallengeList();
     }, [finished]);
@@ -86,12 +87,10 @@ const MyChallengeListView = () => {
         moveToNewMyChallengeView(challenge);
     }, [navigate]);
 
-
     // finished도 같이 넘김
     const handleCardClick = useCallback((challenge, finished) => {
         navigate(`/challengedetail/${challenge.id}`, { state: { finished } });
     }, [navigate]);
-    
 
     const handleDelete = useCallback((id) => {
         deleteChallenge(id);
@@ -101,35 +100,42 @@ const MyChallengeListView = () => {
         updateChallengeListInfo(finished);
     }, [finished, updateChallengeListInfo]);
 
-
     // 스크롤로 다음 리스트 최대 10개를 불러오기
     const loadMoreChallenges = useCallback(() => {
         if (hasNext) {
             updateChallengeListInfo(finished, cursor);
         }
     }, [hasNext, cursor, finished, updateChallengeListInfo]);
-    const handleScroll = useCallback((e) => {
-        const { scrollTop, clientHeight, scrollHeight } = e.target.scrollingElement;
-        if (scrollHeight - scrollTop <= clientHeight + 100) {
-            loadMoreChallenges();
+
+    const handleScroll = useCallback(() => {
+        const container = listRef.current;
+        if (container) {
+            const { scrollTop, clientHeight, scrollHeight } = container;
+            if (scrollHeight - scrollTop <= clientHeight) {
+                loadMoreChallenges();
+            }
         }
     }, [loadMoreChallenges]);
 
     useEffect(() => {
-        document.addEventListener('scroll', handleScroll);
+        const container = listRef.current;
+        if (container) {
+            container.addEventListener('scroll', handleScroll);
+        }
         return () => {
-            document.removeEventListener('scroll', handleScroll);
+            if (container) {
+                container.removeEventListener('scroll', handleScroll);
+            }
         };
     }, [handleScroll]);
 
-    
     return (
         <div className={style.wrapper}>
             <header>
                 <MyChallengeListViewHeader moveToNewMyChallengeView={moveToNewMyChallengeView} />
                 <TabComponent finished={finished} onTabChange={handleTabChange} />
             </header>
-            <ul className={style.challengeList}>
+            <ul className={style.challengeList} ref={listRef}>
                 {challengeList.map((challenge) => (
                     <li 
                         key={challenge.id}
@@ -137,21 +143,20 @@ const MyChallengeListView = () => {
                         onClick={() => handleCardClick(challenge, finished)}
                     >
                         <div className={style.challengeInfo}>
-                        <Icon input={challenge.category} />
-                        <MyChallengeListViewEndDate challenge={challenge} />
-                        <MyChallengeListViewButton 
-                            challenge={challenge} 
-                            handleEdit={handleEdit} 
-                            handleDelete={handleDelete} 
-                            finished={finished}
-                         />
-                    </div>
-                  </li>
-                  
+                            <Icon input={challenge.category} />
+                            <MyChallengeListViewEndDate challenge={challenge} />
+                            <MyChallengeListViewButton 
+                                challenge={challenge} 
+                                handleEdit={handleEdit} 
+                                handleDelete={handleDelete} 
+                                finished={finished}
+                            />
+                        </div>
+                    </li>
                 ))}
             </ul>
         </div>
     );
-}
+};
 
 export default MyChallengeListView;
