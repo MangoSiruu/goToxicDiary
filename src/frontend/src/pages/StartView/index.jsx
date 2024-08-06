@@ -7,7 +7,7 @@ import { path } from '../../routes/path';
 export default function StartView() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-  const logoTitle = `${process.env.PUBLIC_URL}/svg/logoTitle.svg`;
+  const logoTitle = `${import.meta.env.VITE_PUBLIC_URL}/svg/logoTitle.svg`;
 
   useEffect(() => {
     const timer = setTimeout(() => {

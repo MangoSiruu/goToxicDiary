@@ -13,6 +13,7 @@ const iconPaths = {
 
 export const getIconPath = (name) => {
   return (
-    `${process.env.PUBLIC_URL}${iconPaths[name]}` || `${process.env.PUBLIC_URL}/svg/mango_logo.svg`
+    `${import.meta.env.VITE_PUBLIC_URL}${iconPaths[name]}` ||
+    `${import.meta.env.VITE_PUBLIC_URL}/svg/mango_logo.svg`
   );
 };

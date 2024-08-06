@@ -12,7 +12,7 @@ import { handleLogout } from '../../../../api/instance';
 
 export default function MenuBar() {
   const nav = useNavigate();
-  const logoImg = `${process.env.PUBLIC_URL}/svg/mango_logo.svg`;
+  const logoImg = `${import.meta.env.VITE_PUBLIC_URL}/svg/mango_logo.svg`;
 
   const moveToHome = () => {
     nav(path.main);

@@ -3,7 +3,7 @@ import { LoginForm } from '../../components/features/User/Form/Login';
 import { Wrapper } from '../../components/common/layouts/Wrapper';
 
 export default function LoginPage() {
-  const logoTitle = `${process.env.PUBLIC_URL}/svg/logoTitle.svg`;
+  const logoTitle = `${import.meta.env.VITE_PUBLIC_URL}/svg/logoTitle.svg`;
   return (
     <Wrapper>
       <LogoSection>

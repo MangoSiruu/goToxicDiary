@@ -1,10 +1,15 @@
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 import { Wrapper } from '../../components/common/layouts/Wrapper';
 import { SignUpForm } from '../../components/features/User/Form/SignUp';
 import RetryErrorBoundary from '../../components/common/RetryErrorBoundary';
 
 export default function SignUpPage() {
-  const logoTitle = `${process.env.PUBLIC_URL}/svg/logoTitle.svg`;
+  const logoTitle = `${import.meta.env.VITE_PUBLIC_URL}/svg/logoTitle.svg`;
+
+  useEffect(() => {
+    console.log(logoTitle);
+  });
   return (
     <Wrapper>
       <LogoSection>
