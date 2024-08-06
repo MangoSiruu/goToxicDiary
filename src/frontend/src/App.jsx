@@ -74,7 +74,6 @@ function App() {
                 </Layout>
               }
             />
-            <Route path="/cal" element={<WeeklyHeader />} />
           </Routes>
         </Router>
       </QueryClientProvider>

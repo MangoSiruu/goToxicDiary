@@ -15,9 +15,26 @@
   z-index: 1;
 }
 
+
+/* MyChallengeList.module.css */
 .textContainer {
   flex: 1;
 }
+
+.textContainer h1 {
+  font-size: 2rem; /* Adjust as needed */
+  color: #333; /* Adjust as needed */
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.textContainer h3 {
+  font-size: 1.2rem; /* Adjust as needed */
+  color: #666; /* Adjust as needed */
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+
+
 
 .button {
   margin-left: auto;
