@@ -24,7 +24,7 @@ export function SignUpForm() {
   const nav = useNavigate();
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    e.stopPropagation();
     signUp(data);
   };
 

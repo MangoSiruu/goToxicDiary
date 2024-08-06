@@ -74,14 +74,14 @@ function App() {
                 </Layout>
               }
             />
-          <Route
-            path={path.share}
-            element={
-              <Layout>
-                <Share />
-              </Layout>
-            }
-          />
+            <Route
+              path={path.share}
+              element={
+                <Layout>
+                  <Share />
+                </Layout>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

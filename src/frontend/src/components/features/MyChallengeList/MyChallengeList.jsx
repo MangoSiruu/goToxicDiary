@@ -16,8 +16,8 @@ function MyChallengeListViewHeader({ moveToNewMyChallengeView }) {
   return (
     <div className={style.headerContainer}>
       <div className={style.textContainer}>
-        <h1>내 챌린지</h1>
-        <h3>고자극 식생활 타파 도전 일기!</h3>
+        <h2 style={{ fontWeight: '700' }}>내 챌린지</h2>
+        <h4>고자극 식생활 타파 도전 일기!</h4>
       </div>
       <UnderlinedButton onClick={() => moveToNewMyChallengeView(null)}>
         새로 만들기
