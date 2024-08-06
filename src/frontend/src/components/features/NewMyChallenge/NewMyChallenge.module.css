@@ -1,15 +1,13 @@
-
-
 /* Wrapper Styles */
 .wrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #FBF4EE;
+  background-color: #fbf4ee;
   align-items: center; /* Center child elements horizontally */
   justify-content: center; /* Center child elements vertically */
 }
-
 
 /* Card Styles */
 .card {
@@ -32,7 +30,6 @@
 .formGroup {
   margin-bottom: 20px;
 }
-
 
 /* Button and Active Button Styles */
 .categoryOptions button,
@@ -70,7 +67,7 @@
 .setCategoryText {
   background: none;
   border: none;
-  color: #F27F0C;
+  color: #f27f0c;
   text-decoration: underline;
   cursor: pointer;
   font-size: 16px;
@@ -78,7 +75,7 @@
 }
 
 .setCategoryText:hover {
-  color: #F27F0C;
+  color: #f27f0c;
 }
 
 /* Subtitle */
@@ -91,7 +88,7 @@ h5 {
 .categoryOptions {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .button,
