@@ -13,9 +13,6 @@ import MainPage from './pages/Main';
 import { queryClient } from './api/instance';
 import { path } from './routes/path';
 import CalendarPage from './pages/Calendar';
-import { Header } from './components/features/TodayFood/Header';
-import { CardList } from './components/features/TodayFood/CardList';
-import TodayFoodSection from './components/features/Main/TodayFoodSection';
 import { WeeklyHeader } from './components/features/Calendar/WeeklyHeader';
 
 function App() {
