@@ -1,11 +1,15 @@
+import styled from 'styled-components';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { UnderlinedInputField } from '../../../../common/Form/Input/UnderlinedInputField';
+import { UnderlinedButton } from '../../../../common/Button/UnderlinedButton';
 import { Error, FormWrapper, FormBox, Label } from '../Common';
 import useSignUp from '../../../../../api/hooks/useSignUp';
 import { SubmitButton } from '../../../TodayFood/Form/Button';
 import { SignUpStatus } from '../../../../common/Status/Auth';
 import { getStatus } from '../../../../common/Status';
+import { path } from '../../../../../routes/path';
 
 export function SignUpForm() {
   const {
@@ -17,9 +21,14 @@ export function SignUpForm() {
   const password = watch('password');
   const { mutateAsync: signUp, isLoading, isError, isSuccess, error } = useSignUp();
   const status = getStatus({ isLoading, isError, isSuccess });
+  const nav = useNavigate();
 
   const onSubmit = async (data) => {
     await signUp(data);
+  };
+
+  const moveToLogin = () => {
+    nav(path.login);
   };
 
   return (
@@ -96,7 +105,14 @@ export function SignUpForm() {
         <SubmitButton theme="orange" type="submit">
           회원가입
         </SubmitButton>
+        <Container>
+          <UnderlinedButton onClick={moveToLogin}>로그인</UnderlinedButton>
+        </Container>
       </FormWrapper>
     </form>
   );
 }
+
+const Container = styled.div`
+  width: 100%;
+`;
