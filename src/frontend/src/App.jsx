@@ -23,57 +23,57 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-          <Route path={path.start} element={<StartView />} />
-          <Route path={path.signup} element={<SignUpPage />} />
-          <Route path={path.login} element={<LoginPage />} />
-          <Route
-            path={path.main}
-            element={
-              <Layout>
-                <MainPage />
-              </Layout>
-            }
-          />
-          <Route
-            path={path.calendar}
-            element={
-              <Layout>
-                <CalendarPage />
-              </Layout>
-            }
-          />
-          <Route
-            path={path.todayEat}
-            element={
-              <Layout>
-                <TodayEatPage />
-              </Layout>
-            }
-          />
-          <Route
-            path={path.mychallengelist}
-            element={
-              <Layout>
-                <MyChallengeList />
-              </Layout>
-            }
-          />
-          <Route
-            path={path.newmychallenge}
-            element={
-              <Layout>
-                <NewMyChallenge />
-              </Layout>
-            }
-          />
-          <Route
-            path="/challengedetail/:id"
-            element={
-              <Layout>
-                <ChallengeDetail />
-              </Layout>
-            }
-          />
+            <Route path={path.start} element={<StartView />} />
+            <Route path={path.signup} element={<SignUpPage />} />
+            <Route path={path.login} element={<LoginPage />} />
+            <Route
+              path={path.main}
+              element={
+                <Layout>
+                  <MainPage />
+                </Layout>
+              }
+            />
+            <Route
+              path={path.calendar}
+              element={
+                <Layout>
+                  <CalendarPage />
+                </Layout>
+              }
+            />
+            <Route
+              path={path.todayEat}
+              element={
+                <Layout>
+                  <TodayEatPage />
+                </Layout>
+              }
+            />
+            <Route
+              path={path.mychallengelist}
+              element={
+                <Layout>
+                  <MyChallengeList />
+                </Layout>
+              }
+            />
+            <Route
+              path={path.newmychallenge}
+              element={
+                <Layout>
+                  <NewMyChallenge />
+                </Layout>
+              }
+            />
+            <Route
+              path="/challengedetail/:id"
+              element={
+                <Layout>
+                  <ChallengeDetail />
+                </Layout>
+              }
+            />
           <Route
             path={path.share}
             element={

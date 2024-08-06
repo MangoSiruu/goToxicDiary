@@ -1,16 +1,19 @@
 const iconPaths = {
-  술: '/src/assets/icons/svg/beer.svg',
-  카페인: '/src/assets/icons/svg/coffee.svg',
-  액상과당: '/src/assets/icons/svg/cola.svg',
-  인스턴트: '/src/assets/icons/svg/instant.svg',
-  야식: '/src/assets/icons/svg/pizza.svg',
-  기타: '/src/assets/icons/svg/spoon.svg',
-  매운음식: '/src/assets/icons/svg/pepper.svg',
-  로고: '/src/assets/icons/svg/mango_logo.svg',
-  성공망고: '/src/assets/icons/svg/mango_success.svg',
-  실패망고: '/src/assets/icons/svg/mango_fail.svg',
+  술: '/svg/beer.svg',
+  카페인: '/svg/coffee.svg',
+  액상과당: '/svg/cola.svg',
+  인스턴트: '/svg/instant.svg',
+  야식: '/svg/pizza.svg',
+  기타: '/svg/spoon.svg',
+  매운음식: '/svg/pepper.svg',
+  로고: '/svg/mango_logo.svg',
+  성공망고: '/svg/mango_success.svg',
+  실패망고: '/svg/mango_fail.svg',
 };
 
 export const getIconPath = (name) => {
-  return iconPaths[name] || '/src/assets/icons/svg/default.svg';
+  return (
+    `${import.meta.env.VITE_PUBLIC_URL}${iconPaths[name]}` ||
+    `${import.meta.env.VITE_PUBLIC_URL}/svg/mango_logo.svg`
+  );
 };

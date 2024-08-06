@@ -19,12 +19,13 @@ export function SignUpForm() {
     formState: { errors },
   } = useForm();
   const password = watch('password');
-  const { mutateAsync: signUp, isLoading, isError, isSuccess, error } = useSignUp();
+  const { mutate: signUp, isLoading, isError, isSuccess, error } = useSignUp();
   const status = getStatus({ isLoading, isError, isSuccess });
   const nav = useNavigate();
 
-  const onSubmit = async (data) => {
-    await signUp(data);
+  const onSubmit = (data, e) => {
+    e.preventDefault();
+    signUp(data);
   };
 
   const moveToLogin = () => {

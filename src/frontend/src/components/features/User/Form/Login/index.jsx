@@ -21,7 +21,8 @@ export function LoginForm() {
   const status = getStatus({ isLoading, isError, isSuccess });
   const nav = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data, e) => {
+    e.preventDefault();
     login(data);
   };
 

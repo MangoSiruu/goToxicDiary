@@ -7,12 +7,12 @@ import { IoLogOut } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { colors, breakpoints } from '../../../../styles/variants';
 import { IconContainer } from '../../../common/layouts/Icons';
-import logoImg from '../../../../assets/icons/svg/mango_logo.svg';
 import { path } from '../../../../routes/path';
 import { handleLogout } from '../../../../api/instance';
 
 export default function MenuBar() {
   const nav = useNavigate();
+  const logoImg = `${import.meta.env.VITE_PUBLIC_URL}/svg/mango_logo.svg`;
 
   const moveToHome = () => {
     nav(path.main);

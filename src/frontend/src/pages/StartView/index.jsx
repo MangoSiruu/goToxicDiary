@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import logoTitle from '../../assets/icons/svg/logoTitle.svg';
 import { colors } from '../../styles/variants';
 import { path } from '../../routes/path';
 
 export default function StartView() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
+  const logoTitle = `${import.meta.env.VITE_PUBLIC_URL}/svg/logoTitle.svg`;
 
   useEffect(() => {
     const timer = setTimeout(() => {
