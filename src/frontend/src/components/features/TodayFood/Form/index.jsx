@@ -103,6 +103,7 @@ const Wrapper = styled.div`
   gap: 20px;
   background-color: #fff;
   border-radius: 20px;
+  margin-bottom: 10px;
 `;
 
 const ButtonWrapper = styled.div`
