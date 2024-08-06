@@ -14,16 +14,11 @@ const OneWeek = ({ sundayDate, filter }) => {
         filter_category: filter,
     });
 
-    console.log(data);
-
     if (isLoading) return <Loader></Loader>
     if (error) return <p>Error: {error.message}</p>;
 
-     // data가 정의되어 있지 않을 경우 빈 배열을 사용
-     const dailyRecords = data?.dailyRecords || [];
 
-
-    // const response = {
+    // const data = {
     //     "message" : "섭취 기록 리스트 조회 성공",
     //     "dailyRecords" : [
     //         {

@@ -17,6 +17,7 @@ const Wrapper = styled.div`
     padding: 10px 20px;
     gap: 5px;
 
+    width: 100%;
     position: relative;
 
     background: ${ colors.white };
