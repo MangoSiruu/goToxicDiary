@@ -29,17 +29,10 @@ export function ChallengeWidgetSection() {
     if (!challengeList || challengeList.length <= 0) {
       return <span>진행 중인 챌린지가 없어요!</span>;
     }
-    // 화면 너비가 xs 이하일 경우 하나의 챌린지 항목만, sm 이하의 경우에는 세개까지.
-    let itemsToShow;
-    if (windowWidth <= parseInt(breakpoints.xs, 10)) {
-      itemsToShow = challengeList.slice(0, 1);
-    } else {
-      itemsToShow = challengeList;
-    }
 
     return (
       <List>
-        {itemsToShow.map((challenge) => (
+        {challengeList.map((challenge) => (
           <WidgetBox key={challenge.id} challenge={challenge} />
         ))}
       </List>
@@ -67,22 +60,24 @@ const Wrapper = styled.section`
 
 const List = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
   padding: 10px 0px;
   width: 100%;
   gap: 30px;
-  @media (max-width: ${breakpoints.xs}) {
-    flex-direction: row;
-    justify-content: center;
-    padding: 0;
-    gap: 4px;
-  }
-  @media (max-width: ${breakpoints.sm}) {
-    flex-direction: row;
-    justify-content: center;
-    padding: 10px 0px;
-  }
+
+  overflow-x: auto;
+
+  // @media (max-width: ${breakpoints.xs}) {
+  //   flex-direction: row;
+  //   justify-content: center;
+  //   padding: 0;
+  //   gap: 4px;
+  // }
+  // @media (max-width: ${breakpoints.sm}) {
+  //   flex-direction: row;
+  //   justify-content: center;
+  //   padding: 10px 0px;
+  // }
 `;
 
 const Header = styled.div`

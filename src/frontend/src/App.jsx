@@ -15,6 +15,7 @@ import { path } from './routes/path';
 import CalendarPage from './pages/Calendar';
 import Layout from './components/common/layouts/Layout';
 import theme from './styles/theme';
+import Share from './components/features/Share';
 
 function App() {
   return (
@@ -70,6 +71,14 @@ function App() {
             element={
               <Layout>
                 <ChallengeDetail />
+              </Layout>
+            }
+          />
+          <Route
+            path={path.share}
+            element={
+              <Layout>
+                <Share />
               </Layout>
             }
           />

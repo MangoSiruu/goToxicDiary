@@ -5,12 +5,24 @@ import Reports from "../../components/features/Report/Reports";
 import MonthlyCalendar from "../../components/features/Calendar/MonthlyCalendar";
 import { colors } from "../../styles/variants";
 import { breakpoints } from "../../styles/variants";
+import { UnderlinedButton } from "../../components/common/Button/UnderlinedButton";
+import { useNavigate } from "react-router-dom";
+import { path } from "../../routes/path";
 
 export default function CalendarPage() {
+    const nav = useNavigate();
+
+    const moveToShare = () => {
+        nav(path.share);
+    };
+
     return (
         <Wrapper>
             <ReportSection>
                 <ReportHeader></ReportHeader>
+                <ShareButtonSection>
+                    <UnderlinedButton onClick={moveToShare}>공유하기</UnderlinedButton>
+                </ShareButtonSection>
                 <Reports></Reports>
             </ReportSection>
             <CalendarSection>
@@ -43,10 +55,13 @@ const ReportSection = styled.div`
     justify-content: center;
     align-items: center;
     padding: 0px;
-    gap: 10px;
     isolation: isolate;
 
     width: 100%;
+`
+
+const ShareButtonSection = styled.div`
+    margin-left: auto;
 `
 
 const CalendarSection = styled.div`
@@ -82,5 +97,5 @@ const CalendarTitle = styled.h1`
         font-size: 20px;
     }
 
-    color: ${colors.darkGray}
+    color: ${colors.mainGray}
 `

@@ -59,40 +59,30 @@ export default function MenuBar() {
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
   height: 100%;
-  padding: 50px 8px;
   max-height: 1024px;
   gap: 70px;
-  background-color: ${colors.mainOrange};
   border-radius: 20px;
 
-  @media (max-width: ${breakpoints.sm}) {
-    flex-direction: row;
-    padding: 4px 8px;
-    justify-content: space-between;
-    width: 100%;
-    background-color: transparent;
-  }
+  flex-direction: row;
+  padding: 4px 8px;
+  justify-content: space-between;
+  width: 100%;
+  background-color: transparent;
 `;
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 20px;
-  gap: 30px;
-  color: ${colors.white};
-  @media (max-width: ${breakpoints.sm}) {
-    flex-direction: row;
-    margin: 0;
-    gap: 12px;
-    color: ${colors.mainOrange};
-    padding: 0px 4px;
-    .home {
-      display: none;
-    }
+  
+  flex-direction: row;
+  margin: 0;
+  gap: 12px;
+  color: ${colors.mainOrange};
+  padding: 0px 4px;
+  .home {
+    display: none;
   }
 `;

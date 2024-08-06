@@ -7,4 +7,5 @@ export const path = {
   calendar: '/calendar',
   mychallengelist: '/mychallengelist',
   newmychallenge: '/newmychallenge',
+  share: '/share',
 };

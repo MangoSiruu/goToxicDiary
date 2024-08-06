@@ -16,7 +16,7 @@ export default function Layout({ children }) {
 const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
-  display: flex;
+  // display: flex;
   flex-direction: row;
   align-items: stretch;
   padding: 30px;
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   width: 100%;
-  display: flex;
+  // display: flex;
   flex-direction: row;
   align-items: center;
   padding: 30px 10px;

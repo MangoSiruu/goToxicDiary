@@ -14,6 +14,7 @@ export default function MainPage() {
         <TodayFoodSection />
         <WeeklyHeader />
         <WeeklyCalendar />
+        <br></br>
       </RightSection>
       <LeftSection>
         {' '}
@@ -41,10 +42,10 @@ const LeftSection = styled.section`
   gap: 40px;
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 20px;
-  @media (max-width: ${breakpoints.sm}) {
-    max-width: none;
-    width: 100%;
-    margin-top: 20px;
-    background-color: ${colors.backgroundColor};
-  }
+  // @media (max-width: ${breakpoints.sm}) {
+  //   max-width: none;
+  //   width: 100%;
+  //   margin-top: 20px;
+  //   background-color: ${colors.backgroundColor};
+  // }
 `;

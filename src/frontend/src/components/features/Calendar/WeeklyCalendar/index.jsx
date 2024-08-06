@@ -3,6 +3,7 @@ import CalendarWrapper from "../CalendarWrapper";
 import CalendarHeader from "../../CalendarHeader";
 import OneWeek from "../../CalendarBody/OneWeek";
 import useStandardDateStore from "../../../../actions/useStandardDateStore";
+import styled from "@emotion/styled";
 
 const WeeklyCalendar = () => {
     
@@ -20,9 +21,15 @@ const WeeklyCalendar = () => {
                 prevAction={subOneWeek} 
                 nextAction={addOneWeek} 
                 title={getWeeksTitle(today, week)}/>
-            <OneWeek sundayDate={week} filter="전체"></OneWeek>
+            <WeeklyWrapper>
+                <OneWeek sundayDate={week} filter="전체"></OneWeek>
+            </WeeklyWrapper>
         </CalendarWrapper>
     );
 };
+
+const WeeklyWrapper = styled.div`
+    overflow-x: auto;
+`
 
 export default WeeklyCalendar;

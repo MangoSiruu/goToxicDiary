@@ -41,7 +41,7 @@ const Title = styled.h1`
         font-size: 20px;
     }
 
-    color: ${colors.darkGray};
+    color: ${colors.mainGray};
 `
 
 const SubTitle = styled.p`
@@ -59,7 +59,7 @@ const SubTitle = styled.p`
         font-size: 14px;
     }
 
-    color: ${colors.darkGray};
+    color: ${colors.mainGray};
 `
 
 export default ReportHeader;
