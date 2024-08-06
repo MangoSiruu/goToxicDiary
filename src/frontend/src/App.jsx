@@ -14,10 +14,11 @@ import { queryClient } from './api/instance';
 import { path } from './routes/path';
 import CalendarPage from './pages/Calendar';
 import { WeeklyHeader } from './components/features/Calendar/WeeklyHeader';
+import theme from './styles/theme';
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
