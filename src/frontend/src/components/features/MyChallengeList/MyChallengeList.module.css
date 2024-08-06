@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #FBF4EE;
+  background-color: #fbf4ee;
+  width: 100%;
 }
 
 .headerContainer {
@@ -10,13 +11,30 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #FBF4EE; /* Ensure the header background matches the wrapper */
+  background-color: #fbf4ee; /* Ensure the header background matches the wrapper */
   z-index: 1;
 }
 
+
+/* MyChallengeList.module.css */
 .textContainer {
   flex: 1;
 }
+
+.textContainer h1 {
+  font-size: 2rem; /* Adjust as needed */
+  color: #333; /* Adjust as needed */
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.textContainer h3 {
+  font-size: 1.2rem; /* Adjust as needed */
+  color: #666; /* Adjust as needed */
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+
+
 
 .button {
   margin-left: auto;
@@ -33,7 +51,6 @@
 .challengeList::-webkit-scrollbar {
   display: none;
 }
-
 
 .challengeItem {
   display: flex;
@@ -81,7 +98,7 @@
 }
 
 .editButton {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 

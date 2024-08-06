@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Route, Routes, HashRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import ChallengeDetail from './components/features/ChallengeDetail/ChallengeDetail';
@@ -13,6 +13,7 @@ import MainPage from './pages/Main';
 import { queryClient } from './api/instance';
 import { path } from './routes/path';
 import CalendarPage from './pages/Calendar';
+import Layout from './components/common/layouts/Layout';
 import theme from './styles/theme';
 import WeeklyCalendar from './components/features/Calendar/WeeklyCalendar';
 
@@ -20,20 +21,61 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <Router>
+        <HashRouter basename={process.env.PUBLIC_URL}>
           <Routes>
             <Route path={path.start} element={<StartView />} />
             <Route path={path.signup} element={<SignUpPage />} />
             <Route path={path.login} element={<LoginPage />} />
-            <Route path={path.main} element={<MainPage />} />
-            <Route path={path.calendar} element={<CalendarPage />} />
-            <Route path={path.todayEat} element={<TodayEatPage />} />
-            <Route path={path.mychallengelist} element={<MyChallengeList />} />
-            <Route path={path.newmychallenge} element={<NewMyChallenge />} />
-            <Route path="/challengedetail/:id" element={<ChallengeDetail />} />
-            <Route path="/test" element={<WeeklyCalendar />} />
+            <Route
+              path={path.main}
+              element={
+                <Layout>
+                  <MainPage />
+                </Layout>
+              }
+            />
+            <Route
+              path={path.calendar}
+              element={
+                <Layout>
+                  <CalendarPage />
+                </Layout>
+              }
+            />
+            <Route
+              path={path.todayEat}
+              element={
+                <Layout>
+                  <TodayEatPage />
+                </Layout>
+              }
+            />
+            <Route
+              path={path.mychallengelist}
+              element={
+                <Layout>
+                  <MyChallengeList />
+                </Layout>
+              }
+            />
+            <Route
+              path={path.newmychallenge}
+              element={
+                <Layout>
+                  <NewMyChallenge />
+                </Layout>
+              }
+            />
+            <Route
+              path="/challengedetail/:id"
+              element={
+                <Layout>
+                  <ChallengeDetail />
+                </Layout>
+              }
+            />
           </Routes>
-        </Router>
+        </HashRouter>
       </QueryClientProvider>
     </ChakraProvider>
   );
