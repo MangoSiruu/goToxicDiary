@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import { LoginForm } from '../../components/features/User/Form/Login';
-import logoTitle from '../../assets/icons/svg/logoTitle.svg';
 import { Wrapper } from '../../components/common/layouts/Wrapper';
 
 export default function LoginPage() {
+  const logoTitle = '/svg/logoTitle.svg';
   return (
     <Wrapper>
       <LogoSection>
-        <img src={logoTitle} alt="고망다이어리 로고" width="200px" />
+        <img src={process.env.PUBLIC_URL + logoTitle} alt="고망다이어리 로고" width="200px" />
       </LogoSection>
       <FormSection>
         <LoginForm />

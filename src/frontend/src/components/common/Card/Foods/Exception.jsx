@@ -14,7 +14,11 @@ export function ExceptionCard() {
   };
   return (
     <Wrapper>
-      <IconContainer src={getIconPath('로고')} width="56px" height="46px" />
+      <IconContainer
+        src={process.env.PUBLIC_URL + getIconPath('로고')}
+        width="56px"
+        height="46px"
+      />
       <Text>
         아직 기록하지 <br /> 않으셨나요?
       </Text>

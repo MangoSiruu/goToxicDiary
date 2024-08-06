@@ -15,7 +15,7 @@ export function Card({ toxicFood }) {
 
   return (
     <Wrapper onClick={moveToForm}>
-      <IconContainer src={getIconPath(name)} width="56px" height="46px" />
+      <IconContainer src={process.env.PUBLIC_URL + getIconPath(name)} width="56px" height="46px" />
       <FoodName>{name}</FoodName>
       <Count>{count}</Count>
     </Wrapper>

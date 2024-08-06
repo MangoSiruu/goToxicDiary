@@ -6,7 +6,7 @@ import { getIconPath } from '../../../utils/Icons/getIconPath';
 export function ReportCard({ type, count }) {
   return (
     <Wrapper>
-      <IconContainer src={getIconPath(type)} width="56px" height="46px" />
+      <IconContainer src={process.env.PUBLIC_URL + getIconPath(type)} width="56px" height="46px" />
       <FoodName>{type}</FoodName>
       <Count>{count}일</Count>
     </Wrapper>

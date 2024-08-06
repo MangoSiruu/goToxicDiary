@@ -20,7 +20,11 @@ export function WidgetBox({ challenge }) {
     <Wrapper onClick={moveTodetail}>
       <Header>
         <HeaderContainer>
-          <IconContainer src={getIconPath(category)} width="50px" height="50px" />
+          <IconContainer
+            src={process.env.PUBLIC_URL + getIconPath(category)}
+            width="50px"
+            height="50px"
+          />
           <Inner>
             <Title>{challenge.title}</Title>
             <Description>

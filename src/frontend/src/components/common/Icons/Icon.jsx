@@ -1,10 +1,9 @@
 import React from 'react';
 import { getIconPath } from '../../../utils/Icons/getIconPath';
 
-
-const Icon = ({ input }) => {
-  const iconPath = getIconPath(input);
+function Icon({ input }) {
+  const iconPath = process.env.PUBLIC_URL + getIconPath(input);
   return <img src={iconPath} alt={input} />;
-};
+}
 
 export default Icon;

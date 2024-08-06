@@ -7,12 +7,12 @@ import { IoLogOut } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { colors, breakpoints } from '../../../../styles/variants';
 import { IconContainer } from '../../../common/layouts/Icons';
-import logoImg from '../../../../assets/icons/svg/mango_logo.svg';
 import { path } from '../../../../routes/path';
 import { handleLogout } from '../../../../api/instance';
 
 export default function MenuBar() {
   const nav = useNavigate();
+  const logoImg = '/svg/mango_logo.svg';
 
   const moveToHome = () => {
     nav(path.main);
@@ -40,7 +40,12 @@ export default function MenuBar() {
   return (
     <Wrapper>
       <button type="button" onClick={moveToHome}>
-        <IconContainer src={logoImg} alt="고망다이어리 로고" width="45px" height="45px" />
+        <IconContainer
+          src={process.env.PUBLIC_URL + logoImg}
+          alt="고망다이어리 로고"
+          width="45px"
+          height="45px"
+        />
       </button>
       <Container>
         <AiFillHome
