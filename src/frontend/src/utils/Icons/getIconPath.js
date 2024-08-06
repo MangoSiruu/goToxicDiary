@@ -12,5 +12,5 @@ const iconPaths = {
 };
 
 export const getIconPath = (name) => {
-  return iconPaths[name] || '/svg/default.svg';
+  return iconPaths[name] || '/svg/mango_logo.svg';
 };

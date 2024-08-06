@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { colors, breakpoints } from '../../../../styles/variants';
 import { IconContainer } from '../../../common/layouts/Icons';
 import { path } from '../../../../routes/path';
-import { handleLogout } from '../../../../api/instance';
+import { BASE_URL, handleLogout } from '../../../../api/instance';
 
 export default function MenuBar() {
   const nav = useNavigate();
@@ -41,7 +41,7 @@ export default function MenuBar() {
     <Wrapper>
       <button type="button" onClick={moveToHome}>
         <IconContainer
-          src={process.env.PUBLIC_URL + logoImg}
+          src={BASE_URL + logoImg}
           alt="고망다이어리 로고"
           width="45px"
           height="45px"

@@ -5,6 +5,7 @@ import { colors } from '../../../../styles/variants';
 import CategoryBox from '../../../common/Categories';
 import { getEngCategoryType } from '../../../../utils/getEngCategoryType';
 import { getIconPath } from '../../../../utils/Icons/getIconPath';
+import { BASE_URL } from '../../../../api/instance';
 
 // <OneDay dateStr="2024-07-27" dailyResponse={response.map(...)}></OneDay>
 function OneDay({ dateStr, dailyResponse }) {
@@ -35,7 +36,7 @@ function OneDay({ dateStr, dailyResponse }) {
           ))
         ) : (
           <EmptyBox>
-            <img src={process.env.PUBLIC_URL + getIconPath('로고')} alt="망고 로고" />
+            <img src={BASE_URL + getIconPath('로고')} alt="망고 로고" />
             <p>텅</p>
           </EmptyBox>
         )}

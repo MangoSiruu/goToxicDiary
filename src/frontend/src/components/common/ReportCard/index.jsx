@@ -2,11 +2,12 @@ import styled from '@emotion/styled';
 import { colors } from '../../../styles/variants';
 import { IconContainer } from '../layouts/Icons';
 import { getIconPath } from '../../../utils/Icons/getIconPath';
+import { BASE_URL } from '../../../api/instance';
 
 export function ReportCard({ type, count }) {
   return (
     <Wrapper>
-      <IconContainer src={process.env.PUBLIC_URL + getIconPath(type)} width="56px" height="46px" />
+      <IconContainer src={BASE_URL + getIconPath(type)} width="56px" height="46px" />
       <FoodName>{type}</FoodName>
       <Count>{count}일</Count>
     </Wrapper>
