@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { colors } from "../../../../styles/variants";
+import { breakpoints } from "../../../../styles/variants";
 
 const ReportHeader = () => {
     return (
@@ -35,7 +36,10 @@ const Title = styled.h1`
     align-items: center;
     text-align: center;
     letter-spacing: -0.05em;
-
+    
+    @media screen and (max-width: ${breakpoints.sm}) {
+        font-size: 20px;
+    }
 
     color: ${colors.darkGray};
 `
@@ -50,6 +54,10 @@ const SubTitle = styled.p`
     align-items: center;
     text-align: center;
     letter-spacing: -0.05em;
+
+    @media screen and (max-width: ${breakpoints.sm}) {
+        font-size: 14px;
+    }
 
     color: ${colors.darkGray};
 `

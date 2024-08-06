@@ -4,6 +4,7 @@ import ReportHeader from "../../components/features/Report/ReportHeader";
 import Reports from "../../components/features/Report/Reports";
 import MonthlyCalendar from "../../components/features/Calendar/MonthlyCalendar";
 import { colors } from "../../styles/variants";
+import { breakpoints } from "../../styles/variants";
 
 export default function CalendarPage() {
     return (
@@ -44,6 +45,8 @@ const ReportSection = styled.div`
     padding: 0px;
     gap: 10px;
     isolation: isolate;
+
+    width: 100%;
 `
 
 const CalendarSection = styled.div`
@@ -74,6 +77,10 @@ const CalendarTitle = styled.h1`
     align-items: center;
     text-align: center;
     letter-spacing: -0.05em;
+
+    @media screen and (max-width: ${breakpoints.sm}) {
+        font-size: 20px;
+    }
 
     color: ${colors.darkGray}
 `

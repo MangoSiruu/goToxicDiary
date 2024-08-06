@@ -20,6 +20,8 @@ const Wrapper = styled.div`
     width: 100%;
     position: relative;
 
+    overflow-x: scroll;
+
     background: ${ colors.white };
     border-radius: 20px;
 `;
