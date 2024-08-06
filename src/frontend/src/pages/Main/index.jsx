@@ -5,22 +5,22 @@ import { colors, breakpoints } from '../../styles/variants';
 import UserBanner from '../../components/features/Main/UserBanner';
 import { WeeklyHeader } from '../../components/features/Calendar/WeeklyHeader';
 import WeeklyCalendar from '../../components/features/Calendar/WeeklyCalendar';
+import RetryErrorBoundary from '../../components/common/RetryErrorBoundary';
 
 export default function MainPage() {
   return (
-    <>
+    <RetryErrorBoundary>
       <RightSection>
         <UserBanner />
         <TodayFoodSection />
         <WeeklyHeader />
         <WeeklyCalendar />
-        <br></br>
       </RightSection>
       <LeftSection>
         {' '}
         <ChallengeWidgetSection />
       </LeftSection>
-    </>
+    </RetryErrorBoundary>
   );
 }
 

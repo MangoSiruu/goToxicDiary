@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Wrapper } from '../../components/common/layouts/Wrapper/Orange';
 import { TodayEatForm } from '../../components/features/TodayFood/Form';
 import { CardList } from '../../components/features/TodayFood/CardList';
@@ -8,11 +7,11 @@ import useTodayFoods from '../../hooks/useTodayEatFoods';
 import { breakpoints } from '../../styles/variants';
 import RetryErrorBoundary from '../../components/common/RetryErrorBoundary';
 import { UnderlinedButton } from '../../components/common/Button/UnderlinedButton';
+import { path } from '../../routes/path';
 
 export default function TodayEatPage() {
   const [toxicFoods, setToxicFoods] = useState([]);
   const todayFoods = useTodayFoods();
-  const nav = useNavigate();
 
   useEffect(() => {
     if (todayFoods) {
@@ -25,7 +24,7 @@ export default function TodayEatPage() {
   };
 
   const moveToBack = () => {
-    nav(-1);
+    window.location.href = path.main;
   };
 
   return (

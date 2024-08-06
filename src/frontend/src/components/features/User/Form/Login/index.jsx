@@ -22,7 +22,7 @@ export function LoginForm() {
   const nav = useNavigate();
 
   const onSubmit = (data, e) => {
-    e.preventDefault();
+    e.stopPropagation();
     login(data);
   };
 

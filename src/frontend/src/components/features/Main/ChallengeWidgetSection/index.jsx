@@ -12,13 +12,13 @@ export function ChallengeWidgetSection() {
   const nav = useNavigate();
   const { data, isLoading } = useChallengeList({ finished: false, size: 2 });
   const challengeList = data.content;
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  });
 
   const moveToChallengePage = () => {
     nav(path.mychallengelist);
