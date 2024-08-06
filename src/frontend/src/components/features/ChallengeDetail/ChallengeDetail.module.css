@@ -1,0 +1,119 @@
+/* Hide scrollbar for webkit browsers (Chrome, Safari) */
+.dayList::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.dayList {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+/* General styles */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #FBF4EE;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    gap: 0; /* Ensure no gap between the icon and the text */
+}
+
+.category {
+    font-size: 1.2rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+.details {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.description {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.info {
+    font-size: 1rem;
+    color: #333;
+}
+
+.info p {
+    margin: 10px 0;
+}
+
+.info strong {
+    color: #000;
+}
+
+.dayList {
+    list-style: none;
+    padding: 20px;
+    width: 100%;
+    flex: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.dayItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.emoji {
+    font-size: 24px;
+}
+
+.date {
+    font-size: 18px;
+    flex: 1;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.success {
+    background-color: #ffcc80;
+    color: #fff;
+}
+
+.fail {
+    background-color: #e0e0e0;
+    color: #757575;
+}
+
+
+.noSuccess {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 18px;
+    color: #999;
+}

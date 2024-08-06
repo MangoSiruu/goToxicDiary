@@ -1,0 +1,10 @@
+.defaultImg {
+  text-align: center;
+  border-radius: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: white;
+}
+.profileImg {
+  margin-top: 8px;
+}
