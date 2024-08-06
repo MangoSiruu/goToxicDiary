@@ -7,6 +7,7 @@ import { format, startOfMonth, endOfMonth } from "date-fns";
 import useStandardDateStore from "../../../actions/useStandardDateStore";
 import { colors } from "../../../styles/variants";
 import { breakpoints } from "../../../styles/variants";
+import { getIconPath } from "../../../utils/Icons/getIconPath";
 
 const Share = () => {
     // 음식 종류 배열
@@ -88,6 +89,7 @@ const Share = () => {
                     ))}
                 </BottomRow>
             </ShareWrapper>
+            <img src={getIconPath("월별리포트하단로고")} alt="로고"/>
         </Wrapper>
     );
 };

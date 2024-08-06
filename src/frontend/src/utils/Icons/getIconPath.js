@@ -9,6 +9,7 @@ const iconPaths = {
   로고: '/svg/mango_logo.svg',
   성공망고: '/svg/mango_success.svg',
   실패망고: '/svg/mango_fail.svg',
+  월별리포트하단로고: '/svg/report_logo.svg'
 };
 
 export const getIconPath = (name) => {
