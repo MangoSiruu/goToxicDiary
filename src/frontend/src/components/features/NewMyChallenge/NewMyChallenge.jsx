@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
 import styles from './NewMyChallenge.module.css';
 import ButtonGroup from '../../common/Button/ButtonGroup';
 import getTodayDate from '../../../utils/getTodayDate';
@@ -9,14 +11,13 @@ import durationCalculator from '../../../utils/durationCalcurator';
 import useEditChallengeStore from '../../../actions/useEditChallengeStore';
 import { CategoryButton } from '../../common/Button/Categories';
 import { categories as defaultCategories } from '../../../constant/Foods/categories';
-import styled from '@emotion/styled';
 
 // Styled Components
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #FBF4EE;
+  background-color: #fbf4ee;
   align-items: center;
   justify-content: center;
   h1 {
@@ -42,7 +43,7 @@ const InputValue = styled.input`
   width: 100%;
   height: 33px;
   border: none;
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 1px solid #bdbdbd;
   background-color: transparent;
   font-size: 14px;
   outline: none;
@@ -52,7 +53,7 @@ const StyledDateInput = styled.input`
   box-sizing: border-box;
   padding: 5px;
   border: none;
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 1px solid #bdbdbd;
   background-color: transparent;
   font-size: 18px;
   &:disabled {
@@ -78,7 +79,7 @@ const CategoryOptions = styled.div`
 `;
 
 // 카테고리 선택 칸
-const CategorySelect = ({ category, handleCategoryChange, disabled, categories }) => {
+function CategorySelect({ category, handleCategoryChange, disabled, categories }) {
   return (
     <FormContainer>
       <Title>카테고리 선택하기</Title>
@@ -96,10 +97,10 @@ const CategorySelect = ({ category, handleCategoryChange, disabled, categories }
       </CategoryOptions>
     </FormContainer>
   );
-};
+}
 
 // 이름 작성 칸
-const SetName = ({ challengeName, handleChallengeNameChange }) => {
+function SetName({ challengeName, handleChallengeNameChange }) {
   return (
     <FormContainer>
       <Title>챌린지 이름 짓기</Title>
@@ -113,10 +114,10 @@ const SetName = ({ challengeName, handleChallengeNameChange }) => {
       />
     </FormContainer>
   );
-};
+}
 
 // 목표 설정 칸
-const SetGoal = ({ category, goal, handleGoalChange, disabled }) => {
+function SetGoal({ category, goal, handleGoalChange, disabled }) {
   return (
     <FormContainer>
       <Title>목표 설정하기</Title>
@@ -137,10 +138,18 @@ const SetGoal = ({ category, goal, handleGoalChange, disabled }) => {
       </div>
     </FormContainer>
   );
-};
+}
 
 // 종료일 설정 칸
-const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handleEndDateChange, durations, disabled }) => {
+function SetEndDate({
+  duration,
+  handleDurationChange,
+  startDate,
+  endDate,
+  handleEndDateChange,
+  durations,
+  disabled,
+}) {
   return (
     <FormContainer>
       <Title>종료일 설정하기</Title>
@@ -158,12 +167,7 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
         ))}
       </CategoryOptions>
       <div className={styles['date-container']}>
-        <StyledDateInput
-          type="date"
-          value={startDate}
-          readOnly
-          disabled={disabled}
-        />
+        <StyledDateInput type="date" value={startDate} readOnly disabled={disabled} />
         <span> - </span>
         <StyledDateInput
           type="date"
@@ -174,10 +178,10 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
       </div>
     </FormContainer>
   );
-};
+}
 
 // NewMyChallengeView Component
-const NewMyChallengeView = () => {
+function NewMyChallengeView() {
   const location = useLocation();
   const navigate = useNavigate();
   const challenge = location.state?.challenge;
@@ -185,7 +189,7 @@ const NewMyChallengeView = () => {
   const [duration, setDuration] = useState('');
   const [goal, setGoal] = useState(challenge?.maxCount || 0);
   const [challengeName, setChallengeName] = useState(challenge?.title || '');
-  const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());
+  const [startDate] = useState(challenge?.startDate || getTodayDate());
   const [endDate, setEndDate] = useState(challenge?.endDate || '');
   const [durations] = useState(['1주', '2주', '1달']);
   const [cleanedCategories, setCleanedCategories] = useState([]);
@@ -193,10 +197,17 @@ const NewMyChallengeView = () => {
   const createChallengeListInfo = useNewChallengeStore((state) => state.createChallengeListInfo);
   const updateChallengeListInfo = useEditChallengeStore((state) => state.updateChallengeListInfo);
 
+  const mapDaysToDuration = (days) => {
+    if (days === 7) return '1주';
+    if (days === 14) return '2주';
+    if (days >= 28 && days <= 31) return '1달';
+    return '';
+  };
+
   useEffect(() => {
     // Use categories as is
     setCleanedCategories(defaultCategories);
-  
+
     if (challenge) {
       setDuration(mapDaysToDuration(durationCalculator(challenge.startDate, challenge.endDate)));
     } else {
@@ -204,14 +215,6 @@ const NewMyChallengeView = () => {
       setEndDate(initialEndDate);
     }
   }, [challenge, startDate]);
-  
-
-  const mapDaysToDuration = (days) => {
-    if (days === 7) return '1주';
-    if (days === 14) return '2주';
-    if (days >= 28 && days <= 31) return '1달';
-    return '';
-  };
 
   const handleCategoryChange = (cat) => {
     setCategory(cat);
@@ -239,9 +242,12 @@ const NewMyChallengeView = () => {
   };
 
   const removeEmojis = (text) => {
-    return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2300}-\u{23FF}]/gu, '');
+    return text.replace(
+      /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2300}-\u{23FF}]/gu,
+      '',
+    );
   };
-  
+
   const handleSubmit = async () => {
     const challengeData = {
       category: removeEmojis(category),
@@ -250,7 +256,7 @@ const NewMyChallengeView = () => {
       startDate,
       endDate,
     };
-  
+
     try {
       if (challenge) {
         await updateChallengeListInfo(challenge.id, challengeData);
@@ -262,7 +268,6 @@ const NewMyChallengeView = () => {
       console.error('Error submitting challenge:', error);
     }
   };
-  
 
   const handleCancel = () => {
     navigate(-1);
@@ -274,35 +279,35 @@ const NewMyChallengeView = () => {
     <Wrapper>
       <h1>{isEditMode ? '챌린지 수정하기' : '새로운 챌린지 만들기'}</h1>
       <div className={styles.card}>
-        <CategorySelect 
-          category={category} 
-          handleCategoryChange={handleCategoryChange} 
-          disabled={isEditMode} 
-          categories={cleanedCategories} 
+        <CategorySelect
+          category={category}
+          handleCategoryChange={handleCategoryChange}
+          disabled={isEditMode}
+          categories={cleanedCategories}
         />
-        <SetName 
-          challengeName={challengeName} 
-          handleChallengeNameChange={handleChallengeNameChange} 
+        <SetName
+          challengeName={challengeName}
+          handleChallengeNameChange={handleChallengeNameChange}
         />
-        <SetGoal 
-          category={category} 
-          goal={goal} 
-          handleGoalChange={handleGoalChange} 
-          disabled={isEditMode} 
+        <SetGoal
+          category={category}
+          goal={goal}
+          handleGoalChange={handleGoalChange}
+          disabled={isEditMode}
         />
-        <SetEndDate 
-          duration={duration} 
-          handleDurationChange={handleDurationChange} 
-          startDate={startDate} 
-          endDate={endDate} 
-          handleEndDateChange={handleEndDateChange}  
-          durations={durations} 
+        <SetEndDate
+          duration={duration}
+          handleDurationChange={handleDurationChange}
+          startDate={startDate}
+          endDate={endDate}
+          handleEndDateChange={handleEndDateChange}
+          durations={durations}
           disabled={isEditMode}
         />
         <ButtonGroup onCancel={handleCancel} onSubmit={handleSubmit} />
       </div>
     </Wrapper>
   );
-};
+}
 
 export default NewMyChallengeView;
