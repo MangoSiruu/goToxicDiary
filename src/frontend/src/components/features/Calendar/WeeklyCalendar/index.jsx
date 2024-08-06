@@ -20,7 +20,7 @@ const WeeklyCalendar = () => {
                 prevAction={subOneWeek} 
                 nextAction={addOneWeek} 
                 title={getWeeksTitle(today, week)}/>
-            <OneWeek sundayDate={week}></OneWeek>
+            <OneWeek sundayDate={week} filter="전체"></OneWeek>
         </CalendarWrapper>
     );
 };

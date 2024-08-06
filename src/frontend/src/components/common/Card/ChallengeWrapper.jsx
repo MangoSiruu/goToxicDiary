@@ -1,14 +1,7 @@
 import React from 'react';
 import style from './ChallengeWrapper.module.css';
 
-
-
-
-
-
-
-
-const ChallengeWrapper = ({ input }) => {
+function ChallengeWrapper({ input }) {
   return (
     <div className={style.wrapper}>
       <img>커피</img>
@@ -22,7 +15,6 @@ const ChallengeWrapper = ({ input }) => {
       <button>삭제</button>
     </div>
   );
-};
+}
 
 export default ChallengeWrapper;
-

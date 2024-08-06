@@ -17,7 +17,10 @@ const Wrapper = styled.div`
     padding: 10px 20px;
     gap: 5px;
 
+    width: 100%;
     position: relative;
+
+    overflow-x: scroll;
 
     background: ${ colors.white };
     border-radius: 20px;

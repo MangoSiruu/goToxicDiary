@@ -1,34 +1,36 @@
 import styled from '@emotion/styled';
 import { UnderlinedButton } from '../../../common/Button/UnderlinedButton';
 import { breakpoints } from '../../../../styles/variants';
-import { path } from '../../../../routes/path';
 import { useNavigate } from 'react-router-dom';
+import { path } from '../../../../routes/path';
 
-export function Header() {
+export function WeeklyHeader() {
   const nav = useNavigate();
 
-  const moveToTodayEat = () => {
-    nav(path.todayEat);
+  const moveToCalendar = () => {
+    nav(path.calendar); 
   };
 
   return (
     <Wrapper>
-      <Title>오늘 내가 먹은 고자극 음식은?</Title>
-      <UnderlinedButton onClick={moveToTodayEat} type="수정하기">수정하기</UnderlinedButton>
+      <Title>주차별 내 캘린더</Title>
+      <UnderlinedButton onClick={moveToCalendar}>보러가기</UnderlinedButton>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  gap: 10px;
-  position: relative;
+    /* title */
 
-  width: 100%;
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+
+    width: 100%;
 `;
 
 const Title = styled.h1`

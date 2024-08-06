@@ -4,5 +4,7 @@ export const path = {
   login: '/login',
   signup: '/signup',
   todayEat: '/todayEat',
-  test: '/test',
+  calendar: '/calendar',
+  mychallengelist: '/mychallengelist',
+  newmychallenge: '/newmychallenge',
 };

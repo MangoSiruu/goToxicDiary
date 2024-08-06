@@ -4,11 +4,15 @@ import { colors } from "../../../../styles/variants";
 import CategoryBox from "../../../common/Categories";
 import { getEngCategoryType } from "../../../../utils/getEngCategoryType";
 import { getIconPath } from "../../../../utils/Icons/getIconPath";
+import { format } from "date-fns";
 
 // <OneDay dateStr="2024-07-27" dailyResponse={response.map(...)}></OneDay>
 const OneDay = ({ dateStr, dailyResponse }) => {
     // 표시할 날을 "YYYY-MM-DD" 형식의 string으로 받아온 다음 Date 객체로 변경
     const date = new Date(dateStr);
+    const todayStr = format(new Date(), "yyyy-MM-dd");
+
+    const isToday = dateStr === todayStr;
 
     // 요일 배열
     const days = ["일", "월", "화", "수", "목", "금", "토"];
@@ -31,7 +35,7 @@ const OneDay = ({ dateStr, dailyResponse }) => {
     // }
 
     return (
-        <Wrapper>
+        <Wrapper isToday={isToday}>
             <Header>
                 <p>{day}</p>
                 <p>{dateNum}</p>
@@ -63,10 +67,8 @@ const Wrapper = styled.div`
 
     margin: 0 auto;
 
-    background-color: ${ colors.white };
+    background-color: ${ props => props.isToday ? 'rgba(244, 209, 96, 0.4)' : colors.white };
     border-radius: 10px;
-
-    // background: rgba(244, 209, 96, 0.4);
 `;
 
 const Header = styled.div`
@@ -102,6 +104,8 @@ const EmptyBox = styled.div`
     align-items: center;
     padding: 5px;
     gap: 5px;
+    
+    width: 90px;
 `;
 
 export default OneDay;

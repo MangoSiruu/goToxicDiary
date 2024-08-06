@@ -99,10 +99,6 @@ button {
 button:disabled {
   cursor: default;
 }
-:focus {
-  outline: 2px solid rgba(255, 127, 0, 0.5);
-  outline-offset: 1px;
-}
 :focus[data-focus-method='mouse']:not(input):not(textarea):not(select),
 :focus[data-focus-method='touch']:not(input):not(textarea):not(select) {
   outline: none;

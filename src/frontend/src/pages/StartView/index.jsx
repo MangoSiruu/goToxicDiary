@@ -1,8 +1,26 @@
+import { useEffect } from 'react';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import logoTitle from '../../assets/icons/svg/logoTitle.svg';
 import { colors } from '../../styles/variants';
+import { path } from '../../routes/path';
 
 export default function StartView() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (token) {
+        navigate(path.main);
+      } else {
+        navigate(path.login);
+      }
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  });
+
   return (
     <Wrapper>
       <img src={logoTitle} alt="고망다이어리 로고" width="200px" />
