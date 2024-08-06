@@ -6,7 +6,6 @@ import { getIconPath } from '../../../../../utils/Icons/getIconPath';
 import getDayCount from '../../../../../utils/Calendar/getDayCount';
 import ProgressRate from './ProgressRate';
 import ChallegePreview from './ChallengePreview';
-import { BASE_URL } from '../../../../../api/instance';
 
 export function WidgetBox({ challenge }) {
   const { category } = challenge;
@@ -21,7 +20,7 @@ export function WidgetBox({ challenge }) {
     <Wrapper onClick={moveTodetail}>
       <Header>
         <HeaderContainer>
-          <IconContainer src={BASE_URL + getIconPath(category)} width="50px" height="50px" />
+          <IconContainer src={getIconPath(category)} width="50px" height="50px" />
           <Inner>
             <Title>{challenge.title}</Title>
             <Description>

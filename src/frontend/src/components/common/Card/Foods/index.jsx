@@ -4,7 +4,6 @@ import { colors } from '../../../../styles/variants';
 import { IconContainer } from '../../layouts/Icons';
 import { getIconPath } from '../../../../utils/Icons/getIconPath';
 import { path } from '../../../../routes/path';
-import { BASE_URL } from '../../../../api/instance';
 
 export function Card({ toxicFood }) {
   const { name, count } = toxicFood;
@@ -16,7 +15,7 @@ export function Card({ toxicFood }) {
 
   return (
     <Wrapper onClick={moveToForm}>
-      <IconContainer src={BASE_URL + getIconPath(name)} width="56px" height="46px" />
+      <IconContainer src={getIconPath(name)} width="56px" height="46px" />
       <FoodName>{name}</FoodName>
       <Count>{count}</Count>
     </Wrapper>

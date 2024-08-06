@@ -6,7 +6,6 @@ import { colors } from '../../../../styles/variants';
 
 import { getIconPath } from '../../../../utils/Icons/getIconPath';
 import { path } from '../../../../routes/path';
-import { BASE_URL } from '../../../../api/instance';
 
 export function ExceptionCard() {
   const nav = useNavigate();
@@ -15,7 +14,7 @@ export function ExceptionCard() {
   };
   return (
     <Wrapper>
-      <IconContainer src={BASE_URL + getIconPath('로고')} width="56px" height="46px" />
+      <IconContainer src={getIconPath('로고')} width="56px" height="46px" />
       <Text>
         아직 기록하지 <br /> 않으셨나요?
       </Text>

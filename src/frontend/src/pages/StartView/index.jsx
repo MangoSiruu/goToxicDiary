@@ -3,12 +3,11 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { colors } from '../../styles/variants';
 import { path } from '../../routes/path';
-import { BASE_URL } from '../../api/instance';
 
 export default function StartView() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-  const logoTitle = '/svg/logoTitle.svg';
+  const logoTitle = `${process.env.PUBLIC_URL}/svg/logoTitle.svg`;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,7 +23,7 @@ export default function StartView() {
 
   return (
     <Wrapper>
-      <img src={BASE_URL + logoTitle} alt="고망다이어리 로고" width="200px" />
+      <img src={logoTitle} alt="고망다이어리 로고" width="200px" />
       <Text>
         고자극은 이제 고망!
         <br />

@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router-dom';
 import { colors, breakpoints } from '../../../../styles/variants';
 import { IconContainer } from '../../../common/layouts/Icons';
 import { path } from '../../../../routes/path';
-import { BASE_URL, handleLogout } from '../../../../api/instance';
+import { handleLogout } from '../../../../api/instance';
 
 export default function MenuBar() {
   const nav = useNavigate();
-  const logoImg = '/svg/mango_logo.svg';
+  const logoImg = `${process.env.PUBLIC_URL}/svg/mango_logo.svg`;
 
   const moveToHome = () => {
     nav(path.main);
@@ -40,12 +40,7 @@ export default function MenuBar() {
   return (
     <Wrapper>
       <button type="button" onClick={moveToHome}>
-        <IconContainer
-          src={BASE_URL + logoImg}
-          alt="고망다이어리 로고"
-          width="45px"
-          height="45px"
-        />
+        <IconContainer src={logoImg} alt="고망다이어리 로고" width="45px" height="45px" />
       </button>
       <Container>
         <AiFillHome
