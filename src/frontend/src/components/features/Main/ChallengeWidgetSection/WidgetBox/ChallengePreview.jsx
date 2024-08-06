@@ -6,7 +6,7 @@ import { colors, breakpoints } from '../../../../../styles/variants';
 export default function ChallegePreview({ id }) {
   const { data, isLoading } = useChallenge(id);
   const { challenge } = data;
-  const successList = challenge.successes?.slice().reverse() || []; // 최신순 정렬
+  const successList = challenge.successes?.slice(0,2).reverse() || []; // 최신순 정렬
 
   const formatDate = (dateString) => {
     const [year, month, day] = dateString.split('-');

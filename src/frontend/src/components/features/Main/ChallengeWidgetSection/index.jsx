@@ -10,7 +10,7 @@ import { path } from '../../../../routes/path';
 
 export function ChallengeWidgetSection() {
   const nav = useNavigate();
-  const { data, isLoading } = useChallengeList({ finished: false, size: 2 });
+  const { data, isLoading } = useChallengeList({ finished: false, size: 5 });
   const challengeList = data.content;
   const [setWindowWidth] = useState(window.innerWidth);
 
