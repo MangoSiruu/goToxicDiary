@@ -14,6 +14,7 @@ import { queryClient } from './api/instance';
 import { path } from './routes/path';
 import CalendarPage from './pages/Calendar';
 import theme from './styles/theme';
+import WeeklyCalendar from './components/features/Calendar/WeeklyCalendar';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
             <Route path={path.mychallengelist} element={<MyChallengeList />} />
             <Route path={path.newmychallenge} element={<NewMyChallenge />} />
             <Route path="/challengedetail/:id" element={<ChallengeDetail />} />
-            {/* <Route path="/cal" element={<Reports />} /> */}
+            <Route path="/test" element={<WeeklyCalendar />} />
           </Routes>
         </Router>
       </QueryClientProvider>
