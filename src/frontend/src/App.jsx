@@ -12,10 +12,11 @@ import TodayEatPage from './pages/TodayEat';
 import MainPage from './pages/Main';
 import { queryClient } from './api/instance';
 import { path } from './routes/path';
+import theme from './styles/theme';
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
