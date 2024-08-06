@@ -34,7 +34,14 @@ function App() {
                 </Layout>
               }
             />
-            <Route path={path.calendar} element={<CalendarPage />} />
+            <Route
+              path={path.calendar}
+              element={
+                <Layout>
+                  <CalendarPage />
+                </Layout>
+              }
+            />
             <Route
               path={path.todayEat}
               element={
