@@ -26,11 +26,16 @@
     font-size: 2rem;
     color: #333;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    gap: 0; /* Ensure no gap between the icon and the text */
 }
 
 .category {
     font-size: 1.2rem;
-    color: #777;
+    color: #666;
+    margin: 5px 0;
 }
 
 .details {
@@ -103,4 +108,12 @@
 .fail {
     background-color: #e0e0e0;
     color: #757575;
+}
+
+
+.noSuccess {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 18px;
+    color: #999;
 }

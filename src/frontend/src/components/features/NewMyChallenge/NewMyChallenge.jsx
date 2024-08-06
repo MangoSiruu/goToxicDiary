@@ -19,6 +19,11 @@ const Wrapper = styled.div`
   background-color: #FBF4EE;
   align-items: center;
   justify-content: center;
+  h1 {
+    font-size: 2rem; /* Adjust font size as needed */
+    color: #333; /* Adjust text color as needed */
+    margin-bottom: 20px; /* Adjust margin as needed */
+  }
 `
 
 const FormContainer = styled.div`
@@ -91,8 +96,8 @@ const CategorySelect = ({ category, handleCategoryChange, disabled }) => {
           <CategoryButton
             key={cat}
             category={cat}
-            onClick={() => handleCategoryChange(cat.replace(/[\p{Emoji}]/gu, '').trim())}     // 이모티콘 삭제하고 글자만 보여주는 코드
             isSelected={category === cat}
+            onClick={() => handleCategoryChange(cat.replace(/[\p{Emoji}]/gu, '').trim())} // Emoji removal
             disabled={disabled}
           />
         ))}
@@ -155,7 +160,7 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
           <CategoryButton       // 카테고리 버튼 재활용함 
             key={dur}
             category={dur}
-            className={duration === dur ? styles.active : styles.button}
+            isSelected={duration === dur}
             onClick={() => handleDurationChange(dur)}
             disabled={disabled}
           >
@@ -199,6 +204,7 @@ const NewMyChallengeView = () => {
   const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());   
   const [endDate, setEndDate] = useState(challenge?.endDate || '');
   const [durations, setDurations] = useState(['1주', '2주', '1달'] || getTodayDate());
+  const [categories, setCategories] = useState(['액상과당']);
 
   const createChallengeListInfo = useNewChallengeStore((state) => state.createChallengeListInfo);
   const updateChallengeListInfo = useEditChallengeStore((state) => state.updateChallengeListInfo);
@@ -277,6 +283,7 @@ const NewMyChallengeView = () => {
       <div className={styles.card}>
         <CategorySelect 
           category={category} 
+          categories={categories}
           handleCategoryChange={handleCategoryChange} 
           disabled={isEditMode} 
         />
