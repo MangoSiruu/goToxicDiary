@@ -1,8 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
 import styles from './NewMyChallenge.module.css';
 import ButtonGroup from '../../common/Button/ButtonGroup';
 import getTodayDate from '../../../utils/getTodayDate';
@@ -11,20 +8,21 @@ import useNewChallengeStore from '../../../actions/useNewChallengeStore';
 import durationCalculator from '../../../utils/durationCalcurator';
 import useEditChallengeStore from '../../../actions/useEditChallengeStore';
 import { CategoryButton } from '../../common/Button/Categories';
-import { categories } from '../../../constant/Foods/categories';
+import { categories as defaultCategories } from '../../../constant/Foods/categories';
+import styled from '@emotion/styled';
 
+// Styled Components
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #fbf4ee;
+  background-color: #FBF4EE;
   align-items: center;
   justify-content: center;
-  width: 100%;
   h1 {
-    font-size: 2rem; /* Adjust font size as needed */
-    color: #333; /* Adjust text color as needed */
-    margin-bottom: 20px; /* Adjust margin as needed */
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
   }
 `;
 
@@ -36,29 +34,25 @@ const FormContainer = styled.div`
 
 const InputValue = styled.input`
   box-sizing: border-box;
-
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 5px 4px;
   gap: 10px;
-
-  width: 100%; /* 부모 요소의 너비에 맞춤 */
+  width: 100%;
   height: 33px;
-
-  border: none; /* 기본 테두리 제거 */
-  border-bottom: 1px solid #bdbdbd; /* 하단 테두리 추가 */
-
-  background-color: transparent; /* 배경색 투명 */
-  font-size: 14px; /* 텍스트 크기 */
-  outline: none; /* 포커스 시 아웃라인 제거 */
+  border: none;
+  border-bottom: 1px solid #BDBDBD;
+  background-color: transparent;
+  font-size: 14px;
+  outline: none;
 `;
 
 const StyledDateInput = styled.input`
   box-sizing: border-box;
   padding: 5px;
   border: none;
-  border-bottom: 1px solid #bdbdbd;
+  border-bottom: 1px solid #BDBDBD;
   background-color: transparent;
   font-size: 18px;
   &:disabled {
@@ -84,7 +78,7 @@ const CategoryOptions = styled.div`
 `;
 
 // 카테고리 선택 칸
-function CategorySelect({ category, handleCategoryChange, disabled }) {
+const CategorySelect = ({ category, handleCategoryChange, disabled, categories }) => {
   return (
     <FormContainer>
       <Title>카테고리 선택하기</Title>
@@ -94,18 +88,18 @@ function CategorySelect({ category, handleCategoryChange, disabled }) {
           <CategoryButton
             key={cat}
             category={cat}
+            onClick={() => handleCategoryChange(cat)}
             isSelected={category === cat}
-            onClick={() => handleCategoryChange(cat.replace(/[\p{Emoji}]/gu, '').trim())} // Emoji removal
             disabled={disabled}
           />
         ))}
       </CategoryOptions>
     </FormContainer>
   );
-}
+};
 
 // 이름 작성 칸
-function SetName({ challengeName, handleChallengeNameChange }) {
+const SetName = ({ challengeName, handleChallengeNameChange }) => {
   return (
     <FormContainer>
       <Title>챌린지 이름 짓기</Title>
@@ -119,20 +113,18 @@ function SetName({ challengeName, handleChallengeNameChange }) {
       />
     </FormContainer>
   );
-}
+};
 
 // 목표 설정 칸
-function SetGoal({ category, goal, handleGoalChange, disabled }) {
+const SetGoal = ({ category, goal, handleGoalChange, disabled }) => {
   return (
     <FormContainer>
       <Title>목표 설정하기</Title>
-
       <div className={styles.goalSetting}>
         <span>하루에</span>
         <div className={styles.setCategoryText} disabled={disabled}>
           {category}
         </div>
-
         <InputValue
           type="number"
           value={goal}
@@ -145,24 +137,16 @@ function SetGoal({ category, goal, handleGoalChange, disabled }) {
       </div>
     </FormContainer>
   );
-}
+};
 
-// 종료날 선택 칸
-function SetEndDate({
-  duration,
-  handleDurationChange,
-  startDate,
-  endDate,
-  handleEndDateChange,
-  durations,
-  disabled,
-}) {
+// 종료일 설정 칸
+const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handleEndDateChange, durations, disabled }) => {
   return (
     <FormContainer>
       <Title>종료일 설정하기</Title>
       <CategoryOptions>
         {durations.map((dur) => (
-          <CategoryButton // 카테고리 버튼 재활용함
+          <CategoryButton
             key={dur}
             category={dur}
             isSelected={duration === dur}
@@ -173,9 +157,13 @@ function SetEndDate({
           </CategoryButton>
         ))}
       </CategoryOptions>
-
       <div className={styles['date-container']}>
-        <StyledDateInput type="date" value={startDate} readOnly disabled={disabled} />
+        <StyledDateInput
+          type="date"
+          value={startDate}
+          readOnly
+          disabled={disabled}
+        />
         <span> - </span>
         <StyledDateInput
           type="date"
@@ -186,11 +174,10 @@ function SetEndDate({
       </div>
     </FormContainer>
   );
-}
+};
 
-// 수정 모드일 때와 새로쓰는 모드일 때가 구별됨
-// disable로 수정 모드일 때는 title 빼고는 조작 불가
-function NewMyChallengeView() {
+// NewMyChallengeView Component
+const NewMyChallengeView = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const challenge = location.state?.challenge;
@@ -200,19 +187,16 @@ function NewMyChallengeView() {
   const [challengeName, setChallengeName] = useState(challenge?.title || '');
   const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());
   const [endDate, setEndDate] = useState(challenge?.endDate || '');
-  const [durations, setDurations] = useState(['1주', '2주', '1달'] || getTodayDate());
+  const [durations] = useState(['1주', '2주', '1달']);
+  const [cleanedCategories, setCleanedCategories] = useState([]);
 
   const createChallengeListInfo = useNewChallengeStore((state) => state.createChallengeListInfo);
   const updateChallengeListInfo = useEditChallengeStore((state) => state.updateChallengeListInfo);
 
-  const mapDaysToDuration = (days) => {
-    if (days === 7) return '1주';
-    if (days === 14) return '2주';
-    if (days >= 28 && days <= 31) return '1달';
-    return '';
-  };
-
   useEffect(() => {
+    // Use categories as is
+    setCleanedCategories(defaultCategories);
+  
     if (challenge) {
       setDuration(mapDaysToDuration(durationCalculator(challenge.startDate, challenge.endDate)));
     } else {
@@ -220,6 +204,14 @@ function NewMyChallengeView() {
       setEndDate(initialEndDate);
     }
   }, [challenge, startDate]);
+  
+
+  const mapDaysToDuration = (days) => {
+    if (days === 7) return '1주';
+    if (days === 14) return '2주';
+    if (days >= 28 && days <= 31) return '1달';
+    return '';
+  };
 
   const handleCategoryChange = (cat) => {
     setCategory(cat);
@@ -243,68 +235,74 @@ function NewMyChallengeView() {
     const newEndDate = e.target.value;
     setEndDate(newEndDate);
     const calculatedDuration = durationCalculator(startDate, newEndDate);
-    const mappedDuration = mapDaysToDuration(calculatedDuration);
-    setDuration(mappedDuration);
+    setDuration(mapDaysToDuration(calculatedDuration));
   };
 
-  // fetch로 form 제출
+  const removeEmojis = (text) => {
+    return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2300}-\u{23FF}]/gu, '');
+  };
+  
   const handleSubmit = async () => {
     const challengeData = {
-      category,
-      title: challengeName,
+      category: removeEmojis(category),
+      title: removeEmojis(challengeName),
       maxCount: goal,
       startDate,
       endDate,
     };
-
-    // 수정할 경우와 새로만들 경우
-    if (challenge) {
-      await updateChallengeListInfo(challenge.id, challengeData);
-    } else {
-      await createChallengeListInfo(challengeData);
+  
+    try {
+      if (challenge) {
+        await updateChallengeListInfo(challenge.id, challengeData);
+      } else {
+        await createChallengeListInfo(challengeData);
+      }
+      navigate('/mychallengelist');
+    } catch (error) {
+      console.error('Error submitting challenge:', error);
     }
-    navigate('/mychallengelist');
   };
+  
 
   const handleCancel = () => {
     navigate(-1);
   };
 
-  // 수정 모드 확인
   const isEditMode = !!challenge;
 
   return (
     <Wrapper>
       <h1>{isEditMode ? '챌린지 수정하기' : '새로운 챌린지 만들기'}</h1>
       <div className={styles.card}>
-        <CategorySelect
-          category={category}
-          handleCategoryChange={handleCategoryChange}
-          disabled={isEditMode}
+        <CategorySelect 
+          category={category} 
+          handleCategoryChange={handleCategoryChange} 
+          disabled={isEditMode} 
+          categories={cleanedCategories} 
         />
-        <SetName
-          challengeName={challengeName}
-          handleChallengeNameChange={handleChallengeNameChange}
+        <SetName 
+          challengeName={challengeName} 
+          handleChallengeNameChange={handleChallengeNameChange} 
         />
-        <SetGoal
-          category={category}
-          goal={goal}
-          handleGoalChange={handleGoalChange}
-          disabled={isEditMode}
+        <SetGoal 
+          category={category} 
+          goal={goal} 
+          handleGoalChange={handleGoalChange} 
+          disabled={isEditMode} 
         />
-        <SetEndDate
-          duration={duration}
-          handleDurationChange={handleDurationChange}
-          startDate={startDate}
-          endDate={endDate}
-          handleEndDateChange={handleEndDateChange}
-          durations={durations}
+        <SetEndDate 
+          duration={duration} 
+          handleDurationChange={handleDurationChange} 
+          startDate={startDate} 
+          endDate={endDate} 
+          handleEndDateChange={handleEndDateChange}  
+          durations={durations} 
           disabled={isEditMode}
         />
         <ButtonGroup onCancel={handleCancel} onSubmit={handleSubmit} />
       </div>
     </Wrapper>
   );
-}
+};
 
 export default NewMyChallengeView;
