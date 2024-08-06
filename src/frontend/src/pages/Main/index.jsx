@@ -3,6 +3,8 @@ import TodayFoodSection from '../../components/features/Main/TodayFoodSection';
 import { ChallengeWidgetSection } from '../../components/features/Main/ChallengeWidgetSection';
 import { colors, breakpoints } from '../../styles/variants';
 import UserBanner from '../../components/features/Main/UserBanner';
+import { WeeklyHeader } from '../../components/features/Calendar/WeeklyHeader';
+import WeeklyCalendar from '../../components/features/Calendar/WeeklyCalendar';
 
 export default function MainPage() {
   return (
@@ -10,6 +12,8 @@ export default function MainPage() {
       <RightSection>
         <UserBanner />
         <TodayFoodSection />
+        <WeeklyHeader />
+        <WeeklyCalendar />
       </RightSection>
       <LeftSection>
         {' '}
@@ -24,9 +28,8 @@ const RightSection = styled.section`
   // max-width: 883px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   padding: 0px 10px;
-  gap: 20px;
+  gap: 0px;
 `;
 
 const LeftSection = styled.section`

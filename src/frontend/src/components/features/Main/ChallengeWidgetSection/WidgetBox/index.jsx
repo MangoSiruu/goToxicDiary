@@ -24,7 +24,7 @@ export function WidgetBox({ challenge }) {
           <Inner>
             <Title>{challenge.title}</Title>
             <Description>
-              D - <span style={{ fontWeight: 700, fontSize: '14px' }}>{remainingDays}</span>
+              남은 일수 <span style={{ fontWeight: 700, fontSize: '14px' }}>{remainingDays}</span>
             </Description>
           </Inner>
           <ProgressRate id={challenge.id} />
