@@ -61,11 +61,25 @@ const getDateRangeWithSuccess = (startDateStr, endDateStr, successes) => {
             success: isSuccess
         });
 
+        // 날짜 증가
         startDate.setDate(startDate.getDate() + 1);
+    }
+
+    // 오늘 날짜가 포함되지 않은 경우 추가
+    if (startDate > endDate && startDate > today && !dateArray.some(entry => entry.date.toISOString().split('T')[0] === today.toISOString().split('T')[0])) {
+        const dateStr = today.toISOString().split('T')[0];
+        const successEntry = successes.find(entry => entry.date === dateStr);
+        const isSuccess = successEntry ? successEntry.success : false;
+        
+        dateArray.push({
+            date: new Date(today),
+            success: isSuccess
+        });
     }
     
     return dateArray;
 };
+
 
 // 챌린지 디테일 뷰
 const ChallengeDetailView = () => {
