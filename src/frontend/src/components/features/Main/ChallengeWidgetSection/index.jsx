@@ -10,7 +10,7 @@ import { path } from '../../../../routes/path';
 
 export function ChallengeWidgetSection() {
   const nav = useNavigate();
-  const { data, isLoading } = useChallengeList({ finished: false, size: 3 });
+  const { data, isLoading } = useChallengeList({ finished: false, size: 2 });
   const challengeList = data.content;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -33,10 +33,8 @@ export function ChallengeWidgetSection() {
     let itemsToShow;
     if (windowWidth <= parseInt(breakpoints.xs, 10)) {
       itemsToShow = challengeList.slice(0, 1);
-    } else if (windowWidth <= parseInt(breakpoints.sm, 10)) {
-      itemsToShow = challengeList.slice(0, 3);
     } else {
-      itemsToShow = challengeList.slice(0, 2);
+      itemsToShow = challengeList;
     }
 
     return (
