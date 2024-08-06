@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "npx vite",
+    "build": "npx vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
+    "preview": "npx vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "predeploy": "npm run build",
@@ -65,7 +65,7 @@
     "prettier": "^3.3.3",
     "prop-types": "^15.8.1",
     "storybook": "^8.2.6",
-    "vite": "^5.3.4"
+    "vite": "^5.3.5"
   },
   "homepage": "https://MangoSiruu.github.io/nonToxicDiary"
 }
