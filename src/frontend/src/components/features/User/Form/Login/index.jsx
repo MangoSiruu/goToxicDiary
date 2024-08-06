@@ -1,11 +1,15 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { UnderlinedInputField } from '../../../../common/Form/Input/UnderlinedInputField';
+import { UnderlinedButton } from '../../../../common/Button/UnderlinedButton';
 import { Error, FormWrapper, FormBox, Label } from '../Common';
 import { SubmitButton } from '../../../TodayFood/Form/Button';
 import useLogin from '../../../../../api/hooks/useLogin';
 import { getStatus } from '../../../../common/Status';
 import { LoginStatus } from '../../../../common/Status/Auth';
+import { path } from '../../../../../routes/path';
 
 export function LoginForm() {
   const {
@@ -13,11 +17,16 @@ export function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { mutateAsync: login, isLoading, isError, isSuccess, error } = useLogin();
+  const { mutate: login, isLoading, isError, isSuccess, error } = useLogin();
   const status = getStatus({ isLoading, isError, isSuccess });
+  const nav = useNavigate();
 
-  const onSubmit = async (data) => {
-    await login(data);
+  const onSubmit = (data) => {
+    login(data);
+  };
+
+  const moveToSignUp = () => {
+    nav(path.signup);
   };
 
   return (
@@ -27,7 +36,17 @@ export function LoginForm() {
         <FormBox>
           <UnderlinedInputField
             placeholder="아이디"
-            {...register('id', { required: '아이디를 입력하세요' })}
+            {...register('id', {
+              required: '아이디를 입력하세요',
+              minLength: {
+                value: 8,
+                message: '! 8~15자리의 아이디를 입력해주세요.',
+              },
+              maxLength: {
+                value: 15,
+                message: '! 8~15자리의 아이디를 입력해주세요.',
+              },
+            })}
           />
           {errors.id && <Error>{errors.id.message}</Error>}
         </FormBox>
@@ -36,7 +55,17 @@ export function LoginForm() {
           <UnderlinedInputField
             type="password"
             placeholder="비밀번호"
-            {...register('password', { required: '비밀번호를 입력하세요' })}
+            {...register('password', {
+              required: '비밀번호를 입력하세요',
+              minLength: {
+                value: 12,
+                message: '! 12~20자리 비밀번호를 입력해주세요.',
+              },
+              maxLength: {
+                value: 20,
+                message: '! 12~20자리의 아이디를 입력해주세요.',
+              },
+            })}
           />
           {errors.password && <Error>{errors.password.message}</Error>}
         </FormBox>
@@ -44,7 +73,14 @@ export function LoginForm() {
         <SubmitButton theme="orange" type="confirm">
           로그인
         </SubmitButton>
+        <Container>
+          <UnderlinedButton onClick={moveToSignUp}>회원가입</UnderlinedButton>
+        </Container>
       </FormWrapper>
     </form>
   );
 }
+
+const Container = styled.div`
+  width: 100%;
+`;

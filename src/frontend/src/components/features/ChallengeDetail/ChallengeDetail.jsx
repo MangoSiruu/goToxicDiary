@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import style from './ChallengeDetail.module.css';
 import useChallengeDetailStore from '../../../actions/useChallengeDetailStore';
@@ -43,27 +43,24 @@ const DetailListContainer = ({ dateRange }) => (
     </div>
 );
 
-// 날짜 범위와 성공 여부를 포함한 배열 생성 (오늘까지)
-const getDateRangeWithSuccess = (startDateStr, endDateStr, successes) => {
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
+// 성공 여부를 포함한 날짜 배열 생성
+const getDateRangeWithSuccess = (successes) => {
     const today = new Date(); // 오늘 날짜
-    const dateArray = []; 
+    const dateArray = [];
 
-    // 오늘 날짜까지의 날짜 배열 생성
-    while (startDate <= endDate && startDate <= today) {
-        const dateStr = startDate.toISOString().split('T')[0];
-        const successEntry = successes.find(entry => entry.date === dateStr);
-        const isSuccess = successEntry ? successEntry.success : false;
+    // 성공 여부 배열에서 날짜와 성공 여부를 포함한 객체 생성
+    successes.forEach(entry => {
+        const date = new Date(entry.date);
         
-        dateArray.push({
-            date: new Date(startDate),
-            success: isSuccess
-        });
+        // 오늘 날짜가 성공 데이터에 포함되지 않으면 추가 (오늘을 성공 여부로 간주함)
+        if (date <= today) {
+            dateArray.push({
+                date: date,
+                success: entry.success
+            });
+        }
+    });
 
-        startDate.setDate(startDate.getDate() + 1);
-    }
-    
     return dateArray;
 };
 
@@ -88,8 +85,8 @@ const ChallengeDetailView = () => {
 
     const { title, category, maxCount, endDate, successes, startDate } = challenge;
     
-    // 오늘까지의 성공 여부를 포함한 배열을 생성
-    const dateRange = getDateRangeWithSuccess(startDate, endDate, successes).reverse(); 
+    // 성공 여부 배열을 가져와서 최신순으로 정렬
+    const dateRange = getDateRangeWithSuccess(successes).reverse(); 
 
     // 성공 횟수 카운트
     const successfulCount = dateRange.filter(item => item.success).length;

@@ -47,8 +47,6 @@ export const handleLogout = async () => {
   }
 };
 
-let isSessionExpiredAlertShown = false;
-
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -73,11 +71,8 @@ axiosInstance.interceptors.response.use(
         originalConfig.headers.authorization = `Bearer ${newToken}`;
         return await axiosInstance(originalConfig);
       } catch (refreshError) {
-        if (!isSessionExpiredAlertShown) {
-          isSessionExpiredAlertShown = true;
-          window.alert('세션이 만료되었습니다. 로그인 페이지로 이동합니다.');
-          window.location.replace(redirectUrl);
-        }
+        // window.alert('세션이 만료되었습니다. 로그인 페이지로 이동합니다.');
+        window.location.replace(redirectUrl);
         return Promise.reject(refreshError);
       }
     }
