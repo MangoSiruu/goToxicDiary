@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Route, Routes, HashRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 import ChallengeDetail from './components/features/ChallengeDetail/ChallengeDetail';
@@ -20,7 +20,7 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <Router>
+        <HashRouter basename={process.env.PUBLIC_URL}>
           <Routes>
             <Route path={path.start} element={<StartView />} />
             <Route path={path.signup} element={<SignUpPage />} />
@@ -74,7 +74,7 @@ function App() {
               }
             />
           </Routes>
-        </Router>
+        </HashRouter>
       </QueryClientProvider>
     </ChakraProvider>
   );
