@@ -1,12 +1,20 @@
 import styled from '@emotion/styled';
 import { UnderlinedButton } from '../../../common/Button/UnderlinedButton';
 import { breakpoints } from '../../../../styles/variants';
+import { path } from '../../../../routes/path';
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
+  const nav = useNavigate();
+
+  const moveToTodayEat = () => {
+    nav(path.todayEat);
+  };
+
   return (
     <Wrapper>
       <Title>오늘 내가 먹은 고자극 음식은?</Title>
-      <UnderlinedButton type="수정하기" />
+      <UnderlinedButton onClick={moveToTodayEat} type="수정하기">수정하기</UnderlinedButton>
     </Wrapper>
   );
 }
@@ -19,6 +27,8 @@ const Wrapper = styled.div`
   padding: 10px;
   gap: 10px;
   position: relative;
+
+  width: 100%;
 `;
 
 const Title = styled.h1`
