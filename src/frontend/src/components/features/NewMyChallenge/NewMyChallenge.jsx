@@ -8,10 +8,10 @@ import useNewChallengeStore from '../../../actions/useNewChallengeStore';
 import durationCalculator from '../../../utils/durationCalcurator';
 import useEditChallengeStore from '../../../actions/useEditChallengeStore';
 import { CategoryButton } from '../../common/Button/Categories';
-import { categories } from '../../../constant/Foods/categories';
+import { categories as defaultCategories } from '../../../constant/Foods/categories';
 import styled from '@emotion/styled';
 
-
+// Styled Components
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,39 +20,33 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   h1 {
-    font-size: 2rem; /* Adjust font size as needed */
-    color: #333; /* Adjust text color as needed */
-    margin-bottom: 20px; /* Adjust margin as needed */
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
   }
-`
+`;
 
 const FormContainer = styled.div`
   margin-right: auto;
   width: 100%;
   padding: 25px;
-`
-
+`;
 
 const InputValue = styled.input`
   box-sizing: border-box;
-
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 5px 4px;
   gap: 10px;
-
-  width: 100%; /* 부모 요소의 너비에 맞춤 */
+  width: 100%;
   height: 33px;
-
-  border: none; /* 기본 테두리 제거 */
-  border-bottom: 1px solid #BDBDBD; /* 하단 테두리 추가 */
-
-  background-color: transparent; /* 배경색 투명 */
-  font-size: 14px; /* 텍스트 크기 */
-  outline: none; /* 포커스 시 아웃라인 제거 */
+  border: none;
+  border-bottom: 1px solid #BDBDBD;
+  background-color: transparent;
+  font-size: 14px;
+  outline: none;
 `;
-
 
 const StyledDateInput = styled.input`
   box-sizing: border-box;
@@ -70,23 +64,21 @@ const Title = styled.div`
   font-size: 24px;
   margin-bottom: 10px;
   font-weight: bold;
-`
+`;
 
 const SubTitle = styled.div`
   font-size: 18px;
   margin-bottom: 20px;
-`
+`;
 
 const CategoryOptions = styled.div`
   display: flex;
   gap: 10px;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 `;
 
-
-
 // 카테고리 선택 칸
-const CategorySelect = ({ category, handleCategoryChange, disabled }) => {
+const CategorySelect = ({ category, handleCategoryChange, disabled, categories }) => {
   return (
     <FormContainer>
       <Title>카테고리 선택하기</Title>
@@ -96,8 +88,8 @@ const CategorySelect = ({ category, handleCategoryChange, disabled }) => {
           <CategoryButton
             key={cat}
             category={cat}
+            onClick={() => handleCategoryChange(cat)}
             isSelected={category === cat}
-            onClick={() => handleCategoryChange(cat.replace(/[\p{Emoji}]/gu, '').trim())} // Emoji removal
             disabled={disabled}
           />
         ))}
@@ -112,13 +104,13 @@ const SetName = ({ challengeName, handleChallengeNameChange }) => {
     <FormContainer>
       <Title>챌린지 이름 짓기</Title>
       <InputValue
-          id="challengeName"
-          type="text"
-          maxLength="10"
-          placeholder="10자 이내로 이름을 지어주세요."
-          value={challengeName}
-          onChange={handleChallengeNameChange}
-        />  
+        id="challengeName"
+        type="text"
+        maxLength="10"
+        placeholder="10자 이내로 이름을 지어주세요."
+        value={challengeName}
+        onChange={handleChallengeNameChange}
+      />
     </FormContainer>
   );
 };
@@ -128,13 +120,11 @@ const SetGoal = ({ category, goal, handleGoalChange, disabled }) => {
   return (
     <FormContainer>
       <Title>목표 설정하기</Title>
-      
       <div className={styles.goalSetting}>
         <span>하루에</span>
         <div className={styles.setCategoryText} disabled={disabled}>
           {category}
         </div>
-        
         <InputValue
           type="number"
           value={goal}
@@ -145,19 +135,18 @@ const SetGoal = ({ category, goal, handleGoalChange, disabled }) => {
         />
         <span>번 이하 먹기</span>
       </div>
-
     </FormContainer>
-    );
+  );
 };
 
-// 종료날 선택 칸
+// 종료일 설정 칸
 const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handleEndDateChange, durations, disabled }) => {
   return (
     <FormContainer>
       <Title>종료일 설정하기</Title>
       <CategoryOptions>
         {durations.map((dur) => (
-          <CategoryButton       // 카테고리 버튼 재활용함 
+          <CategoryButton
             key={dur}
             category={dur}
             isSelected={duration === dur}
@@ -168,7 +157,6 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
           </CategoryButton>
         ))}
       </CategoryOptions>
-
       <div className={styles['date-container']}>
         <StyledDateInput
           type="date"
@@ -188,11 +176,7 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
   );
 };
 
-
-
-
-// 수정 모드일 때와 새로쓰는 모드일 때가 구별됨 
-// disable로 수정 모드일 때는 title 빼고는 조작 불가
+// NewMyChallengeView Component
 const NewMyChallengeView = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -201,15 +185,18 @@ const NewMyChallengeView = () => {
   const [duration, setDuration] = useState('');
   const [goal, setGoal] = useState(challenge?.maxCount || 0);
   const [challengeName, setChallengeName] = useState(challenge?.title || '');
-  const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());   
+  const [startDate, setStartDate] = useState(challenge?.startDate || getTodayDate());
   const [endDate, setEndDate] = useState(challenge?.endDate || '');
-  const [durations, setDurations] = useState(['1주', '2주', '1달'] || getTodayDate());
-  const [categories, setCategories] = useState(['액상과당']);
+  const [durations] = useState(['1주', '2주', '1달']);
+  const [cleanedCategories, setCleanedCategories] = useState([]);
 
   const createChallengeListInfo = useNewChallengeStore((state) => state.createChallengeListInfo);
   const updateChallengeListInfo = useEditChallengeStore((state) => state.updateChallengeListInfo);
 
   useEffect(() => {
+    // Use categories as is
+    setCleanedCategories(defaultCategories);
+  
     if (challenge) {
       setDuration(mapDaysToDuration(durationCalculator(challenge.startDate, challenge.endDate)));
     } else {
@@ -217,6 +204,7 @@ const NewMyChallengeView = () => {
       setEndDate(initialEndDate);
     }
   }, [challenge, startDate]);
+  
 
   const mapDaysToDuration = (days) => {
     if (days === 7) return '1주';
@@ -247,34 +235,39 @@ const NewMyChallengeView = () => {
     const newEndDate = e.target.value;
     setEndDate(newEndDate);
     const calculatedDuration = durationCalculator(startDate, newEndDate);
-    const mappedDuration = mapDaysToDuration(calculatedDuration);
-    setDuration(mappedDuration);
+    setDuration(mapDaysToDuration(calculatedDuration));
   };
 
-  // fetch로 form 제출
+  const removeEmojis = (text) => {
+    return text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2300}-\u{23FF}]/gu, '');
+  };
+  
   const handleSubmit = async () => {
     const challengeData = {
-      category,
-      title: challengeName,
-      maxCount: goal,       
+      category: removeEmojis(category),
+      title: removeEmojis(challengeName),
+      maxCount: goal,
       startDate,
       endDate,
     };
-
-    // 수정할 경우와 새로만들 경우
-    if (challenge) {
-      await updateChallengeListInfo(challenge.id, challengeData);
-    } else {
-      await createChallengeListInfo(challengeData);
+  
+    try {
+      if (challenge) {
+        await updateChallengeListInfo(challenge.id, challengeData);
+      } else {
+        await createChallengeListInfo(challengeData);
+      }
+      navigate('/mychallengelist');
+    } catch (error) {
+      console.error('Error submitting challenge:', error);
     }
-    navigate('/mychallengelist');
   };
+  
 
   const handleCancel = () => {
     navigate(-1);
   };
 
-  // 수정 모드 확인
   const isEditMode = !!challenge;
 
   return (
@@ -283,9 +276,9 @@ const NewMyChallengeView = () => {
       <div className={styles.card}>
         <CategorySelect 
           category={category} 
-          categories={categories}
           handleCategoryChange={handleCategoryChange} 
           disabled={isEditMode} 
+          categories={cleanedCategories} 
         />
         <SetName 
           challengeName={challengeName} 
