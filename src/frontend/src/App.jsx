@@ -12,6 +12,11 @@ import TodayEatPage from './pages/TodayEat';
 import MainPage from './pages/Main';
 import { queryClient } from './api/instance';
 import { path } from './routes/path';
+import CalendarPage from './pages/Calendar';
+import { Header } from './components/features/TodayFood/Header';
+import { CardList } from './components/features/TodayFood/CardList';
+import TodayFoodSection from './components/features/Main/TodayFoodSection';
+import { WeeklyHeader } from './components/features/Calendar/WeeklyHeader';
 
 function App() {
   return (
@@ -23,10 +28,12 @@ function App() {
             <Route path={path.signup} element={<SignUpPage />} />
             <Route path={path.login} element={<LoginPage />} />
             <Route path={path.main} element={<MainPage />} />
+            <Route path={path.calendar} element={<CalendarPage />} />
             <Route path={path.todayEat} element={<TodayEatPage />} />
             <Route path={path.mychallengelist} element={<MyChallengeList />} />
             <Route path={path.newmychallenge} element={<NewMyChallenge />} />
             <Route path="/challengedetail/:id" element={<ChallengeDetail />} />
+            <Route path="/cal" element={<WeeklyHeader />} />
           </Routes>
         </Router>
       </QueryClientProvider>
