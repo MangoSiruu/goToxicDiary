@@ -17,8 +17,7 @@ const OneMonth = ({ firstDay }) => {
     return (
         <Wrapper>
             {weeks.map((weekStartDate) => {
-                const sundayDate = format(weekStartDate, "yyyy-MM-dd");
-                return <OneWeek key={sundayDate} sundayDate={sundayDate}></OneWeek>;
+                return <OneWeek key={weekStartDate} sundayDate={weekStartDate} filter="전체"></OneWeek>;
             })}
         </Wrapper>
     );
