@@ -13,7 +13,6 @@ import MainPage from './pages/Main';
 import { queryClient } from './api/instance';
 import { path } from './routes/path';
 import CalendarPage from './pages/Calendar';
-import { WeeklyHeader } from './components/features/Calendar/WeeklyHeader';
 import theme from './styles/theme';
 
 function App() {
@@ -31,7 +30,7 @@ function App() {
             <Route path={path.mychallengelist} element={<MyChallengeList />} />
             <Route path={path.newmychallenge} element={<NewMyChallenge />} />
             <Route path="/challengedetail/:id" element={<ChallengeDetail />} />
-            <Route path="/cal" element={<WeeklyHeader />} />
+            {/* <Route path="/cal" element={<Reports />} /> */}
           </Routes>
         </Router>
       </QueryClientProvider>

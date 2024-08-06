@@ -80,6 +80,8 @@ const Wrapper = styled.div`
     gap: 20px;
 
     width: 100%;
+    
+    overflow-x: scroll;
 `;
 
 export default Reports;
