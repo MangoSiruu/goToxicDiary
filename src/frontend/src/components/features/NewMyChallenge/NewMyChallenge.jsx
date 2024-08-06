@@ -152,7 +152,7 @@ const SetEndDate = ({ duration, handleDurationChange, startDate, endDate, handle
       <Title>종료일 설정하기</Title>
       <CategoryOptions>
         {durations.map((dur) => (
-          <CategoryButton
+          <CategoryButton       // 카테고리 버튼 재활용함 
             key={dur}
             category={dur}
             className={duration === dur ? styles.active : styles.button}
@@ -210,7 +210,7 @@ const NewMyChallengeView = () => {
       const initialEndDate = getEnddayDate(startDate, duration);
       setEndDate(initialEndDate);
     }
-  }, [challenge, duration, startDate]);
+  }, [challenge, startDate]);
 
   const mapDaysToDuration = (days) => {
     if (days === 7) return '1주';
